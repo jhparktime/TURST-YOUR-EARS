@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <title>Trust Your Ears listening mark</title>
+  <rect width="64" height="64" rx="22" fill="#D3ED86"/>
+  <g stroke="#173D37" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M19 29v-4a13 13 0 0 1 26 0c0 8-5 10-8 15-2 3-2 6-5 8-5 4-12 1-12-5"/>
+    <path d="M26 27v-2a6 6 0 0 1 12 0c0 4-2 6-5 8l-4 3"/>
+    <path d="M25 35c4-1 7 1 7 4"/>
+    <path d="M49 24c2 3 2 7 0 10" stroke-width="2.5"/>
+    <path d="M54 20c4 5 4 13 0 18" stroke-width="2.5"/>
+  </g>
+</svg>

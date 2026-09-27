@@ -41,7 +41,7 @@ GitHub Pages cannot run a private Python scorer. A GitHub deployment alone publi
 3. Push to `main`. The included workflow runs tests and publishes **only `web/`**.
 4. The project-site address is `https://jhparktime.github.io/TURST-YOUR-EARS/`.
 
-With an empty `apiBase`, the site uses its own origin. This runs locally via FastAPI, but on GitHub Pages the form correctly displays “service not connected” and disables submission.
+With an empty `apiBase`, the site uses its own origin. This runs locally via FastAPI, but on GitHub Pages the form correctly displays “Evaluation opens soon” and disables submission and team-key entry.
 
 ## Free hosted option: Render + Supabase
 

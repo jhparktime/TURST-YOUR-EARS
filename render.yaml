@@ -1,0 +1,23 @@
+# Creates a free web service only. Supply DATABASE_URL from your Supabase Free project.
+# Explicit sandbox mode until official references are privately configured.
+services:
+  - type: web
+    name: trust-your-ears-scorer
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn server.app:create_app --factory --host 0.0.0.0 --port $PORT --workers 1
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.12
+      - key: DEMO_MODE
+        value: "1"
+      - key: DATABASE_URL
+        sync: false
+      - key: ALLOWED_ORIGINS
+        value: https://jhparktime.github.io
+      - key: DAILY_LIMIT
+        value: "5"
+      - key: SUBMISSIONS_OPEN
+        value: "1"

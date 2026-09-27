@@ -1,0 +1,11 @@
+{
+  "name": "Toy pipeline check · 6 text-only fixtures",
+  "items": [
+    {"id":"toy-001","condition":"helpful","reference":"send it to marina"},
+    {"id":"toy-002","condition":"helpful","reference":"the speaker is elena"},
+    {"id":"toy-003","condition":"misleading","reference":"send it to marina"},
+    {"id":"toy-004","condition":"misleading","reference":"the speaker is elena"},
+    {"id":"toy-005","condition":"irrelevant","reference":"send it to marina"},
+    {"id":"toy-006","condition":"irrelevant","reference":"the speaker is elena"}
+  ]
+}

@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+private-data/
+.env
+.env.*
+!.env.example
+*.sqlite3*
+.DS_Store

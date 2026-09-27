@@ -80,3 +80,4 @@ def test_sandbox_key_cannot_authenticate_production(tmp_path):
     assert post(sandbox).status_code == 200
     production = TestClient(create_app(data_dir=tmp_path, demo=False, reference_path=ROOT / 'examples/demo-references.json'))
     assert post(production).status_code == 401
+    assert production.get('/api/leaderboard').json()['entries'] == []

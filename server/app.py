@@ -35,7 +35,8 @@ def create_app(data_dir=None, reference_path=None, demo=None):
         if not isinstance(row["id"], str) or not row["condition"] or not words(row["reference"]) or len(words(row["reference"])) > 500:
             raise RuntimeError("Invalid reference row.")
     # Content hash prevents ranking scores produced by different reference versions together.
-    dataset = hashlib.sha256(ref_path.read_bytes()).hexdigest()
+    reference_version = hashlib.sha256(ref_path.read_bytes()).hexdigest()
+    dataset = ("sandbox:" if demo else "evaluation:") + reference_version
     db_path = data_dir / "scores.sqlite3"
     initialize(db_path)
     if demo:
@@ -63,7 +64,7 @@ def create_app(data_dir=None, reference_path=None, demo=None):
     @app.get("/api/health")
     def health():
         return {"mode": "sandbox" if demo else "evaluation", "dataset": manifest["name"],
-                "dataset_version": dataset[:12], "daily_limit": daily_limit, "samples": len(refs),
+                "dataset_version": reference_version[:12], "daily_limit": daily_limit, "samples": len(refs),
                 "submission_open": os.getenv("SUBMISSIONS_OPEN", "1") == "1"}
 
     @app.get("/api/leaderboard")

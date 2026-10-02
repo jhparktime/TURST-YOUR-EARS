@@ -179,7 +179,8 @@ main {
     opacity: 1;
   }
 }
-.hero > * {
+.hero > *,
+.submit-grid > * {
   min-width: 0;
 }
 .hero {
@@ -650,6 +651,8 @@ input[type="password"] {
   margin: 5px 0 15px;
 }
 input[type="file"] {
+  width: 100%;
+  min-width: 0;
   max-width: 100%;
   font-size: 11px;
 }

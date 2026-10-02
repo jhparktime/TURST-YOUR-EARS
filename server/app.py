@@ -9,7 +9,7 @@ from pathlib import Path
 from fastapi import FastAPI, File, Header, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from .scoring import parse_submission, score, words
+from .scoring import VERSION, parse_submission, score, validate_references
 from .database import connect, initialize
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -29,14 +29,20 @@ def create_app(data_dir=None, reference_path=None, demo=None):
     ref_path = Path(reference_path) if reference_path else ROOT / "examples/demo-references.json"
     manifest = json.loads(ref_path.read_text())
     refs = manifest["items"]
-    if not refs or len(refs) > 20000 or len({r["id"] for r in refs}) != len(refs):
-        raise RuntimeError("Invalid reference manifest.")
-    for row in refs:
-        if not isinstance(row["id"], str) or not row["condition"] or not words(row["reference"]) or len(words(row["reference"])) > 500:
-            raise RuntimeError("Invalid reference row.")
+    try:
+        validate_references(refs)
+        if "conditions" in manifest and set(manifest["conditions"]) != {r['condition'] for r in refs}:
+            raise ValueError('Declared conditions must match the manifest rows.')
+        if all(r.get('context', r['condition']) == 'no_context' for r in refs):
+            raise ValueError('At least one contextual condition is required.')
+        for condition in {r['condition'] for r in refs}:
+            if len({r.get('context', r['condition']) for r in refs if r['condition'] == condition}) != 1:
+                raise ValueError('A condition cannot mix context types.')
+    except ValueError as exc:
+        raise RuntimeError(str(exc)) from exc
     # Content hash prevents ranking scores produced by different reference versions together.
     reference_version = hashlib.sha256(ref_path.read_bytes()).hexdigest()
-    dataset = ("sandbox:" if demo else "evaluation:") + reference_version
+    dataset = ("sandbox:" if demo else "evaluation:") + VERSION + ':' + reference_version
     db_path = data_dir / "scores.sqlite3"
     initialize(db_path)
     if demo:
@@ -64,7 +70,8 @@ def create_app(data_dir=None, reference_path=None, demo=None):
     @app.get("/api/health")
     def health():
         return {"mode": "sandbox" if demo else "evaluation", "dataset": manifest["name"],
-                "dataset_version": reference_version[:12], "daily_limit": daily_limit, "samples": len(refs),
+                "dataset_version": reference_version[:12], "scorer": VERSION, "primary_metric": "macro_cer",
+                "daily_limit": daily_limit, "samples": len(refs),
                 "submission_open": os.getenv("SUBMISSIONS_OPEN", "1") == "1"}
 
     @app.get("/api/leaderboard")
@@ -75,9 +82,15 @@ def create_app(data_dir=None, reference_path=None, demo=None):
         for row in rows:
             result = json.loads(row["result"])
             item = {"team": row["name"], "created": row["created"], "submission_id": row["id"], **result}
-            if row["team_id"] not in best or result["macro_wer"] < best[row["team_id"]]["macro_wer"]:
+            if row["team_id"] not in best or result["macro_cer"] < best[row["team_id"]]["macro_cer"]:
                 best[row["team_id"]] = item
-        entries = sorted(best.values(), key=lambda r: (r["macro_wer"], r["created"]))
+        entries = sorted(best.values(), key=lambda r: (r["macro_cer"], r["created"]))
+        rank, previous = 0, None
+        for position, entry in enumerate(entries, 1):
+            if entry['macro_cer'] != previous:
+                rank = position
+            entry['rank'] = rank
+            previous = entry['macro_cer']
         return {"mode": "sandbox" if demo else "evaluation", "entries": entries}
 
     @app.get("/api/submissions")

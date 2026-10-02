@@ -1,413 +1,605 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Trust Your Ears: a research challenge on contextual speech recognition with helpful and misleading references."
+      content="Trust Your Ears — 잘못된 참고자료에도 들리는 말을 지키는 한국어 음성인식 챌린지. 데이터, 평가 규칙, 웹 제출과 리더보드."
     />
     <meta name="theme-color" content="#173d37" />
-    <title>Trust Your Ears — Contextual ASR Challenge</title>
+    <title>Trust Your Ears · 한국어 Contextual ASR Challenge</title>
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="style.css?v=20260927-listening" />
-    <script src="config.js?v=20260927-listening" defer></script>
-    <script src="app.js?v=20260927-listening" defer></script>
+    <link rel="stylesheet" href="style.css?v=20261002-korean" />
+    <script src="config.js?v=20261002-korean" defer></script>
+    <script src="app.js?v=20261002-korean" defer></script>
   </head>
   <body>
-    <a class="skip" href="#main">Skip to content</a>
+    <a class="skip" href="#main">본문으로 건너뛰기</a>
     <div class="announcement">
-      <span class="dot"></span> CHALLENGE IN DEVELOPMENT
+      <span class="dot"></span> PROTOCOL PREVIEW
       <span class="announcement-note"
-        >Protocol preview · Official dates to be announced</span
+        >한국어 챌린지 준비 중 · 공식 데이터 및 일정 공개 예정</span
       >
     </div>
     <header>
-      <a href="#home" class="brand" aria-label="Trust Your Ears home"
+      <a href="#home" class="brand" aria-label="Trust Your Ears 홈"
         ><img
           class="brand-icon"
           src="assets/listening-mark.svg"
           width="48"
           height="48"
           alt=""
-        /><span>TRUST YOUR EARS<small>CONTEXTUAL ASR CHALLENGE</small></span></a
+        /><span
+          >TRUST YOUR EARS<small>KOREAN CONTEXTUAL ASR CHALLENGE</small></span
+        ></a
       >
-      <nav aria-label="Main navigation">
-        <a href="#challenge">Challenge</a><a href="#data">Data & rules</a
-        ><a href="#leaderboard">Leaderboard</a><a href="#workshop">Workshop</a
-        ><a href="#submit" class="mobile-submit">Submit ↗</a>
+      <nav aria-label="주 메뉴">
+        <a href="#challenge">챌린지</a><a href="#data">데이터·평가</a
+        ><a href="#leaderboard">리더보드</a><a href="#workshop">워크숍</a
+        ><a href="#submit" class="mobile-submit">제출 ↗</a>
       </nav>
-      <a class="button small" href="#submit"
-        >Evaluate a submission <span>↗</span></a
-      >
+      <a class="button small" href="#submit">제출 안내 <span>↗</span></a>
     </header>
     <main id="main" tabindex="-1">
       <section class="page" data-page="home">
         <div class="hero">
           <div>
-            <p class="eyebrow">A CHALLENGE IN LISTENING CAREFULLY</p>
-            <h1>More context.<br />Not always<br /><em>more truth.</em></h1>
+            <p class="eyebrow">LISTEN FIRST. VERIFY THE CONTEXT.</p>
+            <h1>참고는 하되,<br /><em>들리는 대로.</em></h1>
             <p class="hero-copy">
-              Can a speech recognizer use helpful references without being
-              misled by them? Build systems that keep the audio at the center.
+              참고자료가 반만 맞는다면?<br />유용한 단서는 활용하고, 잘못된
+              이름에는 흔들리지 않는 한국어 음성인식을 연구합니다.
             </p>
             <div class="actions">
               <a class="button" href="#challenge"
-                >Explore the challenge <span>↗</span></a
-              ><a class="text-link" href="#submit">Try the evaluation →</a>
+                >챌린지 살펴보기 <span>↗</span></a
+              ><a class="text-link" href="#data">평가 규칙 읽기 →</a>
             </div>
             <p class="fine">
-              An independent research challenge in contextual speech
-              recognition.
+              한국어 음성 + 참고자료 → 전체 전사문<br />독립적인 수업 프로젝트 ·
+              워크숍 형식의 연구 챌린지
             </p>
           </div>
           <div class="listening-card">
             <div class="card-top">
-              <span>01 / THE CONTEXT TRAP</span
-              ><span class="live-dot">INTERACTIVE EXAMPLE</span>
+              <span>01 / SAME AUDIO, DIFFERENT CONTEXT</span
+              ><span class="live-dot">예시</span>
             </div>
             <div
               class="example-controls"
               role="group"
-              aria-label="Reference context"
+              aria-label="참고자료 조건 선택"
             >
               <button type="button" data-context="helpful" aria-pressed="false">
-                Helpful</button
+                도움</button
+              ><button
+                type="button"
+                data-context="partially_wrong"
+                aria-pressed="true"
+              >
+                부분 오류</button
               ><button
                 type="button"
                 data-context="misleading"
-                aria-pressed="true"
+                aria-pressed="false"
               >
-                Misleading</button
+                오류</button
               ><button
                 type="button"
                 data-context="irrelevant"
                 aria-pressed="false"
               >
-                Irrelevant
+                무관
               </button>
             </div>
             <div class="wave" aria-hidden="true"></div>
-            <div class="signal-label">WHAT WAS SAID</div>
-            <p class="spoken">“Send it to <mark>Marina.</mark>”</p>
+            <div class="signal-label">발화 내용 · 조건을 바꿔도 동일합니다</div>
+            <p class="spoken">
+              “<mark>김민서</mark>가 <mark>네오젠</mark><br />실적을
+              발표합니다.”
+            </p>
             <div
               class="context-note"
               id="context-example"
-              data-tone="misleading"
+              data-tone="partially_wrong"
             >
-              <div class="signal-label">REFERENCE CONTACT LIST</div>
+              <div class="signal-label">제공된 참고자료</div>
               <p>
-                <strong id="example-name">Maria</strong
-                ><span id="example-hint">Similar name. Wrong person.</span>
+                <strong id="example-name">김민수 · 네오젠</strong
+                ><span id="example-hint">회사명은 맞지만 이름은 틀립니다.</span>
               </p>
             </div>
             <div class="decision">
-              <span class="check">✓</span>
+              <span class="check" aria-hidden="true">✓</span>
               <div>
-                <strong id="example-title">Trust the acoustic evidence.</strong>
+                <strong id="example-title">정보별로 판단하세요.</strong>
                 <p id="example-description" aria-live="polite">
-                  The reference suggests Maria. The spoken name is Marina.
+                  네오젠은 활용하되, 김민수로 바꾸지 않아야 합니다.
                 </p>
               </div>
             </div>
             <div class="expected-transcript">
-              <span>EXPECTED TRANSCRIPT</span
-              ><strong>Send it to Marina.</strong>
+              <span>정답의 핵심 이름</span><strong>김민서 · 네오젠</strong>
             </div>
             <div class="card-bottom">
-              ILLUSTRATIVE TEXT EXAMPLE <span>·</span> NOT A MODEL PREDICTION
+              설명을 위해 만든 텍스트 예시<span>실제 음성·모델 결과 아님</span>
             </div>
           </div>
         </div>
         <div class="overview-strip">
           <div>
-            <b>01</b
+            <b>KO</b
             ><span
-              >Use the context<small>Recognize unfamiliar names.</small></span
-            >
-          </div>
-          <div>
-            <b>02</b
-            ><span
-              >Question the context<small
-                >Resist misleading references.</small
+              >한국어 중심<small
+                >띄어쓰기와 고유명사 표기를 고려합니다.</small
               ></span
             >
           </div>
           <div>
-            <b>03</b
-            ><span>Measure both<small>Accuracy across conditions.</small></span>
+            <b>04</b
+            ><span>문맥 조건<small>도움 · 부분 오류 · 오류 · 무관</small></span>
+          </div>
+          <div>
+            <b>CER</b
+            ><span
+              >투명한 평가<small
+                >문자 오류율과 이름별 진단을 함께 봅니다.</small
+              ></span
+            >
           </div>
         </div>
         <div class="section-heading">
           <div>
             <p class="eyebrow">THE RESEARCH QUESTION</p>
-            <h2>When should a model<br />believe what it reads?</h2>
+            <h2>자료의 일부가 틀렸을 때,<br />어디까지 믿어야 할까요?</h2>
           </div>
           <p>
-            A controlled benchmark pairs the same speech with different
-            reference lists. The transcript stays the same. The context changes.
+            정답 전사문은 그대로 둔 채 참고자료를 바꿉니다. 필요한 정보를
+            활용하는 능력과 틀린 정보를 거부하는 능력을 함께 살펴봅니다.
           </p>
         </div>
-        <div class="cards">
+        <div class="cards four">
           <article>
             <span class="tag">HELPFUL</span>
-            <h3>The right clue.</h3>
+            <h3>올바른 단서</h3>
+            <p>핵심 이름이 정확하게 제공됩니다. 문맥의 도움을 측정합니다.</p>
+            <div class="mini-list">
+              <span class="correct">김민서</span
+              ><span class="correct">네오젠</span>
+            </div>
+          </article>
+          <article class="featured">
+            <span class="tag amber">PARTIALLY WRONG</span>
+            <h3>반만 맞는 자료</h3>
             <p>
-              The spoken name appears in the reference list alongside unrelated
-              alternatives.
+              같은 자료 안에 정답과 오답이 공존합니다. 정보별 판단을 평가합니다.
             </p>
             <div class="mini-list">
-              <span class="correct">Marina</span><span>Oliver</span
-              ><span>Elena</span>
+              <span class="incorrect">김민수</span
+              ><span class="correct">네오젠</span>
             </div>
           </article>
           <article>
             <span class="tag amber">MISLEADING</span>
-            <h3>The plausible mistake.</h3>
+            <h3>그럴듯한 오류</h3>
             <p>
-              A similar-sounding name appears, while the correct name is
-              missing.
+              비슷하게 들리는 오답 이름을 제공합니다. 잘못된 교정을 측정합니다.
             </p>
             <div class="mini-list">
-              <span class="incorrect">Maria</span><span>Oliver</span
-              ><span>Elena</span>
+              <span class="incorrect">김민수</span
+              ><span class="incorrect">네오진</span>
             </div>
           </article>
           <article>
             <span class="tag neutral">IRRELEVANT</span>
-            <h3>No useful clue.</h3>
+            <h3>무관한 자료</h3>
             <p>
-              The list is unrelated to the utterance. Good systems should know
-              when to ignore it.
+              다른 회의의 자료를 제공합니다. 불필요한 이름 삽입을 살펴봅니다.
             </p>
             <div class="mini-list">
-              <span>Lucas</span><span>Thomas</span><span>Sophia</span>
+              <span>이서연</span><span>다온테크</span>
             </div>
           </article>
         </div>
         <div class="callout">
           <div>
-            <p class="eyebrow">FROM PREDICTION TO EVIDENCE</p>
-            <h2>Submit. Evaluate. Compare.</h2>
+            <p class="eyebrow">A REPRODUCIBLE CHALLENGE</p>
+            <h2>같은 규칙으로 비교합니다.</h2>
             <p>
-              Upload a prediction file and view server-computed scores without
-              leaving the site.
+              참가자는 모델을 실행하고, 이 사이트에서 전사 파일을 제출합니다.<br />공식
+              평가는 데이터와 채점 서비스 공개 후 시작됩니다.
             </p>
           </div>
           <a class="button light" href="#submit"
-            >Open evaluation <span>↗</span></a
+            >제출 형식 확인 <span>↗</span></a
           >
         </div>
       </section>
+
       <section class="page" data-page="challenge" hidden>
         <p class="eyebrow">01 / CHALLENGE</p>
-        <h1 class="page-title">
-          Hear the words.<br /><em>Question the reference.</em>
-        </h1>
+        <h1 class="page-title">더 많은 문맥,<br /><em>더 신중한 인식.</em></h1>
         <p class="intro">
-          Context-Robust Speech Recognition: transcribe the audio faithfully,
-          whether the reference helps or misleads.
+          Trust Your Ears는 불완전한 참고자료를 활용하는 한국어 음성인식
+          챌린지입니다. 목표는 자료의 내용을 베끼는 것이 아니라 실제 발화를
+          정확하게 전사하는 것입니다.
         </p>
         <div class="split">
           <article class="panel">
-            <h2>The task</h2>
+            <h2>참가 과제</h2>
             <dl>
-              <dt>Input</dt>
-              <dd>An audio clip and a reference name list.</dd>
-              <dt>Output</dt>
-              <dd>The complete spoken transcript for each sample ID.</dd>
-              <dt>Target</dt>
-              <dd>
-                Preserve helpful contextual gains while reducing context-induced
-                errors.
-              </dd>
+              <dt>입력</dt>
+              <dd>한국어 음성 구간과 짧은 참고자료 또는 이름 목록</dd>
+              <dt>출력</dt>
+              <dd>각 ID에 대응하는 전체 전사문</dd>
+              <dt>핵심 비교</dt>
+              <dd>도움이 되는 문맥의 이득과 잘못된 문맥의 피해</dd>
+              <dt>메인 순위</dt>
+              <dd>조건별 평균 문자 오류율, Macro CER</dd>
             </dl>
           </article>
           <article class="panel">
-            <h2>Our research project</h2>
+            <span class="tag neutral">RESEARCH PROPOSAL</span>
+            <h2>Verify Before You Correct</h2>
             <p>
-              <strong>Verify Before You Correct.</strong> Generate a
-              context-informed correction, compare it with the original
-              transcript against the audio, then accept or reject the edit.
+              참고자료로 교정 후보를 만든 뒤, 바뀌는 이름을 음성과 다시 비교해
+              근거가 있는 수정만 반영하는 방법을 연구합니다.
             </p>
             <ol class="steps">
-              <li>Recognize speech without context.</li>
-              <li>Propose a contextual correction.</li>
-              <li>Check the changed words against the audio.</li>
-              <li>Keep only supported changes.</li>
+              <li>문맥 없이 음성을 전사합니다.</li>
+              <li>참고자료로 교정 후보를 만듭니다.</li>
+              <li>원래 표현과 후보의 음향적 근거를 비교합니다.</li>
+              <li>검증된 교정만 반영합니다.</li>
             </ol>
             <p class="fine">
-              A proposed method to investigate, not a demonstrated improvement.
+              실험할 가설입니다. 성능 개선이나 독창성이 검증된 결과는 아직
+              없습니다.
             </p>
           </article>
         </div>
-        <h2 class="spaced">A balanced evaluation</h2>
-        <div class="cards">
-          <article>
-            <h3>Helpful</h3>
-            <p>Measure the benefit of relevant names.</p>
-          </article>
-          <article>
-            <h3>Misleading</h3>
-            <p>Measure resistance to plausible wrong names.</p>
-          </article>
-          <article>
-            <h3>Irrelevant</h3>
-            <p>Measure the ability to disregard unhelpful lists.</p>
-          </article>
+        <h2 class="spaced">평가 조건 설계</h2>
+        <div
+          class="table-wrap"
+          tabindex="0"
+          role="region"
+          aria-label="가로 스크롤 가능한 평가 표"
+        >
+          <table>
+            <caption>
+              공식 데이터의 예정 조건 · 공개 전에 최종 확정합니다.
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">문맥</th>
+                <th scope="col">원본 음성</th>
+                <th scope="col">잡음 음성</th>
+                <th scope="col">평가 질문</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Helpful</td>
+                <td>예정</td>
+                <td>예정</td>
+                <td>올바른 단서를 활용하는가?</td>
+              </tr>
+              <tr>
+                <td>Partially wrong</td>
+                <td>예정</td>
+                <td>예정</td>
+                <td>한 문서 안의 정답과 오답을 구분하는가?</td>
+              </tr>
+              <tr>
+                <td>Misleading</td>
+                <td>예정</td>
+                <td>예정</td>
+                <td>비슷한 오답으로 전사를 바꾸는가?</td>
+              </tr>
+              <tr>
+                <td>Irrelevant</td>
+                <td>예정</td>
+                <td>예정</td>
+                <td>음성에 없는 정보를 추가하는가?</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <p class="note">
-          Planned acoustic conditions: clean and noisy. The official condition
-          matrix will be frozen before the final evaluation. Toy sandbox
-          conditions are for pipeline testing only.
+          No context는 별도 비교 기준이며 메인 평균에서 제외합니다. 동일 음성의
+          모든 변형은 같은 데이터 분할에 둡니다. 공개 테스트에는 원본당 한 문맥
+          조건을 제공하고, 짝지은 비교는 개발셋 또는 주최 측의 독립 실행
+          평가에서 수행할 계획입니다.
         </p>
-        <h2 class="spaced">Related work</h2>
+        <h2 class="spaced">연구의 위치</h2>
+        <p>
+          문맥 기반 ASR과 음성·텍스트 충돌은 기존 연구 주제입니다. 이번
+          프로젝트는 한국어의 부분 오류 문맥과 음성 품질을 함께 통제하는 평가
+          설계를 검토합니다.
+        </p>
         <div class="references">
           <a
-            href="https://aclanthology.org/2024.lrec-main.328/"
-            target="_blank"
-            rel="noopener"
-            >ConEC · Contextual speech recognition <span>↗</span></a
-          ><a
             href="https://aclanthology.org/2025.emnlp-main.246/"
             target="_blank"
             rel="noopener"
-            >When Audio and Text Disagree · Text bias in audio-language models
-            <span>↗</span></a
+            >When Audio and Text Disagree · EMNLP 2025 <span>↗</span></a
+          ><a
+            href="https://arxiv.org/abs/2507.05727"
+            target="_blank"
+            rel="noopener"
+            >ContextASR-Bench · 문맥 기반 음성인식 평가 <span>↗</span></a
+          ><a
+            href="https://doi.org/10.3390/app10196936"
+            target="_blank"
+            rel="noopener"
+            >KsponSpeech · 한국어 전사와 평가 지표 <span>↗</span></a
           >
         </div>
       </section>
+
       <section class="page" data-page="data" hidden>
-        <p class="eyebrow">02 / DATA & RULES</p>
+        <p class="eyebrow">02 / DATA & EVALUATION</p>
         <h1 class="page-title">
-          A clear protocol.<br /><em>A fair comparison.</em>
+          분명한 규칙이<br /><em>공정한 비교를 만듭니다.</em>
         </h1>
         <p class="intro">
-          The official corpus is being prepared. The downloadable example below
-          is a six-row, text-only fixture for testing the submission pipeline.
+          공식 한국어 음성 데이터는 구축 전입니다. 현재 다운로드는 채점 동작을
+          확인하는 8행의 공개 텍스트 예시이며, 실제 ASR 성능을 평가하는
+          데이터셋이 아닙니다.
         </p>
         <div class="split">
           <article class="panel">
-            <span class="tag amber">TOY FIXTURE ONLY</span>
-            <h2>Try the file format</h2>
+            <span class="tag amber">PUBLIC TOY FIXTURE</span>
+            <h2>제출 파일 준비</h2>
             <p>
-              UTF-8 CSV with exactly two columns. Include every evaluation ID
-              once. Empty predictions are permitted and count as deletions.
+              UTF-8 CSV의 열은 정확히 <code>id,prediction</code>입니다. 모든
+              평가 ID를 한 번씩 포함하세요. 빈 전사는 삭제 오류로 채점됩니다.
             </p>
             <pre>
 id,prediction
-toy-001,send it to marina
-toy-002,the speaker is elena</pre
+toy-001,김민서가 네오젠 실적을 발표합니다.
+toy-002,박지훈이 한빛전자 회의를 진행합니다.</pre
             >
             <a class="button" href="assets/sample-submission.csv" download
-              >Download example CSV ↓</a
+              >예시 CSV 다운로드 ↓</a
             >
             <p class="fine">
-              No audio dataset or research benchmark is released yet. This
-              sample demonstrates scoring only.
+              8행 전체 파일 · 일부러 넣은 이름 오류 2개 포함<br />정답은
+              저장소의 공개 예시 파일에서 확인할 수 있습니다.
             </p>
           </article>
           <article class="panel">
-            <h2>Official release checklist</h2>
-            <ul class="plain-list">
-              <li>Audio, contextual references and sample IDs</li>
-              <li>Training and development transcripts</li>
-              <li>Private evaluation transcripts on the scorer</li>
-              <li>Source licenses and data provenance</li>
-              <li>Speaker/source-separated splits</li>
-              <li>Baseline code and a frozen evaluation manifest</li>
-            </ul>
+            <h2>데이터 공개 준비</h2>
+            <ol class="release-list">
+              <li>
+                <span class="tag">구현됨</span>
+                <div>
+                  <strong>제출·채점 코드</strong>
+                  <p>한국어 CER, 이름 진단, 팀별 기록</p>
+                </div>
+              </li>
+              <li>
+                <span class="tag neutral">구축 전</span>
+                <div>
+                  <strong>공식 한국어 데이터</strong>
+                  <p>음성, 문맥, 검수 전사와 출처·이용 조건</p>
+                </div>
+              </li>
+              <li>
+                <span class="tag neutral">공개 전</span>
+                <div>
+                  <strong>공식 평가</strong>
+                  <p>비공개 테스트, 서버 연결, 팀 키와 일정</p>
+                </div>
+              </li>
+            </ol>
             <p class="fine">
-              Release dates, final corpus and organizer contact are to be
-              announced.
+              원본 발화 100개 파일럿부터 검수할 계획입니다. 공개 자료를
+              변형했다는 사실만으로 미학습 테스트셋이 되는 것은 아닙니다.
             </p>
           </article>
         </div>
-        <h2 class="spaced">How scores are calculated</h2>
+        <h2 class="spaced">한국어 평가 규격</h2>
+        <p class="fine">
+          아래는 현재 샌드박스에 구현된 규칙입니다. 공식 대회의 데이터 구성과
+          조건 비중은 파일럿 후 확정하여 별도로 공지합니다.
+        </p>
         <div class="metric-box">
           <div>
-            <p class="eyebrow">PRIMARY METRIC · LOWER IS BETTER</p>
-            <h3>Macro condition WER</h3>
+            <p class="eyebrow">PRIMARY METRIC · ko-cer-v1</p>
+            <h3>Macro CER ↓</h3>
             <p>
-              Calculate word error rate across all reference words within each
-              condition, then average the condition rates equally.
+              공백을 제외한 문자 오류율입니다. 한글은 자모가 아닌 음절 단위로
+              셉니다. 조건 안에서는 오류·정답 문자 수를 합산하고, 조건별 비율을
+              동일 비중으로 평균합니다.
             </p>
           </div>
-          <code>WER = (S + D + I) / N</code>
+          <code>CER = (S + D + I) / N</code>
         </div>
-        <div class="split">
-          <article>
-            <h3>Normalization v1</h3>
+        <div
+          class="table-wrap"
+          tabindex="0"
+          role="region"
+          aria-label="가로 스크롤 가능한 평가 표"
+        >
+          <table>
+            <caption>
+              메인 순위와 보조 진단 · 주석이 없는 지표는 N/A로 표시합니다.
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">지표</th>
+                <th scope="col">계산 대상</th>
+                <th scope="col">해석</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Macro CER ↓</td>
+                <td>모든 문맥 조건</td>
+                <td>메인 순위 · 전체 전사 정확도</td>
+              </tr>
+              <tr>
+                <td>핵심 개체 정확도 ↑</td>
+                <td>주석된 이름의 출현 위치</td>
+                <td>허용 표기를 포함해 이름을 맞힌 비율</td>
+              </tr>
+              <tr>
+                <td>오답 문맥 수용률 ↓</td>
+                <td>오답을 주입한 목표 위치</td>
+                <td>주입한 이름을 해당 위치에 출력한 비율</td>
+              </tr>
+              <tr>
+                <td>부분 오류 동시 정답률 ↑</td>
+                <td>이름 주석이 있는 부분 오류 발화</td>
+                <td>해당 발화의 모든 목표 이름을 맞힌 비율</td>
+              </tr>
+              <tr>
+                <td>최악 조건 CER ↓</td>
+                <td>조건별 CER의 최댓값</td>
+                <td>가장 취약한 조건의 성능</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="split spaced">
+          <article class="panel">
+            <h3>띄어쓰기에는 관대하게</h3>
+            <div class="text-comparison">
+              <span>정답</span>
+              <p>오늘 회의를 시작합니다.</p>
+              <span>예측</span>
+              <p>오늘회의를 시작합니다.</p>
+            </div>
             <p>
-              Unicode NFKC, case folding, punctuation replaced by spaces, then
-              whitespace tokenization. Numbers are not expanded: “15” and
-              “fifteen” differ. WER can exceed 100%.
+              <strong>CER 0%</strong> · 공백과 문장 끝 마침표 차이를 제외하면
+              같습니다.
             </p>
           </article>
-          <article>
-            <h3>Ranking & submission policy</h3>
+          <article class="panel">
+            <h3>이름 오류에는 분명하게</h3>
+            <div class="text-comparison">
+              <span>정답</span>
+              <p>김민<mark>서</mark>가 발표합니다.</p>
+              <span>예측</span>
+              <p>김민<mark class="wrong">수</mark>가 발표합니다.</p>
+            </div>
             <p>
-              Best macro WER per team. Exact ties use the earlier submission.
-              Five accepted unique submissions per UTC day by default. Invalid
-              files do not use the allowance; identical predictions reuse the
-              existing score.
+              <strong>문자 치환 1개, 이름 오류 1개</strong> · 작은 철자 차이도
+              놓치지 않습니다.
             </p>
           </article>
+        </div>
+        <div class="faq spaced">
+          <details open>
+            <summary>정규화는 어디까지 하나요?</summary>
+            <p>
+              NFC 유니코드 정규화, 영문 소문자화, 모든 공백 제거를 적용합니다.
+              쉼표·물음표·따옴표 등 지정한 문장부호와 문장 끝 마침표는
+              제외합니다. 숫자 사이의 소수점, 부호, 퍼센트 기호는 유지합니다.
+              조사·어미·숫자 값은 바꾸지 않습니다. CER은 100%를 넘을 수
+              있습니다.
+            </p>
+          </details>
+          <details>
+            <summary>3시와 세 시, AI와 에이아이는 같은 정답인가요?</summary>
+            <p>
+              메인 CER에서는 자동으로 같게 만들지 않습니다. 이름·숫자 구간에
+              사전 승인된 대체 표기가 주석되어 있으면 개체 정확도에서만
+              인정합니다. 예측 결과를 본 뒤 대체 표기를 추가하지 않습니다. 의역,
+              동의어, 비슷한 발음만으로 정답 처리하지 않습니다.
+            </p>
+          </details>
+          <details>
+            <summary>이름만 나열해도 개체 점수가 올라가나요?</summary>
+            <p>
+              출력 전체에서 이름을 검색하지 않습니다. 전사문을 최소 편집거리로
+              정렬한 후 주석된 위치를 평가합니다. 삽입 오류는 CER에도
+              반영됩니다. 동일 비용 정렬은 대각선·삭제·삽입 순으로 결정하며,
+              이름 오른쪽 경계의 삽입은 해당 이름에 포함합니다. 자세한 구현과
+              경계 사례는 공개 코드와 테스트를 따릅니다.
+            </p>
+          </details>
+          <details>
+            <summary>동점과 제출 횟수는 어떻게 처리하나요?</summary>
+            <p>
+              팀별 가장 낮은 Macro CER을 반올림 전 값으로 정렬합니다. 정확한
+              동점은 공동 순위입니다. 기본 제출 한도는 UTC 하루 5회이며 한국
+              시간 오전 9시에 초기화됩니다. 무효 파일은 차감하지 않고, 같은
+              예측을 다시 제출하면 기존 결과를 돌려줍니다. 서버에 표시되는 실제
+              한도를 확인하세요.
+            </p>
+          </details>
+          <details>
+            <summary>오답 문맥 수용률이 곧 문맥의 인과적 영향인가요?</summary>
+            <p>
+              아닙니다. 문맥 없이도 같은 오답이 나올 수 있습니다. 문맥 때문에
+              정답이 오답으로 바뀌었는지는 동일 모델의 No context 실행과 짝지어
+              따로 분석해야 합니다. 신뢰구간과 짝지은 변화 분석은 공식 연구 보고
+              단계에 계획되어 있으며 현재 채점 결과에 포함되지 않습니다.
+            </p>
+          </details>
         </div>
         <p class="note">
-          For a public challenge, pretraining and external-data rules must be
-          frozen before launch. Public source transcripts may already be known
-          to models; transformed public data does not establish an unseen test
-          set. Final results should report this limitation.
+          공식 공개 전에 조건 구성, 외부 데이터·사전학습 규칙, 표기 기준을
+          확정합니다. 한국어 원천 데이터는 아직 선정되지 않았으며 사람의 독립
+          청취 검수와 화자·세션 분리가 필요합니다.
+          <a
+            class="text-link"
+            href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/server/scoring.py"
+            target="_blank"
+            rel="noopener"
+            >채점 코드 보기 ↗</a
+          >
         </p>
       </section>
+
       <section class="page" data-page="submit" hidden>
         <p class="eyebrow">03 / EVALUATION</p>
         <h1 class="page-title">
-          Let the audio<br /><em>have the last word.</em>
+          예측을 제출하고,<br /><em>근거를 확인하세요.</em>
         </h1>
         <p class="intro">
-          Upload your transcripts. Get a reproducible score. Compare performance
-          across reference conditions.
+          모델은 참가자의 환경에서 실행합니다. 이 사이트에서는 전사 CSV를
+          제출하고 서버가 계산한 결과를 확인합니다.
         </p>
         <div id="connection" class="status" role="status">
-          Connecting to the evaluation service…
+          채점 서비스에 연결하고 있습니다…
         </div>
         <button type="button" class="text-button reconnect" id="reconnect">
-          Reconnect evaluation service ↻
+          채점 서비스 다시 연결 ↻
         </button>
         <div class="submit-grid">
           <form id="submission-form" class="panel">
             <div class="numbered-title">
               <span>01</span>
-              <h2>Your submission</h2>
+              <h2>전사 파일 제출</h2>
             </div>
-            <label for="team-key">Team key</label
+            <label for="team-key">팀 키</label
             ><input
               id="team-key"
               type="password"
               autocomplete="off"
-              placeholder="Enter your organizer-issued key"
+              placeholder="운영자가 발급한 팀 키"
               required
               maxlength="200"
             />
             <p class="field-help">
-              Used only for this session. Your key is never placed in a URL or
-              saved in browser storage.
+              현재 화면에서만 사용합니다. URL이나 브라우저 저장소에 보관하지
+              않습니다.
             </p>
             <div id="demo-key" hidden>
               <button type="button" class="text-button" id="use-demo-key">
-                Use the sandbox team key
+                공개 샌드박스 키 사용
               </button>
             </div>
-            <label for="prediction-file">Prediction file</label>
+            <label for="prediction-file">예측 파일</label>
             <div class="upload-area">
               <span class="upload-icon" aria-hidden="true">↥</span
-              ><strong>Choose a CSV to evaluate</strong
-              ><span>UTF-8 · id,prediction · up to 2 MiB</span
+              ><strong>채점할 CSV를 선택하세요</strong
+              ><span>UTF-8 · id,prediction · 최대 2 MiB</span
               ><input
                 id="prediction-file"
                 type="file"
@@ -418,118 +610,125 @@ toy-002,the speaker is elena</pre
                 id="file-selection"
                 class="file-selection"
                 aria-live="polite"
-                >No file selected</span
+                >선택된 파일 없음</span
               >
             </div>
             <div class="form-actions">
               <button id="submit-button" class="button" type="submit" disabled>
-                Evaluate submission <span>↗</span></button
-              ><a href="assets/sample-submission.csv" download
-                >Example file ↓</a
-              >
+                제출 및 채점 ↗</button
+              ><a href="assets/sample-submission.csv" download>예시 CSV ↓</a>
             </div>
             <p id="form-message" role="status" class="form-message"></p>
           </form>
           <aside>
-            <div class="panel result-panel" id="result">
+            <div class="panel result-panel" id="result" aria-live="polite">
               <div class="numbered-title">
                 <span>02</span>
-                <h2>Evaluation result</h2>
+                <h2>평가 결과</h2>
               </div>
               <div id="result-empty">
-                <div class="result-placeholder">—<span>MACRO WER</span></div>
-                <p>
-                  Your score and condition breakdown will appear here after
-                  evaluation.
-                </p>
+                <div class="result-placeholder">—<span>MACRO CER</span></div>
+                <p>채점 후 문맥 조건별 CER과 이름 진단 지표가 표시됩니다.</p>
               </div>
               <div id="result-content" hidden></div>
             </div>
             <div class="small-note">
-              <strong>How this works</strong>
+              <strong>정답은 서버에서 관리합니다</strong>
               <p>
-                The evaluation service validates your file and computes
-                aggregate scores using its reference set. Official transcripts
-                stay on the server.
+                공식 정답 전사는 웹페이지에 포함하지 않습니다. 공개 샌드박스
+                예시는 정답이 공개된 소프트웨어 테스트용 자료입니다.
               </p>
             </div>
           </aside>
         </div>
         <div class="section-heading compact">
-          <h2>Your recent submissions</h2>
+          <h2>최근 제출 기록</h2>
           <button class="text-button" id="load-history">
-            Load with team key ↻
+            팀 키로 기록 불러오기 ↻
           </button>
         </div>
-        <div id="history" class="table-wrap">
-          <p class="empty">
-            Enter your team key to see your submission history.
-          </p>
+        <div
+          id="history"
+          class="table-wrap"
+          tabindex="0"
+          role="region"
+          aria-label="제출 기록 표"
+        >
+          <p class="empty">팀 키를 입력하면 제출 기록을 확인할 수 있습니다.</p>
         </div>
       </section>
+
       <section class="page" data-page="leaderboard" hidden>
         <p class="eyebrow">04 / LEADERBOARD</p>
         <div class="section-heading compact">
-          <h1 class="page-title">Evidence,<br /><em>on the record.</em></h1>
+          <h1 class="page-title">
+            비교 가능한 점수,<br /><em>설명 가능한 결과.</em>
+          </h1>
           <button class="button outline small" id="refresh-leaderboard">
-            Refresh ↻
+            새로고침 ↻
           </button>
         </div>
         <p class="intro">
-          One best submission per team. Ranked by macro condition word error
-          rate, with lower scores ranking higher.
+          팀별 최고 제출물을 Macro CER 오름차순으로 정렬합니다. 이름 정확도와
+          오답 문맥 수용률을 함께 보고, 정확한 동점은 공동 순위로 표시합니다.
         </p>
         <div id="leaderboard-mode" class="status" role="status">
-          Loading evaluation status…
+          평가 상태 확인 중…
         </div>
-        <div id="leaderboard" class="table-wrap">
-          <p class="empty">Loading scores…</p>
+        <div
+          id="leaderboard"
+          class="table-wrap"
+          tabindex="0"
+          role="region"
+          aria-label="리더보드 표"
+        >
+          <p class="empty">결과를 불러오고 있습니다…</p>
         </div>
         <p class="fine">
-          Sandbox scores are pipeline checks, not model performance claims.
-          Official standings become available after the dataset and evaluation
-          service are configured.
+          낮을수록 좋은 지표는 ↓, 높을수록 좋은 지표는 ↑로 표시합니다. N/A는
+          평가 주석이 없다는 뜻입니다. 샌드박스 점수는 모델 성능이나 공식 대회
+          결과가 아닙니다.
         </p>
       </section>
+
       <section class="page" data-page="workshop" hidden>
         <p class="eyebrow">05 / WORKSHOP</p>
         <h1 class="page-title">
-          Better recognition.<br /><em>Better questions.</em>
+          더 정확한 인식에서<br /><em>더 좋은 질문으로.</em>
         </h1>
         <p class="intro">
-          A planned research session around reliable contextual speech
-          recognition, benchmark design and acoustic verification.
+          한국어 문맥 기반 음성인식, 평가 데이터 설계, 음향 검증을 함께 논의하는
+          연구 발표를 준비합니다.
         </p>
         <div class="split">
           <article class="panel">
-            <h2>Topics of interest</h2>
+            <h2>발표와 토론 주제</h2>
             <ul class="plain-list">
-              <li>Contextual biasing for names and rare words</li>
-              <li>Recognition under misleading references</li>
-              <li>Acoustic verification of transcript edits</li>
-              <li>Confidence estimation and selective correction</li>
-              <li>Benchmark leakage and reproducible evaluation</li>
+              <li>부분적으로 틀린 참고자료와 선택적 교정</li>
+              <li>한국어 고유명사·조사·영문 혼용 평가</li>
+              <li>음성 품질에 따른 문맥 의존도 변화</li>
+              <li>수정 전 음향 검증과 신뢰도 추정</li>
+              <li>데이터 누출과 재현 가능한 리더보드</li>
             </ul>
           </article>
           <article class="panel">
             <span class="tag neutral">TO BE ANNOUNCED</span>
-            <h2>Dates & organization</h2>
+            <h2>일정 및 운영</h2>
             <dl>
-              <dt>Dataset release</dt>
-              <dd>To be announced</dd>
-              <dt>Submission deadline</dt>
-              <dd>To be announced</dd>
-              <dt>Final presentations</dt>
-              <dd>To be announced</dd>
-              <dt>Organizers & contact</dt>
-              <dd>To be announced</dd>
+              <dt>데이터 공개</dt>
+              <dd>확정 후 공지</dd>
+              <dt>제출 마감</dt>
+              <dd>확정 후 공지</dd>
+              <dt>최종 발표</dt>
+              <dd>확정 후 공지</dd>
+              <dt>운영진·연락처</dt>
+              <dd>공식 평가 시작 전 공지</dd>
             </dl>
           </article>
         </div>
         <p class="note">
-          This is an independent course project in a workshop-style format.
-          Conference affiliation, invited speakers and paper publication are not
-          announced.
+          독립적인 수업 프로젝트를 워크숍 형식으로 구성한 사이트입니다. 학회
+          제휴, 초청 연사, 논문 출판은 확정되어 있지 않습니다.
         </p>
       </section>
     </main>
@@ -550,9 +749,15 @@ toy-002,the speaker is elena</pre
           target="_blank"
           rel="noopener"
           >GitHub ↗</a
-        ><a href="#data">Protocol</a
-        ><span>Research challenge · In development</span>
+        ><a href="#data">평가 규칙</a><span>Korean ASR · 준비 중</span>
       </div>
     </footer>
+    <noscript
+      ><p class="note">
+        페이지 이동과 제출 기능을 사용하려면 JavaScript를 켜 주세요. 평가 규칙은
+        <a href="https://github.com/jhparktime/TURST-YOUR-EARS">저장소 README</a
+        >에서도 확인할 수 있습니다.
+      </p></noscript
+    >
   </body>
 </html>

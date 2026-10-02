@@ -1,14 +1,16 @@
 # Trust Your Ears
 
-Workshop-style website and server-side evaluation for a contextual ASR course challenge.
+A workshop-style Korean contextual ASR challenge: use helpful references without adopting incorrect names. The website, private evaluator, and leaderboard share the versioned `ko-cer-v1` protocol.
 
-**Status:** working local prototype. Official audio, references, dates and organizers are not yet released. The included six-row sandbox fixture tests software behavior only; it is not an ASR dataset and provides no evidence of model quality. The repo intentionally retains its existing `TURST-YOUR-EARS` spelling.
+**Status:** the frontend is published; the hosted evaluator is not connected. Official Korean audio, contexts, dates, and team registration are not released. The eight-row public sandbox fixture contains no audio and is a software test, not evidence of ASR performance. The repository intentionally retains its existing `TURST-YOUR-EARS` spelling.
 
-## Participant task
+## Task and research scope
 
-Input is an audio clip plus a reference name list; output is the complete spoken transcript. Teams may use contextual decoding or a transcription-and-correction pipeline, subject to the eventual frozen external-data rules. For example, audio says “send it to Marina” while the list contains “Maria”; the submitted prediction should retain “Marina.”
+Input: a Korean audio clip and a short reference document/name list. Output: the complete spoken transcript. Four context types are planned: `helpful`, `partially_wrong`, `misleading`, `irrelevant`, crossed with original/noisy audio after pilot validation. `no_context` is a separate diagnostic control, excluded from ranking and aggregate entity metrics.
 
-## Run the whole site locally
+Illustrative example: the audio says “김민서가 네오젠 실적을 발표합니다.” A partially incorrect reference lists “김민수 · 네오젠”. The desired transcript keeps both actually spoken names. The proposed research method, **Verify Before You Correct**, checks contextual edits against audio; its effectiveness has not been established.
+
+## Run and test
 
 Python 3.12 or later:
 
@@ -19,58 +21,100 @@ pip install -r requirements-dev.txt
 DEMO_MODE=1 uvicorn server.app:create_app --factory --host 127.0.0.1 --port 8000
 ```
 
-Open http://127.0.0.1:8000. On **Evaluate**, select **Use the sandbox team key**, upload `web/assets/sample-submission.csv`, and submit. The expected macro WER is **8.33%** (Helpful 0%, Misleading 25%, Irrelevant 0%). This is calculated by the server and stored in SQLite. The key is intentionally public in sandbox mode. Sandbox scores are not competition results.
+Open http://127.0.0.1:8000/#submit, select **공개 샌드박스 키 사용**, and upload [`web/assets/sample-submission.csv`](web/assets/sample-submission.csv). The public key is `demo-team-key`. The sample contains two deliberate name substitutions:
+
+| Metric | Expected |
+|---|---:|
+| Macro CER | 1.612903…% |
+| Helpful / Irrelevant CER | 0% / 0% |
+| Partially wrong / Misleading CER | 3.225806…% / 3.225806…% |
+| Entity accuracy | 87.5% (14/16) |
+| Wrong-context adoption | 33.333333…% (2/6) |
+| Mixed-context joint accuracy | 50% (1/2) |
 
 ```sh
 python -m pytest -q
 ```
 
-## Hosting architecture
+The Postgres persistence test runs when `TEST_POSTGRES_URL` points to a disposable test database; CI provides one. All other tests use temporary local storage. These checks validate software behavior, not benchmark validity.
 
-- **GitHub Pages** serves only `web/`: introduction, task, data/rules, submission interface, leaderboard and workshop details.
-- **A separate HTTPS Python service** receives predictions, authenticates team keys, validates IDs, scores against private transcripts, and stores results. Local runs use SQLite; hosted runs can use PostgreSQL via `DATABASE_URL`.
-- The browser calls that service; participants remain on this website. Nothing invokes a third-party evaluation portal.
-- Do not publish the private reference manifest or the SQLite database to GitHub or the Pages artifact. The committed `examples/demo-references.json` is deliberately public toy data.
+## Scoring contract
 
-GitHub Pages cannot run a private Python scorer. A GitHub deployment alone publishes the frontend, not a functioning public evaluation service.
+Canonical code: [`server/scoring.py`](server/scoring.py). Version: **ko-cer-v1**. These rules describe the implemented sandbox; the official dataset/group weights are not yet frozen. Exact CSV header: `id,prediction`. Include every ID once; missing/extra/duplicate IDs are rejected. UTF-8 BOM and quoted commas are supported. Empty predictions count as deletions.
 
-## Deploy the frontend to GitHub Pages
+### Main metric
 
-1. In the GitHub repository, choose **Settings → Pages → Source: GitHub Actions**.
-2. Deploy the evaluation service below and set `apiBase` in `web/config.js` to its HTTPS origin (without a trailing slash).
-3. Push to `main`. The included workflow runs tests and publishes **only `web/`**.
-4. The project-site address is `https://jhparktime.github.io/TURST-YOUR-EARS/`.
+Normalize with Unicode NFC and lowercase Latin text. Remove all whitespace and the explicit `IGNORED` punctuation set in the scorer. After whitespace removal, a period is preserved only between adjacent digits. Signs, slash, percent symbols, and other nonlisted symbols remain. Thus `-3.5%` differs from `35%`. There is no numeric expansion, phonetic rewriting, stemming, semantic matching, or LLM judge. Korean syllables count as characters, not decomposed jamo. `AI` and `에이아이`, or `3시` and `세 시`, differ in primary CER.
 
-With an empty `apiBase`, the site uses its own origin. This runs locally via FastAPI, but on GitHub Pages the form correctly displays “Evaluation opens soon” and disables submission and team-key entry.
+Calculate Levenshtein edits per utterance. Pool edits and reference character counts **within** each condition, then average contextual condition CERs equally. No-context rows are reported separately and do not affect primary or aggregate diagnostic scores. Micro CER pools all contextual groups; worst CER takes their maximum. Secondary eojeol WER uses whitespace-separated normalized tokens. Error rates are percentages and may exceed 100%.
 
-## Free hosted option: Render + Supabase
+### Entity diagnostics
 
-Current official plan documentation: [Render Free](https://render.com/docs/free), [Supabase Free](https://supabase.com/pricing). Free usage has limits; do not select paid compute or extras. Render sleeps after 15 minutes idle and may take about a minute to wake; Supabase may pause after a week of inactivity. This is suitable for a course prototype, not an availability guarantee.
+Optional human annotations use sorted, nonoverlapping **Python character offsets in the original NFC reference**; `end` is exclusive. Exclude particles from name spans. Entity accuracy counts correct occurrences, not distinct names. Wrong-context adoption counts targeted positions with a nonempty `wrong` list; success means the aligned prediction equals one of those distractors. Mixed-context joint accuracy applies to annotated `partially_wrong` utterances and requires every annotated target to be correct. The manifest must include both corrupted and uncorrupted entities in each such annotated utterance. Missing denominators return JSON `null`, displayed as N/A, with counts.
 
-1. Create a **Supabase Free** project. Copy its PostgreSQL session-pooler connection string from the Connect dialog and require TLS (`sslmode=require`). Keep the database password private.
-2. In Render, create a Blueprint from this repository. `render.yaml` explicitly uses a **Free** Python web service and does not create a Render database. Render’s own free Postgres expires after 30 days.
-3. Enter the connection string as the secret `DATABASE_URL` when prompted. The server creates a private `tye_private` schema. Do not add this schema to Supabase’s exposed schemas or grant browser roles access. The browser never receives the database credentials.
-4. Deploy in sandbox mode first, then set `web/config.js` to the resulting Render HTTPS origin and push the change.
-5. Test a submission and verify that its result survives a service restart.
-6. For official evaluation, add the reference JSON through Render’s **Secret Files** interface, set `REFERENCE_PATH=/etc/secrets/private-references.json`, and change `DEMO_MODE=0`. Do not upload the official JSON to the public repository.
-7. Render Free has no shell access. Provision teams from a trusted local terminal with `DATABASE_URL` set privately, using the same `python -m scripts.create_team` command.
+Canonical entity text, approved aliases, distractors, and aligned predicted text use the same normalization as CER. Approved `aliases` affect entity diagnostics only. The scorer enumerates permitted reference variants, selects the minimum full-transcript edit distance, and extracts aligned target spans. Ties between variants retain manifest order (canonical spelling first). Alignment ties use diagonal, deletion, insertion priority. Insertions at a span's right boundary belong to that span; at its left boundary they do not. This conservative boundary convention can penalize adjacent insertions. Annotators should avoid ambiguous boundaries and publish boundary examples. It is a deterministic diagnostic, not semantic identity recognition or proof that context caused an error. A name merely occurring elsewhere in a transcript does not receive substring-search credit.
 
-With `DATABASE_URL` configured, team keys and scores live in Supabase rather than Render’s disposable filesystem. Never put database credentials in `web/config.js`. Creating and connecting these external accounts remains an operator setup step.
+Diagnostics are pooled across contextual samples; **they are not averaged per condition**. Counts and condition breakdowns are returned. Freeze spellings, aliases, and distractors before inspecting model outputs. Paired no-context error flips and speaker/session bootstrap confidence intervals are planned for the research report, not implemented by this scorer.
 
-## Deploy the evaluation service
+### Ranking and limits
 
-For SQLite, use a container/Python host with HTTPS and a persistent disk. The Dockerfile binds port 8000. Run one replica/worker with a persistent `/data` volume. Alternatively, use `DATABASE_URL` for PostgreSQL as above; the score database then needs no local disk. Stateless hosting without either persistent storage option loses the leaderboard and team registry on restart.
+Best full-precision Macro CER per team; exact ties share rank (1, 1, 3). Submission time orders tied rows for display only. At equal score, the first submission remains that team's representative result. Display rounds to two decimals; displayed equal values need not be exact ties.
 
-Production startup, with the environment variables below loaded:
+Default allowance: five accepted unique submissions per team per UTC day (09:00 Korea time). Invalid files do not count. Identical ID/prediction mappings reuse the previous result and timestamp, even after the limit or on another day. The API returns aggregate metrics, not private transcripts, entity strings, or per-utterance errors.
 
-```sh
-uvicorn server.app:create_app --factory --host 0.0.0.0 --port 8000 --workers 1
-curl -f http://127.0.0.1:8000/api/health
+CSV: at most 2 MiB, 20,000 rows, 120 characters per ID, 4,000 raw characters per prediction. References: 1–1,000 normalized characters; at most four entities and 16 alias combinations per row. Requests have a 15-million dynamic-programming-cell budget, including alignment and alias evaluation; organizers must check full-manifest workload before release. The budget is checked before scoring.
+
+Both **scorer version and reference content hash** namespace stored scores, history, and submission allowance. Changes produce a fresh leaderboard; old records remain stored and do not mix with the new protocol.
+
+## Private reference manifest
+
+Only the deliberately public sandbox manifest belongs in the repository. Official references must be supplied privately on the evaluation host.
+
+```json
+{
+  "name": "korean-evaluation-v1",
+  "conditions": ["partially_wrong_clean"],
+  "items": [{
+    "id": "eval-001",
+    "condition": "partially_wrong_clean",
+    "context": "partially_wrong",
+    "reference": "김민서가 네오젠 실적을 발표합니다.",
+    "entities": [
+      {"start": 0, "end": 3, "text": "김민서", "wrong": ["김민수"]},
+      {"start": 5, "end": 8, "text": "네오젠", "aliases": []}
+    ]
+  }]
+}
 ```
 
-For a public **sandbox**, set `DEMO_MODE=1`, `DATA_DIR=/data`, and `ALLOWED_ORIGINS=https://jhparktime.github.io`. Mount persistent storage. The demo key permits everyone to submit to the same sandbox team; do not use it for an official leaderboard.
+This is a schema example, not an evaluation corpus. Explicit `context` is required when condition names include an acoustic suffix. Each group has exactly one context type. `conditions`, when provided, must match the actual group set; official releases should always declare it. A nonempty `wrong` field declares a corrupted target; a missing or empty field declares an uncorrupted target. The scorer trusts those annotations and does not inspect context documents. Organizers must verify these declarations against the actual public input documents. The sample has four groups, two rows each. Each distinct condition string is one equally weighted averaging group: four groups in the sandbox, eight context × acoustic groups in the proposed full matrix. The proposed full matrix has eight contextual groups, but must be finalized from real pilot data before launch. Public inputs should contain opaque IDs, audio and reference documents, without ground-truth condition labels, target spans, aliases or distractor annotations.
 
-For **official evaluation**:
+## Hosting
+
+- **GitHub Pages:** publishes only `web/`, never reference manifests, server code or databases.
+- **HTTPS Python API:** authenticates teams, validates submissions, scores against private references, and stores results.
+- **SQLite** for local/persistent-disk hosting; **PostgreSQL** via `DATABASE_URL` for durable hosted storage.
+
+GitHub Pages alone cannot run the private scorer. With no `apiBase` in [`web/config.js`](web/config.js), local FastAPI serves the whole application; the GitHub Pages site displays a prelaunch state and disables submission. No results are fabricated in the browser. Frontend/backend scorer-version mismatches block submission.
+
+### Frontend deployment
+
+1. Set GitHub **Settings → Pages → Source: GitHub Actions**.
+2. Push to `main`. The workflow tests against SQLite and Postgres before publishing `web/`.
+3. Connect a deployed HTTPS evaluator by setting `apiBase` to its origin in `web/config.js`.
+4. Site: https://jhparktime.github.io/TURST-YOUR-EARS/
+
+### Separate evaluator
+
+The included [`render.yaml`](render.yaml) uses a free Render service; plan details can change, so check [Render's current free-service documentation](https://render.com/docs/free). Its ephemeral filesystem is unsuitable for scores. A [Supabase Free project](https://supabase.com/pricing) can provide Postgres within its current limits. Free services may sleep or pause; account creation and connection remain operator setup steps.
+
+1. Create the database and obtain a session-pooler connection string with TLS (`sslmode=require`). Store it privately as `DATABASE_URL`; never in `web/config.js`.
+2. Deploy the Render Blueprint in sandbox mode first. The evaluator creates the private `tye_private` schema. Do not expose it through Supabase APIs or grant browser roles access.
+3. Set `ALLOWED_ORIGINS=https://jhparktime.github.io` and connect `apiBase`.
+4. Check submission, ranking and persistence after a service restart.
+5. For official evaluation, upload the manifest through a private secret-file mechanism, set `REFERENCE_PATH` to its private path, and set `DEMO_MODE=0`.
+
+For SQLite deployment, mount a persistent `/data` disk and run one worker. A stateless deployment without Postgres loses team keys and scores on restart.
 
 ```text
 DEMO_MODE=0
@@ -81,54 +125,33 @@ DAILY_LIMIT=5
 SUBMISSIONS_OPEN=1
 ```
 
-Upload the reference file privately to the evaluation host. The schema is:
-
-```json
-{
-  "name": "evaluation-v1",
-  "items": [
-    {"id": "eval-001", "condition": "helpful_clean", "reference": "the actual human-verified transcript"}
-  ]
-}
-```
-
-Each reference must contain 1–500 normalized words. IDs must be unique. Each distinct `condition` string is a separately and equally weighted group. The proposed official groups are `helpful_clean`, `helpful_noisy`, `misleading_clean`, `misleading_noisy`, `irrelevant_clean`, and `irrelevant_noisy`; all six must be represented when that protocol is adopted. The server is generic and accepts any nonempty group labels, so organizers must validate the agreed group set before launch. The complete runnable toy manifest is `examples/demo-references.json`, with three groups and two rows each. Official IDs, audio and context lists must be released separately; only transcripts stay private. Any manifest change creates a new score namespace: the leaderboard and team history show only the new version and appear empty until new submissions arrive. Old rows remain in the database. Freeze the manifest once evaluation opens.
-
-Create a key for each team on the evaluation host:
-
 ```sh
+uvicorn server.app:create_app --factory --host 0.0.0.0 --port 8000 --workers 1
+curl -f http://127.0.0.1:8000/api/health
 DATA_DIR=/data python -m scripts.create_team 'Team name'
 ```
 
-The key is shown once; send it privately to the team. Only its hash is stored. There is no web registration or organizer dashboard yet. To close submissions, set `SUBMISSIONS_OPEN=0` and restart. Back up `/data`, enforce a request body limit at the HTTPS proxy (allow modest multipart overhead above 2 MiB), and rate-limit requests before public launch. The application rejects CSV payloads over 2 MiB; a proxy limit also bounds upload buffering before parsing.
+For hosted Postgres, provision teams from a trusted terminal with the private `DATABASE_URL`. Team keys are printed once and stored only as hashes. Send them privately. There is no registration dashboard. Close submissions with `SUBMISSIONS_OPEN=0` and restart. Back up data and enforce HTTPS, proxy body limits with modest multipart overhead above 2 MiB, and request rate limits before public launch.
 
-## Submission and scoring contract
+API: `GET /api/health`, `GET /api/leaderboard`, authenticated `GET/POST /api/submissions`. Team authentication: `Authorization: Bearer TEAM_KEY`. Interactive schema: `/api/docs`.
 
-Canonical implementation: [`server/scoring.py`](server/scoring.py). UTF-8 CSV header: `id,prediction`. Predictions have a 500-word per-row limit and a 10-million total reference-word × hypothesis-word computation budget per request. Organizers must size the evaluation set accordingly. Predictions must cover exactly the reference IDs; duplicates, missing IDs and extra IDs are rejected. Empty predictions count as deletions.
+## Before official release
 
-`wer-macro-v1` normalizes with Unicode NFKC, case folding, punctuation-to-space, and whitespace tokenization. No stemming, number expansion or semantic equivalence. Apostrophes and hyphens split words. Compute Levenshtein word edits per utterance, pool edits/reference words within each condition, then average condition WERs equally. Values are percentages and may exceed 100%. Micro WER is secondary. Best macro WER per team wins; exact ties favor earlier submission. Scores are ranked at full precision and displayed to two decimals.
+- Select Korean source audio, confirm access/redistribution rights, and record provenance. No Korean source corpus has been selected yet.
+- Start with a proposed 100-original-utterance pilot. Have two listeners independently verify actual audio without seeing manipulated context. Exclude acoustically indistinguishable distractors from resistance claims.
+- Split originals before generating variants; keep variants together and separate speakers/source sessions where possible.
+- Public leaderboard inputs should use one context per original, stratified across speaker/session, utterance length and target count before assigning conditions. Exposing all versions enables cross-condition answer inference. Paired analysis needs development data or organizer-controlled isolated execution.
+- Public-source references may have entered pretraining. A private answer file does not remove that contamination. Use independently recorded holdout audio when feasible and report limitations.
+- Freeze condition weights, transcript style, aliases, external-data rules and submission limits before final method development. Audit complete annotation coverage and per-condition target counts.
+- Publish dates, organizer contacts, source licenses, input downloads, baseline code and a reproducible evaluation recipe. There is no claimed conference affiliation.
 
-The default allowance is five accepted unique submissions per team per UTC day. Invalid submissions do not count. Resubmitting identical ID/prediction mappings returns the previous result without consuming an allowance, retaining its original timestamp even on later days. The server returns aggregate condition scores only, never references or per-utterance errors. Authentication is required for submission and private history; leaderboard scores and team names are public. Use team labels rather than personal data if desired.
-
-API: `GET /api/health`, `GET /api/leaderboard`, authenticated `GET/POST /api/submissions`. Interactive schema: `/api/docs` on the scorer. Team authentication: `Authorization: Bearer TEAM_KEY`.
-
-## Before an official challenge
-
-- Select licensed source audio and document redistribution/access conditions.
-- Verify transcripts against audio independently of the model being evaluated.
-- Keep all variants of one original recording in the same split; separate speakers/source sessions where possible.
-- Freeze the full condition matrix, external-data/pretraining rules, normalization and submission allowance before developing the final method.
-- Treat public-source memorization as a limitation. Hiding a transcript behind an API does not remove training contamination. Use controlled model execution or independently collected holdout audio if stronger guarantees are needed.
-- Have an independent reviewer audit the manifest and scorer. The included tests establish software correctness, not benchmark validity or model effectiveness.
-- Add official audio/context downloads, registration/contact instructions and dates to the site. There is no claimed conference affiliation.
-
-## Project layout
+## Layout
 
 ```text
-web/                    GitHub Pages artifact only
-server/                 authenticated API + deterministic scorer
+web/                    Pages frontend and public example CSV
+server/                 authenticated API, scorer and database adapter
 scripts/create_team.py  organizer-only team provisioning
-examples/               deliberately public toy reference
-tests/                 metric and API integration tests
+examples/               deliberately public text-only fixture
+tests/                 scoring and API integration tests
 .github/workflows/      tests and Pages deployment
 ```

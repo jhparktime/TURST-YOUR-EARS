@@ -1,11 +1,165 @@
 {
-  "name": "Toy pipeline check · 6 text-only fixtures",
+  "name": "Korean pipeline check · 8 text-only fixtures",
+  "conditions": [
+    "helpful",
+    "partially_wrong",
+    "misleading",
+    "irrelevant"
+  ],
   "items": [
-    {"id":"toy-001","condition":"helpful","reference":"send it to marina"},
-    {"id":"toy-002","condition":"helpful","reference":"the speaker is elena"},
-    {"id":"toy-003","condition":"misleading","reference":"send it to marina"},
-    {"id":"toy-004","condition":"misleading","reference":"the speaker is elena"},
-    {"id":"toy-005","condition":"irrelevant","reference":"send it to marina"},
-    {"id":"toy-006","condition":"irrelevant","reference":"the speaker is elena"}
+    {
+      "id": "toy-001",
+      "condition": "helpful",
+      "reference": "김민서가 네오젠 실적을 발표합니다.",
+      "entities": [
+        {
+          "text": "김민서",
+          "start": 0,
+          "end": 3
+        },
+        {
+          "text": "네오젠",
+          "start": 5,
+          "end": 8
+        }
+      ]
+    },
+    {
+      "id": "toy-002",
+      "condition": "helpful",
+      "reference": "박지훈이 한빛전자 회의를 진행합니다.",
+      "entities": [
+        {
+          "text": "박지훈",
+          "start": 0,
+          "end": 3
+        },
+        {
+          "text": "한빛전자",
+          "start": 5,
+          "end": 9
+        }
+      ]
+    },
+    {
+      "id": "toy-003",
+      "condition": "partially_wrong",
+      "reference": "김민서가 네오젠 실적을 발표합니다.",
+      "entities": [
+        {
+          "text": "김민서",
+          "start": 0,
+          "end": 3,
+          "wrong": [
+            "김민수"
+          ]
+        },
+        {
+          "text": "네오젠",
+          "start": 5,
+          "end": 8
+        }
+      ]
+    },
+    {
+      "id": "toy-004",
+      "condition": "partially_wrong",
+      "reference": "박지훈이 한빛전자 회의를 진행합니다.",
+      "entities": [
+        {
+          "text": "박지훈",
+          "start": 0,
+          "end": 3,
+          "wrong": [
+            "박지환"
+          ]
+        },
+        {
+          "text": "한빛전자",
+          "start": 5,
+          "end": 9
+        }
+      ]
+    },
+    {
+      "id": "toy-005",
+      "condition": "misleading",
+      "reference": "김민서가 네오젠 실적을 발표합니다.",
+      "entities": [
+        {
+          "text": "김민서",
+          "start": 0,
+          "end": 3,
+          "wrong": [
+            "김민수"
+          ]
+        },
+        {
+          "text": "네오젠",
+          "start": 5,
+          "end": 8,
+          "wrong": [
+            "네오진"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "toy-006",
+      "condition": "misleading",
+      "reference": "박지훈이 한빛전자 회의를 진행합니다.",
+      "entities": [
+        {
+          "text": "박지훈",
+          "start": 0,
+          "end": 3,
+          "wrong": [
+            "박지환"
+          ]
+        },
+        {
+          "text": "한빛전자",
+          "start": 5,
+          "end": 9,
+          "wrong": [
+            "한빛전기"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "toy-007",
+      "condition": "irrelevant",
+      "reference": "김민서가 네오젠 실적을 발표합니다.",
+      "entities": [
+        {
+          "text": "김민서",
+          "start": 0,
+          "end": 3
+        },
+        {
+          "text": "네오젠",
+          "start": 5,
+          "end": 8
+        }
+      ]
+    },
+    {
+      "id": "toy-008",
+      "condition": "irrelevant",
+      "reference": "박지훈이 한빛전자 회의를 진행합니다.",
+      "entities": [
+        {
+          "text": "박지훈",
+          "start": 0,
+          "end": 3
+        },
+        {
+          "text": "한빛전자",
+          "start": 5,
+          "end": 9
+        }
+      ]
+    }
   ]
 }

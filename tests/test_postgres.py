@@ -19,9 +19,9 @@ def test_postgres_score_survives_app_restart(tmp_path, monkeypatch):
     body = (ROOT / 'web/assets/sample-submission.csv').read_bytes()
     result = client.post('/api/submissions', headers=headers, files={'file': ('a.csv', body, 'text/csv')})
     assert result.status_code == 200, result.text
-    assert result.json()['macro_wer'] == pytest.approx(100/12)
+    assert result.json()['macro_cer'] == pytest.approx(100/62)
     restarted = TestClient(create_app(data_dir=tmp_path / 'different-disk', reference_path=path, demo=True))
-    assert restarted.get('/api/leaderboard').json()['entries'][0]['macro_wer'] == pytest.approx(100/12)
+    assert restarted.get('/api/leaderboard').json()['entries'][0]['macro_cer'] == pytest.approx(100/62)
     duplicate = restarted.post('/api/submissions', headers=headers, files={'file': ('a.csv', body, 'text/csv')})
     assert duplicate.json()['reused'] is True
     assert len(restarted.get('/api/submissions', headers=headers).json()['entries']) == 1

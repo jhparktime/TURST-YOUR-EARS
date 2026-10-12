@@ -5,196 +5,164 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Trust Your Ears — 음성을 근거로 틀린 전사 초안만 고치는 한국어 전사 교정 챌린지. 데이터, 평가 규칙, 웹 제출과 리더보드."
+      content="Trust Your Ears: 음성을 근거로 틀린 전사 초안만 고치는 한국어 전사 교정 챌린지. 데이터, 평가 규칙, 웹 제출과 리더보드."
     />
     <meta name="theme-color" content="#003366" />
     <title>Trust Your Ears · 한국어 전사 교정 챌린지</title>
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="style.css?v=20261012-classic-workshop" />
-    <script src="config.js?v=20261012-classic-workshop" defer></script>
-    <script src="app.js?v=20261012-classic-workshop" defer></script>
+    <link rel="stylesheet" href="style.css?v=20261012-research-site-r2" />
+    <script src="config.js?v=20261012-research-site-r2" defer></script>
+    <script src="app.js?v=20261012-research-site-r2" defer></script>
   </head>
   <body>
     <a class="skip" href="#main">본문으로 건너뛰기</a>
     <header>
-      <p class="workshop-label">Speech Recognition Course Project · 2026</p>
-      <a href="#home" class="brand" aria-label="Trust Your Ears 홈"
-        >Trust Your Ears</a
-      >
+      <div class="masthead-line">
+        <a href="#home" class="brand" aria-label="Trust Your Ears 홈"
+          >Trust Your Ears <span>2026</span></a
+        >
+        <span class="course-label">음성인식 프로젝트</span>
+      </div>
       <p class="workshop-title">Korean Audio-grounded Transcript Correction</p>
-      <p class="workshop-subtitle">한국어 음성 기반 전사 교정 챌린지</p>
     </header>
     <div class="site-layout">
-      <aside class="sidebar" aria-label="워크숍 안내">
+      <aside class="sidebar" aria-label="메뉴">
         <nav aria-label="주 메뉴">
-          <h2>Navigation</h2>
-          <a href="#home">Home</a>
-          <a href="#challenge">Challenge</a>
-          <a href="#data">Data &amp; Evaluation</a>
-          <a href="#leaderboard">Leaderboard</a>
-          <a href="#submit">Submission</a>
-          <a href="#workshop">Workshop</a>
+          <a href="#home">개요</a>
+          <a href="#challenge">챌린지</a>
+          <a href="#data">데이터와 평가</a>
+          <a href="#leaderboard">리더보드</a>
+          <a href="#submit">결과 제출</a>
+          <a href="#workshop">연구 발표</a>
         </nav>
         <div class="sidebar-section">
-          <h2>Resources</h2>
+          <p>코드와 자료</p>
           <a
             href="https://github.com/jhparktime/TURST-YOUR-EARS"
             target="_blank"
             rel="noopener"
-            >GitHub Repository</a
+            >프로젝트 저장소</a
           >
           <a
             href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/scripts/baseline.py"
             target="_blank"
             rel="noopener"
-            >Baseline Code</a
+            >베이스라인</a
           >
-          <a href="assets/sample-submission.csv" download>Sample Submission</a>
+          <a
+            href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/server/scoring.py"
+            target="_blank"
+            rel="noopener"
+            >평가 코드</a
+          >
         </div>
-        <div class="sidebar-section">
-          <h2>Important Dates</h2>
-          <p>데이터 공개: 미정<br />제출 마감: 미정<br />최종 발표: 미정</p>
-        </div>
-        <p class="sidebar-note">수업 프로젝트<br />공식 데이터·평가 준비 중</p>
       </aside>
       <main id="main" tabindex="-1">
         <section class="page" data-page="home">
-          <div class="hero">
-            <div>
-              <h1>Overview</h1>
-              <p class="hero-copy">
-                Trust Your Ears는 한국어 음성과 전사 초안을 입력받아 실제 발화에
-                맞는 전체 전사문을 출력하는 챌린지입니다. 초안에 주입된 오류를
-                복원하는 능력과 원래 맞던 표현을 보존하는 능력을 함께
-                평가합니다.
-              </p>
+          <h1>한국어 전사 초안의 오류 교정</h1>
+          <p class="intro">
+            음성을 듣고 전사 초안의 틀린 표현을 고치는 과제입니다. 이름이나
+            숫자를 몇 군데 바꾼 초안을 제공하며, 수정할 필요가 없는 문장도
+            포함합니다.
+          </p>
+          <p>
+            평가에서는 <strong>오류를 복원하는 능력</strong>과
+            <strong>맞는 구간을 보존하는 능력</strong>을 함께 봅니다. 초안을
+            그대로 복사하거나 문장 전체를 다시 작성하는 방법과 비교해, 음성이
+            교정에 어떤 도움이 되는지 확인합니다.
+          </p>
+
+          <figure class="transcript-figure">
+            <div class="figure-reference">
+              <span class="row-label">예시 발화</span>
               <p>
-                <strong>Task:</strong> 한국어 음성 + 전사 초안 → 교정된 전체
-                전사문
-              </p>
-              <p class="notice">
-                <strong>Notice.</strong> 공식 음성 데이터와 평가 서비스는 준비
-                중입니다. 현재 공개 예시는 채점 프로그램을 확인하는 텍스트
-                자료입니다.
-              </p>
-              <p class="actions">
-                <a href="#challenge">Challenge description</a> ·
-                <a href="#data">Evaluation protocol</a> ·
-                <a href="#submit">Submit predictions</a>
+                회의는 <strong>수요일</strong> 오후 <strong>세 시</strong>에
+                시작합니다.
               </p>
             </div>
-            <div class="listening-card">
-              <h2>Task Example</h2>
-              <p class="fine">
-                동일한 발화에 대해 초안의 오류 조건을 바꿔 보는 설명용
-                예시입니다.
+            <div class="draft-row">
+              <span class="row-label">무오류 초안</span>
+              <p>회의는 수요일 오후 세 시에 시작합니다.</p>
+              <span class="edit-comment">유지</span>
+            </div>
+            <div class="draft-row">
+              <span class="row-label">오류 1곳</span>
+              <p>
+                회의는 <span class="injected">목요일</span> 오후 세 시에
+                시작합니다.
               </p>
-              <div
-                class="example-controls"
-                role="group"
-                aria-label="초안 오류 조건 선택"
+              <span class="edit-comment">요일 교정</span>
+            </div>
+            <div class="draft-row">
+              <span class="row-label">오류 2곳</span>
+              <p>
+                회의는 <span class="injected">목요일</span> 오후
+                <span class="injected">네 시</span>에 시작합니다.
+              </p>
+              <span class="edit-comment">요일·시간 교정</span>
+            </div>
+            <figcaption>
+              그림 1. 같은 발화에 대한 초안 조건. 밑줄은 주입한 오류를
+              표시합니다. 실제 참가자에게는 오류 위치를 알려주지 않습니다.
+              설명용 문장이며 음성·모델 결과는 아닙니다.
+            </figcaption>
+          </figure>
+
+          <h2>평가 구성</h2>
+          <p>
+            한국어 음성·전사 자료에서 정답 전사를 검수한 뒤 초안만 변형합니다.
+            원본 음성과 정답은 유지하며, 공개 평가에는 원본 발화당 초안 하나를
+            제공합니다.
+          </p>
+          <dl class="overview-spec">
+            <dt>입력</dt>
+            <dd>한국어 음성 파일과 전사 초안</dd>
+            <dt>제출</dt>
+            <dd>교정된 전체 전사문 · <code>id,prediction</code> CSV</dd>
+            <dt>순위 지표</dt>
+            <dd>무오류·단일 오류·다중 오류 조건의 Macro CER</dd>
+            <dt>보조 지표</dt>
+            <dd>초안 대비 개선폭, 오류 복원률, 정상 구간 훼손률</dd>
+          </dl>
+          <p class="section-links">
+            <a href="#challenge">과제와 베이스라인</a> /
+            <a href="#data">데이터·평가 규격</a> /
+            <a href="#submit">제출 방법</a>
+          </p>
+
+          <h2>공개 자료</h2>
+          <ul class="resource-list">
+            <li>
+              <a
+                href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/scripts/baseline.py"
+                target="_blank"
+                rel="noopener"
+                >베이스라인 실행 코드</a
               >
-                <button type="button" data-context="clean" aria-pressed="false">
-                  무오류
-                </button>
-                <button type="button" data-context="single" aria-pressed="true">
-                  오류 1곳
-                </button>
-                <button
-                  type="button"
-                  data-context="multiple"
-                  aria-pressed="false"
-                >
-                  오류 2곳
-                </button>
-              </div>
-              <div class="signal-label">
-                실제 발화 · 조건을 바꿔도 동일합니다
-              </div>
-              <p class="spoken">
-                “<mark>김민서</mark>가 <mark>네오젠</mark> 실적을 발표합니다.”
-              </p>
-              <div class="context-note" id="context-example" data-tone="single">
-                <div class="signal-label">모델에 제공하는 전사 초안</div>
-                <p>
-                  <strong id="example-name"
-                    >김민수가 네오젠 실적을 발표합니다.</strong
-                  ><span id="example-hint"
-                    >이름 한 곳을 비슷한 표현으로 바꾼 초안입니다.</span
-                  >
-                </p>
-              </div>
-              <div class="decision">
-                <div>
-                  <strong id="example-title">김민수 → 김민서</strong>
-                  <p id="example-description" aria-live="polite">
-                    음성을 근거로 이름만 고치고 나머지 표현은 보존합니다.
-                  </p>
-                </div>
-              </div>
-              <div class="expected-transcript">
-                <span>기대하는 출력</span
-                ><strong>실제 발화와 같은 전체 전사문</strong>
-              </div>
-              <div class="card-bottom">
-                설명을 위해 만든 텍스트 예시<span
-                  >실제 음성·모델 결과 아님</span
-                >
-              </div>
-            </div>
-          </div>
-          <h2>Evaluation Conditions</h2>
-          <p>
-            기존 한국어 음성·전사에서 초안만 변형합니다. 음성과 검수된 정답은
-            유지하며, 다음 세 조건의 CER을 동일 비중으로 평균합니다.
-          </p>
-          <div
-            class="table-wrap"
-            tabindex="0"
-            role="region"
-            aria-label="평가 조건 요약"
-          >
-            <table>
-              <thead>
-                <tr>
-                  <th scope="col">Condition</th>
-                  <th scope="col">Draft</th>
-                  <th scope="col">Objective</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Clean</td>
-                  <td>오류 없음</td>
-                  <td>맞는 전사 보존</td>
-                </tr>
-                <tr>
-                  <td>Single</td>
-                  <td>한 구간 치환</td>
-                  <td>오류 한 곳 복원</td>
-                </tr>
-                <tr>
-                  <td>Multiple</td>
-                  <td>떨어진 2–4개 구간 치환</td>
-                  <td>오류 복원과 정상 구간 보존</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <h2>Participation</h2>
-          <p>
-            참가자는 자신의 환경에서 모델을 실행한 뒤
-            <code>id,prediction</code> 형식의 CSV를 웹사이트에 제출합니다. 채점
-            서비스가 연결되면 평가 결과와 팀별 순위를 확인할 수 있습니다.
-          </p>
-          <p>
-            <a href="#submit">Submission instructions</a> ·
-            <a href="#leaderboard">Leaderboard</a>
+              : 초안 복사, 음성만, 초안만, 음성+초안 비교
+            </li>
+            <li>
+              <a
+                href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/server/scoring.py"
+                target="_blank"
+                rel="noopener"
+                >한국어 평가 코드</a
+              >
+              : 웹 채점과 로컬 평가에서 공통 사용
+            </li>
+            <li>
+              <a href="assets/sample-submission.csv" download>제출 형식 예시</a>
+              : 음성 없는 6행의 프로그램 검증 자료
+            </li>
+          </ul>
+          <p class="release-note">
+            현재 공개 범위는 코드와 텍스트 예시입니다. 한국어 음성 평가셋, 실측
+            베이스라인 결과, 온라인 채점 서버는 준비 중입니다.
           </p>
         </section>
 
         <section class="page" data-page="challenge" hidden>
-          <h1 class="page-title">Challenge Description</h1>
+          <h1 class="page-title">챌린지</h1>
           <p class="intro">
             Trust Your Ears는 한국어 음성과 오류가 있을 수 있는 전사 초안을
             입력받아, 실제 발화에 맞는 전체 전사문을 출력하는 챌린지입니다.
@@ -219,8 +187,7 @@
               </p>
             </article>
             <article class="panel">
-              <span class="tag neutral">RESEARCH PROPOSAL</span>
-              <h2>Verify Before You Correct</h2>
+              <h2>제안 방법: 수정 전 음향 검증</h2>
               <p>
                 초안과 독립적으로 얻은 음성 전사를 비교하고, 실제 발화의 근거가
                 충분한 수정만 반영하는 선택적 교정을 연구합니다.
@@ -362,7 +329,7 @@
         </section>
 
         <section class="page" data-page="data" hidden>
-          <h1 class="page-title">Data &amp; Evaluation</h1>
+          <h1 class="page-title">데이터와 평가</h1>
           <p class="intro">
             공개 한국어 음성·전사를 재사용하고, 검수 전사 일부를 치환해 초안을
             만듭니다. 실제 음성 평가셋은 준비 중이며 현재 예시는 음성 없는
@@ -370,7 +337,6 @@
           </p>
           <div class="split">
             <article class="panel">
-              <span class="tag amber">PUBLIC TOY FIXTURE</span>
               <h2>제출 파일</h2>
               <p>
                 UTF-8 CSV의 열은 <code>id,prediction</code>입니다. 모든 평가
@@ -382,7 +348,7 @@ toy-001,김민서가 네오젠 실적을 발표합니다.
 toy-002,박지훈이 한빛전자 회의를 진행합니다.</pre
               >
               <a class="button" href="assets/sample-submission.csv" download
-                >예시 CSV 다운로드 ↓</a
+                >예시 CSV 다운로드</a
               >
               <p class="fine">
                 6행 전체 파일 · Copy draft 결과입니다.<br />오류 초안을 그대로
@@ -390,7 +356,7 @@ toy-002,박지훈이 한빛전자 회의를 진행합니다.</pre
               </p>
             </article>
             <article class="panel">
-              <h2>데이터 담당자 인계 규격</h2>
+              <h2>데이터 구축 절차</h2>
               <ol class="steps">
                 <li>이용 조건을 확인한 음성·전사에서 발화를 선택합니다.</li>
                 <li>음성을 독립적으로 듣고 정답 전사를 검수합니다.</li>
@@ -413,7 +379,7 @@ toy-002,박지훈이 한빛전자 회의를 진행합니다.</pre
           <h2 class="spaced">한국어 평가 규격</h2>
           <div class="metric-box">
             <div>
-              <p class="eyebrow">PRIMARY METRIC · ko-correction-v1</p>
+              <p class="fine">평가 버전: ko-correction-v1</p>
               <h3>Macro CER ↓</h3>
               <p>
                 한글 음절 단위 문자 오류율입니다. 각 조건 안에서 오류 수와 정답
@@ -572,7 +538,7 @@ toy-002,박지훈이 한빛전자 회의를 진행합니다.</pre
         </section>
 
         <section class="page" data-page="submit" hidden>
-          <h1 class="page-title">Submission &amp; Evaluation</h1>
+          <h1 class="page-title">결과 제출</h1>
           <p class="intro">
             모델은 참가자의 환경에서 실행합니다. 이 사이트에서는 전사 CSV를
             제출하고 서버가 계산한 결과를 확인합니다.
@@ -609,9 +575,7 @@ toy-002,박지훈이 한빛전자 회의를 진행합니다.</pre
               </div>
               <label for="prediction-file">예측 파일</label>
               <div class="upload-area">
-                <span class="upload-icon" aria-hidden="true">↥</span
-                ><strong>채점할 CSV를 선택하세요</strong
-                ><span>UTF-8 · id,prediction · 최대 2 MiB</span
+                <span>UTF-8 · id,prediction · 최대 2 MiB</span
                 ><input
                   id="prediction-file"
                   type="file"
@@ -632,15 +596,14 @@ toy-002,박지훈이 한빛전자 회의를 진행합니다.</pre
                   type="submit"
                   disabled
                 >
-                  제출 및 채점 ↗</button
-                ><a href="assets/sample-submission.csv" download>예시 CSV ↓</a>
+                  제출 및 채점</button
+                ><a href="assets/sample-submission.csv" download>예시 CSV</a>
               </div>
               <p id="form-message" role="status" class="form-message"></p>
             </form>
             <aside>
               <div class="panel result-panel" id="result" aria-live="polite">
                 <div class="numbered-title">
-                  <span>02</span>
                   <h2>평가 결과</h2>
                 </div>
                 <div id="result-empty">
@@ -682,7 +645,7 @@ toy-002,박지훈이 한빛전자 회의를 진행합니다.</pre
 
         <section class="page" data-page="leaderboard" hidden>
           <div class="section-heading compact">
-            <h1 class="page-title">Leaderboard</h1>
+            <h1 class="page-title">리더보드</h1>
             <button class="button outline small" id="refresh-leaderboard">
               새로고침 ↻
             </button>
@@ -712,7 +675,7 @@ toy-002,박지훈이 한빛전자 회의를 진행합니다.</pre
         </section>
 
         <section class="page" data-page="workshop" hidden>
-          <h1 class="page-title">Workshop</h1>
+          <h1 class="page-title">연구 발표</h1>
           <p class="intro">
             한국어 전사 교정, 평가 데이터 설계, 음향 검증을 함께 논의하는 연구
             발표를 준비합니다.
@@ -729,7 +692,6 @@ toy-002,박지훈이 한빛전자 회의를 진행합니다.</pre
               </ul>
             </article>
             <article class="panel">
-              <span class="tag neutral">TO BE ANNOUNCED</span>
               <h2>일정 및 운영</h2>
               <dl>
                 <dt>데이터 공개</dt>
@@ -743,25 +705,17 @@ toy-002,박지훈이 한빛전자 회의를 진행합니다.</pre
               </dl>
             </article>
           </div>
-          <p class="note">
-            독립적인 수업 프로젝트를 워크숍 형식으로 구성한 사이트입니다. 학회
-            제휴, 초청 연사, 논문 출판은 확정되어 있지 않습니다.
-          </p>
         </section>
       </main>
     </div>
     <footer>
-      <p>Trust Your Ears · Korean Audio-grounded Transcript Correction</p>
-      <p>
-        Speech Recognition Course Project, 2026 ·
-        <a
-          href="https://github.com/jhparktime/TURST-YOUR-EARS"
-          target="_blank"
-          rel="noopener"
-          >GitHub</a
-        >
-        · <a href="#data">Evaluation Protocol</a>
-      </p>
+      <span>Trust Your Ears · 2026 음성인식 수업 프로젝트</span>
+      <a
+        href="https://github.com/jhparktime/TURST-YOUR-EARS"
+        target="_blank"
+        rel="noopener"
+        >GitHub</a
+      >
     </footer>
     <noscript
       ><p class="note">

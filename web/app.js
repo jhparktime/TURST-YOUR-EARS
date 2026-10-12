@@ -12,12 +12,12 @@ const names = { clean: "무오류", single: "오류 1곳", multiple: "오류 2�
 const points = (n) =>
   n == null ? "N/A" : `${n > 0 ? "+" : ""}${Number(n).toFixed(2)}%p`;
 const titles = {
-  home: "한국어 전사 교정 챌린지",
+  home: "개요",
   challenge: "챌린지",
   data: "데이터·평가",
   submit: "제출",
   leaderboard: "리더보드",
-  workshop: "워크숍",
+  workshop: "연구 발표",
 };
 const element = (tag, text, className) => {
   const node = document.createElement(tag);
@@ -36,7 +36,7 @@ function route() {
   document
     .querySelectorAll("[data-page]")
     .forEach((p) => (p.hidden = p.dataset.page !== name));
-  document.querySelectorAll("nav a, header > a.button").forEach((a) => {
+  document.querySelectorAll("nav a").forEach((a) => {
     if (a.hash === `#${name}`) a.setAttribute("aria-current", "page");
     else a.removeAttribute("aria-current");
   });
@@ -400,39 +400,6 @@ async function loadLeaderboard() {
   }
 }
 $("refresh-leaderboard").addEventListener("click", loadLeaderboard);
-const contexts = {
-  clean: [
-    "김민서가 네오젠 실적을 발표합니다.",
-    "초안이 실제 발화와 같습니다.",
-    "그대로 유지하세요.",
-    "맞는 전사를 불필요하게 고치지 않는 것도 과제입니다.",
-  ],
-  single: [
-    "김민수가 네오젠 실적을 발표합니다.",
-    "이름 한 곳을 비슷한 표현으로 바꾼 초안입니다.",
-    "김민수 → 김민서",
-    "음성을 근거로 이름만 고치고 나머지 표현은 보존합니다.",
-  ],
-  multiple: [
-    "김민수가 네오진 실적을 발표합니다.",
-    "서로 떨어진 두 구간에 오류가 있습니다.",
-    "김민수 → 김민서 · 네오진 → 네오젠",
-    "두 오류를 모두 복원하고 실제 발화와 같은 전체 문장을 출력합니다.",
-  ],
-};
-document.querySelectorAll("[data-context]").forEach((button) =>
-  button.addEventListener("click", () => {
-    document
-      .querySelectorAll("[data-context]")
-      .forEach((b) => b.setAttribute("aria-pressed", String(b === button)));
-    const [name, hint, title, description] = contexts[button.dataset.context];
-    $("context-example").dataset.tone = button.dataset.context;
-    $("example-name").textContent = name;
-    $("example-hint").textContent = hint;
-    $("example-title").textContent = title;
-    $("example-description").textContent = description;
-  }),
-);
 $("prediction-file").addEventListener("change", () => {
   const file = $("prediction-file").files[0];
   $("file-selection").textContent = file

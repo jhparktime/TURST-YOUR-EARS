@@ -1048,14 +1048,11 @@ footer > div > span {
   transition: background 0.18s;
   min-height: 83px;
 }
-.context-note[data-tone="helpful"] {
+.context-note[data-tone="clean"] {
   background: #edf3df;
 }
-.context-note[data-tone="misleading"] {
+.context-note[data-tone="multiple"] {
   background: #f4eee1;
-}
-.context-note[data-tone="irrelevant"] {
-  background: #eff0e9;
 }
 .expected-transcript {
   display: flex;
@@ -1211,7 +1208,7 @@ input[type="password"]:focus {
   }
 }
 
-/* Korean protocol: typography, four conditions, and readable evaluation rules. */
+/* Korean protocol: typography, correction conditions, and readable evaluation rules. */
 body {
   font-family: "DM Sans", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
   word-break: keep-all;
@@ -1235,17 +1232,11 @@ body {
   line-height: 1.7;
   letter-spacing: -0.6px;
 }
-.cards.four {
-  grid-template-columns: repeat(4, 1fr);
-}
-.cards.four article {
-  padding: 24px;
-}
 .cards article.featured {
   background: #f0f3e5;
   border-color: #9bae7d;
 }
-.context-note[data-tone="partially_wrong"] {
+.context-note[data-tone="single"] {
   background: #f3efdd;
 }
 .context-note p {
@@ -1367,11 +1358,6 @@ details > p {
   outline: 3px solid var(--orange);
   outline-offset: 3px;
 }
-@media (max-width: 1000px) {
-  .cards.four {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
 @media (max-width: 700px) {
   .hero h1 {
     font-size: clamp(39px, 10vw, 56px);
@@ -1387,9 +1373,6 @@ details > p {
   }
   .context-note p span {
     max-width: none;
-  }
-  .cards.four {
-    grid-template-columns: 1fr;
   }
   .card-top {
     font-size: 7px;

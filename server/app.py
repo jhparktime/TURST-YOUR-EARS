@@ -9,7 +9,7 @@ from pathlib import Path
 from fastapi import FastAPI, File, Header, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from .scoring import VERSION, parse_submission, score, validate_references
+from .scoring import VERSION, parse_submission, score, validate_manifest
 from .database import connect, initialize
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -28,16 +28,8 @@ def create_app(data_dir=None, reference_path=None, demo=None):
         raise RuntimeError("Set REFERENCE_PATH to private reference JSON, or use DEMO_MODE=1 for the toy sandbox.")
     ref_path = Path(reference_path) if reference_path else ROOT / "examples/demo-references.json"
     manifest = json.loads(ref_path.read_text())
-    refs = manifest["items"]
     try:
-        validate_references(refs)
-        if "conditions" in manifest and set(manifest["conditions"]) != {r['condition'] for r in refs}:
-            raise ValueError('Declared conditions must match the manifest rows.')
-        if all(r.get('context', r['condition']) == 'no_context' for r in refs):
-            raise ValueError('At least one contextual condition is required.')
-        for condition in {r['condition'] for r in refs}:
-            if len({r.get('context', r['condition']) for r in refs if r['condition'] == condition}) != 1:
-                raise ValueError('A condition cannot mix context types.')
+        refs = validate_manifest(manifest)
     except ValueError as exc:
         raise RuntimeError(str(exc)) from exc
     # Content hash prevents ranking scores produced by different reference versions together.

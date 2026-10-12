@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Trust Your Ears — 잘못된 참고자료에도 들리는 말을 지키는 한국어 음성인식 챌린지. 데이터, 평가 규칙, 웹 제출과 리더보드."
+      content="Trust Your Ears — 음성을 근거로 틀린 전사 초안만 고치는 한국어 전사 교정 챌린지. 데이터, 평가 규칙, 웹 제출과 리더보드."
     />
     <meta name="theme-color" content="#173d37" />
-    <title>Trust Your Ears · 한국어 Contextual ASR Challenge</title>
+    <title>Trust Your Ears · 한국어 전사 교정 챌린지</title>
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="style.css?v=20261002-korean-r2" />
-    <script src="config.js?v=20261002-korean-r2" defer></script>
-    <script src="app.js?v=20261002-korean-r2" defer></script>
+    <link rel="stylesheet" href="style.css?v=20261012-correction-v1" />
+    <script src="config.js?v=20261012-correction-v1" defer></script>
+    <script src="app.js?v=20261012-correction-v1" defer></script>
   </head>
   <body>
     <a class="skip" href="#main">본문으로 건너뛰기</a>
@@ -33,7 +33,7 @@
           height="48"
           alt=""
         /><span
-          >TRUST YOUR EARS<small>KOREAN CONTEXTUAL ASR CHALLENGE</small></span
+          >TRUST YOUR EARS<small>KOREAN TRANSCRIPT CORRECTION</small></span
         ></a
       >
       <nav aria-label="주 메뉴">
@@ -47,11 +47,11 @@
       <section class="page" data-page="home">
         <div class="hero">
           <div>
-            <p class="eyebrow">LISTEN FIRST. VERIFY THE CONTEXT.</p>
-            <h1>참고는 하되,<br /><em>들리는 대로.</em></h1>
+            <p class="eyebrow">LISTEN FIRST. CORRECT WITH EVIDENCE.</p>
+            <h1>틀린 부분만,<br /><em>들리는 대로.</em></h1>
             <p class="hero-copy">
-              참고자료가 반만 맞는다면?<br />유용한 단서는 활용하고, 잘못된
-              이름에는 흔들리지 않는 한국어 음성인식을 연구합니다.
+              그럴듯한 전사문에 오류가 숨어 있다면?<br />한국어 음성을 듣고 틀린
+              부분을 고치면서, 원래 맞던 표현은 지키는 모델을 연구합니다.
             </p>
             <div class="actions">
               <a class="button" href="#challenge"
@@ -59,70 +59,62 @@
               ><a class="text-link" href="#data">평가 규칙 읽기 →</a>
             </div>
             <p class="fine">
-              한국어 음성 + 참고자료 → 전체 전사문<br />독립적인 수업 프로젝트 ·
-              워크숍 형식의 연구 챌린지
+              한국어 음성 + 전사 초안 → 교정된 전체 전사문<br />독립적인 수업
+              프로젝트 · Audio-grounded Transcript Correction
             </p>
           </div>
           <div class="listening-card">
             <div class="card-top">
-              <span>01 / SAME AUDIO, DIFFERENT CONTEXT</span
-              ><span class="live-dot">예시</span>
+              <span>01 / SAME AUDIO, DIFFERENT DRAFT</span
+              ><span class="live-dot">설명용 예시</span>
             </div>
             <div
               class="example-controls"
               role="group"
-              aria-label="참고자료 조건 선택"
+              aria-label="초안 오류 조건 선택"
             >
-              <button type="button" data-context="helpful" aria-pressed="false">
-                도움</button
-              ><button
+              <button type="button" data-context="clean" aria-pressed="false">
+                무오류
+              </button>
+              <button type="button" data-context="single" aria-pressed="true">
+                오류 1곳
+              </button>
+              <button
                 type="button"
-                data-context="partially_wrong"
-                aria-pressed="true"
-              >
-                부분 오류</button
-              ><button
-                type="button"
-                data-context="misleading"
+                data-context="multiple"
                 aria-pressed="false"
               >
-                오류</button
-              ><button
-                type="button"
-                data-context="irrelevant"
-                aria-pressed="false"
-              >
-                무관
+                오류 2곳
               </button>
             </div>
             <div class="wave" aria-hidden="true"></div>
-            <div class="signal-label">발화 내용 · 조건을 바꿔도 동일합니다</div>
+            <div class="signal-label">실제 발화 · 조건을 바꿔도 동일합니다</div>
             <p class="spoken">
               “<mark>김민서</mark>가 <mark>네오젠</mark><br />실적을
               발표합니다.”
             </p>
-            <div
-              class="context-note"
-              id="context-example"
-              data-tone="partially_wrong"
-            >
-              <div class="signal-label">제공된 참고자료</div>
+            <div class="context-note" id="context-example" data-tone="single">
+              <div class="signal-label">모델에 제공하는 전사 초안</div>
               <p>
-                <strong id="example-name">김민수 · 네오젠</strong
-                ><span id="example-hint">회사명은 맞지만 이름은 틀립니다.</span>
+                <strong id="example-name"
+                  >김민수가 네오젠 실적을 발표합니다.</strong
+                ><span id="example-hint"
+                  >이름 한 곳을 비슷한 표현으로 바꾼 초안입니다.</span
+                >
               </p>
             </div>
             <div class="decision">
               <span class="check" aria-hidden="true">✓</span>
               <div>
-                <strong id="example-title">정보별로 판단하세요.</strong>
+                <strong id="example-title">김민수 → 김민서</strong>
                 <p id="example-description" aria-live="polite">
-                  네오젠은 활용하되, 김민수로 바꾸지 않아야 합니다.
+                  음성을 근거로 이름만 고치고 나머지 표현은 보존합니다.
                 </p>
               </div>
             </div>
             <div class="expected-transcript">
-              <span>정답의 핵심 이름</span><strong>김민서 · 네오젠</strong>
+              <span>기대하는 출력</span
+              ><strong>실제 발화와 같은 전체 전사문</strong>
             </div>
             <div class="card-bottom">
               설명을 위해 만든 텍스트 예시<span>실제 음성·모델 결과 아님</span>
@@ -133,20 +125,18 @@
           <div>
             <b>KO</b
             ><span
-              >한국어 중심<small
-                >띄어쓰기와 고유명사 표기를 고려합니다.</small
-              ></span
+              >한국어 중심<small>띄어쓰기 차이를 제외한 음절 CER</small></span
             >
           </div>
           <div>
-            <b>04</b
-            ><span>문맥 조건<small>도움 · 부분 오류 · 오류 · 무관</small></span>
+            <b>03</b
+            ><span>초안 조건<small>무오류 · 오류 1곳 · 오류 2–4곳</small></span>
           </div>
           <div>
-            <b>CER</b
+            <b>Δ</b
             ><span
-              >투명한 평가<small
-                >문자 오류율과 이름별 진단을 함께 봅니다.</small
+              >교정과 보존<small
+                >초안보다 좋아졌는지 함께 평가합니다.</small
               ></span
             >
           </div>
@@ -154,63 +144,46 @@
         <div class="section-heading">
           <div>
             <p class="eyebrow">THE RESEARCH QUESTION</p>
-            <h2>자료의 일부가 틀렸을 때,<br />어디까지 믿어야 할까요?</h2>
+            <h2>잘 고치는 모델은<br />언제 고치지 말아야 할까요?</h2>
           </div>
           <p>
-            정답 전사문은 그대로 둔 채 참고자료를 바꿉니다. 필요한 정보를
-            활용하는 능력과 틀린 정보를 거부하는 능력을 함께 살펴봅니다.
+            기존 한국어 음성·전사에서 초안만 변형합니다. 음성과 검수된 정답은
+            유지하고, 복원 능력과 불필요한 수정의 피해를 함께 측정합니다.
           </p>
         </div>
-        <div class="cards four">
+        <div class="cards">
           <article>
-            <span class="tag">HELPFUL</span>
-            <h3>올바른 단서</h3>
-            <p>핵심 이름이 정확하게 제공됩니다. 문맥의 도움을 측정합니다.</p>
-            <div class="mini-list">
-              <span class="correct">김민서</span
-              ><span class="correct">네오젠</span>
-            </div>
+            <span class="tag">CLEAN</span>
+            <h3>맞는 초안 지키기</h3>
+            <p>
+              오류가 없는 초안을 제공합니다. 불필요한 교정이 새 오류를 만드는지
+              평가합니다.
+            </p>
           </article>
           <article class="featured">
-            <span class="tag amber">PARTIALLY WRONG</span>
-            <h3>반만 맞는 자료</h3>
+            <span class="tag amber">SINGLE</span>
+            <h3>한 곳만 정확히</h3>
             <p>
-              같은 자료 안에 정답과 오답이 공존합니다. 정보별 판단을 평가합니다.
+              이름·숫자·내용어 한 구간을 바꿉니다. 나머지 문장은 그대로 보존해야
+              합니다.
             </p>
-            <div class="mini-list">
-              <span class="incorrect">김민수</span
-              ><span class="correct">네오젠</span>
-            </div>
           </article>
           <article>
-            <span class="tag amber">MISLEADING</span>
-            <h3>그럴듯한 오류</h3>
+            <span class="tag amber">MULTIPLE</span>
+            <h3>흩어진 오류 찾기</h3>
             <p>
-              비슷하게 들리는 오답 이름을 제공합니다. 잘못된 교정을 측정합니다.
+              서로 떨어진 2–4개 구간을 바꿉니다. 수정 구간의 수는 바뀐 문자 수와
+              다릅니다.
             </p>
-            <div class="mini-list">
-              <span class="incorrect">김민수</span
-              ><span class="incorrect">네오진</span>
-            </div>
-          </article>
-          <article>
-            <span class="tag neutral">IRRELEVANT</span>
-            <h3>무관한 자료</h3>
-            <p>
-              다른 회의의 자료를 제공합니다. 불필요한 이름 삽입을 살펴봅니다.
-            </p>
-            <div class="mini-list">
-              <span>이서연</span><span>다온테크</span>
-            </div>
           </article>
         </div>
         <div class="callout">
           <div>
             <p class="eyebrow">A REPRODUCIBLE CHALLENGE</p>
-            <h2>같은 규칙으로 비교합니다.</h2>
+            <h2>교정 결과를 같은 규칙으로.</h2>
             <p>
-              참가자는 모델을 실행하고, 이 사이트에서 전사 파일을 제출합니다.<br />공식
-              평가는 데이터와 채점 서비스 공개 후 시작됩니다.
+              참가자가 모델을 실행한 뒤 이 사이트에서 전사 CSV를 제출합니다.<br />공식
+              음성 데이터와 채점 서비스는 아직 공개 전입니다.
             </p>
           </div>
           <a class="button light" href="#submit"
@@ -221,120 +194,171 @@
 
       <section class="page" data-page="challenge" hidden>
         <p class="eyebrow">01 / CHALLENGE</p>
-        <h1 class="page-title">더 많은 문맥,<br /><em>더 신중한 인식.</em></h1>
+        <h1 class="page-title">
+          초안은 단서,<br /><em>판단의 근거는 음성.</em>
+        </h1>
         <p class="intro">
-          Trust Your Ears는 불완전한 참고자료를 활용하는 한국어 음성인식
-          챌린지입니다. 목표는 자료의 내용을 베끼는 것이 아니라 실제 발화를
-          정확하게 전사하는 것입니다.
+          Trust Your Ears는 한국어 음성과 오류가 있을 수 있는 전사 초안을
+          입력받아, 실제 발화에 맞는 전체 전사문을 출력하는 챌린지입니다.
+          음성·텍스트를 함께 사용하는 전사 교정 과제입니다.
         </p>
         <div class="split">
           <article class="panel">
             <h2>참가 과제</h2>
             <dl>
               <dt>입력</dt>
-              <dd>한국어 음성 구간과 짧은 참고자료 또는 이름 목록</dd>
+              <dd>한국어 음성 구간 + 전사 초안</dd>
               <dt>출력</dt>
-              <dd>각 ID에 대응하는 전체 전사문</dd>
-              <dt>핵심 비교</dt>
-              <dd>도움이 되는 문맥의 이득과 잘못된 문맥의 피해</dd>
-              <dt>메인 순위</dt>
-              <dd>조건별 평균 문자 오류율, Macro CER</dd>
+              <dd>교정된 전체 전사문 한 개</dd>
+              <dt>숨겨진 정보</dt>
+              <dd>오류 유무·위치·개수와 정답 전사</dd>
+              <dt>순위</dt>
+              <dd>세 조건을 동일 비중으로 평균한 Macro CER ↓</dd>
             </dl>
+            <p class="fine">
+              초안이 모두 맞을 수도 있습니다. 음성에 없는 설명, 요약, 문장
+              다듬기는 출력에 포함하지 않습니다.
+            </p>
           </article>
           <article class="panel">
             <span class="tag neutral">RESEARCH PROPOSAL</span>
             <h2>Verify Before You Correct</h2>
             <p>
-              참고자료로 교정 후보를 만든 뒤, 바뀌는 이름을 음성과 다시 비교해
-              근거가 있는 수정만 반영하는 방법을 연구합니다.
+              초안과 독립적으로 얻은 음성 전사를 비교하고, 실제 발화의 근거가
+              충분한 수정만 반영하는 선택적 교정을 연구합니다.
             </p>
             <ol class="steps">
-              <li>문맥 없이 음성을 전사합니다.</li>
-              <li>참고자료로 교정 후보를 만듭니다.</li>
-              <li>원래 표현과 후보의 음향적 근거를 비교합니다.</li>
-              <li>검증된 교정만 반영합니다.</li>
+              <li>초안을 보지 않고 음성을 전사합니다.</li>
+              <li>초안과 음성 전사가 다른 구간을 찾습니다.</li>
+              <li>차이가 나는 표현의 음향적 근거를 확인합니다.</li>
+              <li>개발셋에서 정한 기준에 따라 수정하거나 유지합니다.</li>
             </ol>
             <p class="fine">
-              실험할 가설입니다. 성능 개선이나 독창성이 검증된 결과는 아직
-              없습니다.
+              제안 방법입니다. 음향 검증 모듈과 효과 검증은 후속 실험이며, 현재
+              베이스라인 구현과 구분합니다.
             </p>
           </article>
         </div>
-        <h2 class="spaced">평가 조건 설계</h2>
+        <h2 class="spaced">세 가지 평가 조건</h2>
         <div
           class="table-wrap"
           tabindex="0"
           role="region"
-          aria-label="가로 스크롤 가능한 평가 표"
+          aria-label="평가 조건 표"
         >
           <table>
             <caption>
-              공식 데이터의 예정 조건 · 공개 전에 최종 확정합니다.
+              ko-correction-v1 · 조건은 참가자 입력에 노출하지 않습니다.
             </caption>
             <thead>
               <tr>
-                <th scope="col">문맥</th>
-                <th scope="col">원본 음성</th>
-                <th scope="col">잡음 음성</th>
+                <th scope="col">조건</th>
+                <th scope="col">초안 생성</th>
                 <th scope="col">평가 질문</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>Helpful</td>
-                <td>예정</td>
-                <td>예정</td>
-                <td>올바른 단서를 활용하는가?</td>
+                <td>Clean</td>
+                <td>검수 전사를 그대로 사용</td>
+                <td>맞는 전사를 보존하는가?</td>
               </tr>
               <tr>
-                <td>Partially wrong</td>
-                <td>예정</td>
-                <td>예정</td>
-                <td>한 문서 안의 정답과 오답을 구분하는가?</td>
+                <td>Single</td>
+                <td>한 구간을 유사한 오답으로 치환</td>
+                <td>그 오류를 정확히 복원하는가?</td>
               </tr>
               <tr>
-                <td>Misleading</td>
-                <td>예정</td>
-                <td>예정</td>
-                <td>비슷한 오답으로 전사를 바꾸는가?</td>
-              </tr>
-              <tr>
-                <td>Irrelevant</td>
-                <td>예정</td>
-                <td>예정</td>
-                <td>음성에 없는 정보를 추가하는가?</td>
+                <td>Multiple</td>
+                <td>떨어진 2–4개 구간 치환</td>
+                <td>여러 오류를 고치며 나머지를 지키는가?</td>
               </tr>
             </tbody>
           </table>
         </div>
         <p class="note">
-          No context는 별도 비교 기준이며 메인 평균에서 제외합니다. 동일 음성의
-          모든 변형은 같은 데이터 분할에 둡니다. 공개 테스트에는 원본당 한 문맥
-          조건을 제공하고, 짝지은 비교는 개발셋 또는 주최 측의 독립 실행
-          평가에서 수행할 계획입니다.
+          첫 버전은 원본 음성과 치환 오류에 집중합니다. 공백·문장부호만 바꾸는
+          조작은 오류로 세지 않습니다. 서로 완전히 같은 발음의 표기는 음성만으로
+          구별할 수 없으므로 복원 능력의 근거로 사용하지 않습니다.
         </p>
-        <h2 class="spaced">연구의 위치</h2>
+        <h2 class="spaced">네 가지 베이스라인</h2>
+        <div
+          class="table-wrap"
+          tabindex="0"
+          role="region"
+          aria-label="베이스라인 비교 표"
+        >
+          <table>
+            <caption>
+              실행 코드 제공 · 실제 한국어 음성 평가 결과는 아직 없습니다.
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">방법</th>
+                <th scope="col">보는 입력</th>
+                <th scope="col">비교 목적</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Copy draft</td>
+                <td>초안</td>
+                <td>아무것도 고치지 않은 기준점</td>
+              </tr>
+              <tr>
+                <td>Audio only</td>
+                <td>음성</td>
+                <td>초안 없이 다시 전사한 결과</td>
+              </tr>
+              <tr>
+                <td>Text only</td>
+                <td>초안</td>
+                <td>음성 없이도 교정 가능한 오류인지</td>
+              </tr>
+              <tr>
+                <td>Audio + draft</td>
+                <td>음성 + 초안</td>
+                <td>음성을 제공했을 때의 추가 이득</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <p>
-          문맥 기반 ASR과 음성·텍스트 충돌은 기존 연구 주제입니다. 이번
-          프로젝트는 한국어의 부분 오류 문맥과 음성 품질을 함께 통제하는 평가
-          설계를 검토합니다.
+          세 모델 방식은 같은 Qwen2.5-Omni 체크포인트와 생성 설정으로 입력만
+          바꿉니다. 한국어 적합성과 실행 환경은 파일럿에서 확인해야 합니다. Copy
+          draft는 모델 설치 없이 실행할 수 있습니다.
+        </p>
+        <div class="references">
+          <a
+            href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/scripts/baseline.py"
+            target="_blank"
+            rel="noopener"
+            >베이스라인 실행 코드 <span>↗</span></a
+          ><a
+            href="https://github.com/jhparktime/TURST-YOUR-EARS#베이스라인"
+            target="_blank"
+            rel="noopener"
+            >실행 방법과 재현 정보 <span>↗</span></a
+          >
+        </div>
+        <h2 class="spaced">연구의 초점</h2>
+        <p>
+          음성·텍스트 충돌 자체를 새로운 발견으로 주장하지 않습니다. 이
+          프로젝트는 한국어의 드문 치환 오류를 복원하는 능력과 맞는 표현을
+          보존하는 능력을 함께 비교합니다. 인위적 오류에서의 성능이 실제 ASR
+          오류에도 이어지는지는 별도 평가가 필요합니다.
         </p>
         <div class="references">
           <a
             href="https://aclanthology.org/2025.emnlp-main.246/"
             target="_blank"
             rel="noopener"
-            >When Audio and Text Disagree · EMNLP 2025 <span>↗</span></a
+            >When Audio and Text Disagree · 관련 연구 <span>↗</span></a
           ><a
-            href="https://arxiv.org/abs/2507.05727"
+            href="https://huggingface.co/Qwen/Qwen2.5-Omni-3B"
             target="_blank"
             rel="noopener"
-            >ContextASR-Bench · 문맥 기반 음성인식 평가 <span>↗</span></a
-          ><a
-            href="https://doi.org/10.3390/app10196936"
-            target="_blank"
-            rel="noopener"
-            >KsponSpeech · 한국어 전사와 평가 지표 <span>↗</span></a
+            >Qwen2.5-Omni · 모델 및 이용 조건 <span>↗</span></a
           >
         </div>
       </section>
@@ -342,20 +366,20 @@
       <section class="page" data-page="data" hidden>
         <p class="eyebrow">02 / DATA & EVALUATION</p>
         <h1 class="page-title">
-          분명한 규칙이<br /><em>공정한 비교를 만듭니다.</em>
+          고친 곳과 지킨 곳,<br /><em>둘 다 평가합니다.</em>
         </h1>
         <p class="intro">
-          공식 한국어 음성 데이터는 구축 전입니다. 현재 다운로드는 채점 동작을
-          확인하는 8행의 공개 텍스트 예시이며, 실제 ASR 성능을 평가하는
-          데이터셋이 아닙니다.
+          공개 한국어 음성·전사를 재사용하고, 검수 전사 일부를 치환해 초안을
+          만듭니다. 실제 음성 평가셋은 준비 중이며 현재 예시는 음성 없는
+          소프트웨어 검증용 6행입니다.
         </p>
         <div class="split">
           <article class="panel">
             <span class="tag amber">PUBLIC TOY FIXTURE</span>
-            <h2>제출 파일 준비</h2>
+            <h2>제출 파일</h2>
             <p>
-              UTF-8 CSV의 열은 정확히 <code>id,prediction</code>입니다. 모든
-              평가 ID를 한 번씩 포함하세요. 빈 전사는 삭제 오류로 채점됩니다.
+              UTF-8 CSV의 열은 <code>id,prediction</code>입니다. 모든 평가 ID를
+              한 번씩 포함하고 교정된 전체 전사문을 적습니다.
             </p>
             <pre>
 id,prediction
@@ -366,194 +390,189 @@ toy-002,박지훈이 한빛전자 회의를 진행합니다.</pre
               >예시 CSV 다운로드 ↓</a
             >
             <p class="fine">
-              8행 전체 파일 · 일부러 넣은 이름 오류 2개 포함<br />정답은
-              저장소의 공개 예시 파일에서 확인할 수 있습니다.
+              6행 전체 파일 · Copy draft 결과입니다.<br />오류 초안을 그대로
+              제출해 채점 동작을 확인합니다.
             </p>
           </article>
           <article class="panel">
-            <h2>데이터 공개 준비</h2>
-            <ol class="release-list">
-              <li>
-                <span class="tag">구현됨</span>
-                <div>
-                  <strong>제출·채점 코드</strong>
-                  <p>한국어 CER, 이름 진단, 팀별 기록</p>
-                </div>
-              </li>
-              <li>
-                <span class="tag neutral">구축 전</span>
-                <div>
-                  <strong>공식 한국어 데이터</strong>
-                  <p>음성, 문맥, 검수 전사와 출처·이용 조건</p>
-                </div>
-              </li>
-              <li>
-                <span class="tag neutral">공개 전</span>
-                <div>
-                  <strong>공식 평가</strong>
-                  <p>비공개 테스트, 서버 연결, 팀 키와 일정</p>
-                </div>
-              </li>
+            <h2>데이터 담당자 인계 규격</h2>
+            <ol class="steps">
+              <li>이용 조건을 확인한 음성·전사에서 발화를 선택합니다.</li>
+              <li>음성을 독립적으로 듣고 정답 전사를 검수합니다.</li>
+              <li>화자·세션 기준으로 개발·평가를 나눈 뒤 초안을 만듭니다.</li>
+              <li>정답은 유지하고, 치환 위치와 바꾼 표현을 기록합니다.</li>
+              <li>공개 입력과 비공개 정답을 분리해 전달합니다.</li>
             </ol>
             <p class="fine">
-              원본 발화 100개 파일럿부터 검수할 계획입니다. 공개 자료를
-              변형했다는 사실만으로 미학습 테스트셋이 되는 것은 아닙니다.
+              발화를 새로 녹음하거나 모든 문장을 직접 작성할 필요는 없습니다.
+              규모는 파일럿 난도와 검수 가능량을 보고 확정합니다.
             </p>
           </article>
         </div>
-        <h2 class="spaced">한국어 평가 규격</h2>
-        <p class="fine">
-          아래는 현재 샌드박스에 구현된 규칙입니다. 공식 대회의 데이터 구성과
-          조건 비중은 파일럿 후 확정하여 별도로 공지합니다.
+        <p class="note">
+          공개 평가 입력에는 원본 음성당 초안 하나만 제공합니다. 동일 음성의
+          무오류·오류 변형을 함께 공개하면 서로 대조해 정답을 유추할 수
+          있습니다. 공개 코퍼스 재사용에 따른 원문 검색·사전학습 오염 가능성은
+          별도로 기록합니다.
         </p>
+        <h2 class="spaced">한국어 평가 규격</h2>
         <div class="metric-box">
           <div>
-            <p class="eyebrow">PRIMARY METRIC · ko-cer-v1</p>
+            <p class="eyebrow">PRIMARY METRIC · ko-correction-v1</p>
             <h3>Macro CER ↓</h3>
             <p>
-              공백을 제외한 문자 오류율입니다. 한글은 자모가 아닌 음절 단위로
-              셉니다. 조건 안에서는 오류·정답 문자 수를 합산하고, 조건별 비율을
-              동일 비중으로 평균합니다.
+              한글 음절 단위 문자 오류율입니다. 각 조건 안에서 오류 수와 정답
+              문자 수를 합산한 CER을 구하고, Clean·Single·Multiple을 각각 1/3
+              비중으로 평균합니다. 무오류 초안도 메인 순위에 포함됩니다.
             </p>
           </div>
-          <code>CER = (S + D + I) / N</code>
+          <code>CER = 100 × (S + D + I) / N</code>
         </div>
         <div
           class="table-wrap"
           tabindex="0"
           role="region"
-          aria-label="가로 스크롤 가능한 평가 표"
+          aria-label="평가 지표 표"
         >
           <table>
             <caption>
-              메인 순위와 보조 진단 · 주석이 없는 지표는 N/A로 표시합니다.
+              순위는 Macro CER · 나머지 지표는 교정 행동을 설명합니다.
             </caption>
             <thead>
               <tr>
                 <th scope="col">지표</th>
-                <th scope="col">계산 대상</th>
-                <th scope="col">해석</th>
+                <th scope="col">정의</th>
+                <th scope="col">좋은 방향</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>Macro CER ↓</td>
-                <td>모든 문맥 조건</td>
-                <td>메인 순위 · 전체 전사 정확도</td>
+                <td>Macro CER</td>
+                <td>세 조건 CER의 동일 비중 평균</td>
+                <td>낮을수록</td>
               </tr>
               <tr>
-                <td>핵심 개체 정확도 ↑</td>
-                <td>주석된 이름의 출현 위치</td>
-                <td>허용 표기를 포함해 이름을 맞힌 비율</td>
+                <td>초안 대비 개선폭</td>
+                <td>초안 Macro CER − 출력 Macro CER, %p</td>
+                <td>높을수록 · 음수는 악화</td>
               </tr>
               <tr>
-                <td>오답 문맥 수용률 ↓</td>
-                <td>오답을 주입한 목표 위치</td>
-                <td>주입한 이름을 해당 위치에 출력한 비율</td>
+                <td>오류 구간 복원률</td>
+                <td>주입 구간 전체를 정답으로 복원한 수 / 주입 구간 수</td>
+                <td>높을수록</td>
               </tr>
               <tr>
-                <td>부분 오류 동시 정답률 ↑</td>
-                <td>이름 주석이 있는 부분 오류 발화</td>
-                <td>해당 발화의 모든 목표 이름을 맞힌 비율</td>
+                <td>정상 구간 훼손률</td>
+                <td>주입 구간 밖에서 훼손된 정답 문자 수 / 해당 문자 수</td>
+                <td>낮을수록</td>
               </tr>
               <tr>
-                <td>최악 조건 CER ↓</td>
-                <td>조건별 CER의 최댓값</td>
-                <td>가장 취약한 조건의 성능</td>
+                <td>무오류 초안 변경률</td>
+                <td>정규화 후 출력이 달라진 Clean 발화 수 / Clean 발화 수</td>
+                <td>낮을수록</td>
               </tr>
             </tbody>
           </table>
         </div>
+        <p class="fine">
+          보조 지표는 해당 구간·문자·발화 수를 전체 조건에서 합산합니다. 분모가
+          0이면 N/A입니다. 최악 조건 CER, Micro CER, 띄어쓰기에 민감한 어절
+          WER도 제공합니다.
+        </p>
         <div class="split spaced">
           <article class="panel">
-            <h3>띄어쓰기에는 관대하게</h3>
+            <h3>띄어쓰기는 제외</h3>
             <div class="text-comparison">
               <span>정답</span>
               <p>오늘 회의를 시작합니다.</p>
-              <span>예측</span>
+              <span>출력</span>
               <p>오늘회의를 시작합니다.</p>
             </div>
             <p>
-              <strong>CER 0%</strong> · 공백과 문장 끝 마침표 차이를 제외하면
-              같습니다.
+              <strong>CER 0%</strong> · 공백과 문장 끝 마침표 차이는 무시합니다.
             </p>
           </article>
           <article class="panel">
-            <h3>이름 오류에는 분명하게</h3>
+            <h3>그대로 내면 개선 0</h3>
             <div class="text-comparison">
-              <span>정답</span>
-              <p>김민<mark>서</mark>가 발표합니다.</p>
-              <span>예측</span>
+              <span>초안</span>
+              <p>김민<mark class="wrong">수</mark>가 발표합니다.</p>
+              <span>출력</span>
               <p>김민<mark class="wrong">수</mark>가 발표합니다.</p>
             </div>
             <p>
-              <strong>문자 치환 1개, 이름 오류 1개</strong> · 작은 철자 차이도
-              놓치지 않습니다.
+              <strong>개선폭 0%p · 복원률 0%</strong> · 원래 맞던 부분의 훼손은
+              없습니다.
             </p>
           </article>
         </div>
         <div class="faq spaced">
           <details open>
-            <summary>정규화는 어디까지 하나요?</summary>
+            <summary>한국어 표기는 어디까지 정규화하나요?</summary>
             <p>
-              NFC 유니코드 정규화, 영문 소문자화, 모든 공백 제거를 적용합니다.
-              쉼표·물음표·따옴표 등 지정한 문장부호와 문장 끝 마침표는
-              제외합니다. 숫자 사이의 소수점, 부호, 퍼센트 기호는 유지합니다.
-              조사·어미·숫자 값은 바꾸지 않습니다. CER은 100%를 넘을 수
-              있습니다.
+              NFC 정규화, 영문 소문자화, 공백 제거를 적용합니다. 지정된
+              문장부호와 숫자 사이가 아닌 마침표를 제외합니다.
+              소수점·부호·퍼센트 기호, 조사와 어미는 유지합니다. 숫자
+              읽기·동의어·발음 유사성을 자동으로 정답 처리하지 않습니다. 3시와
+              세 시, AI와 에이아이는 다르게 채점하므로 정답 표기 규칙을 데이터
+              공개 전에 확정해야 합니다. 오류율은 100%를 넘을 수 있습니다.
             </p>
           </details>
           <details>
-            <summary>3시와 세 시, AI와 에이아이는 같은 정답인가요?</summary>
+            <summary>교정 위치는 어떻게 비교하나요?</summary>
             <p>
-              메인 CER에서는 자동으로 같게 만들지 않습니다. 이름·숫자 구간에
-              사전 승인된 대체 표기가 주석되어 있으면 개체 정확도에서만
-              인정합니다. 예측 결과를 본 뒤 대체 표기를 추가하지 않습니다. 의역,
-              동의어, 비슷한 발음만으로 정답 처리하지 않습니다.
+              정답과 출력을 최소 편집거리로 정렬합니다. 주입 구간의 정렬된 출력
+              전체가 정답과 같아야 복원으로 셉니다. 동일 비용이면
+              대각선·삭제·삽입 순으로 결정합니다. 삽입은 왼쪽 문자에 붙이고 문장
+              맨 앞 삽입은 첫 문자에 붙입니다. 데이터를 등록할 때 정답→초안
+              정렬이 치환 주석과 일치하는지도 확인합니다. 반복 표현이나 출력의
+              경계 삽입에서는 정렬 선택의 영향을 받는 진단값입니다. 최종 전사의
+              오류는 CER로 함께 확인합니다.
             </p>
           </details>
           <details>
-            <summary>이름만 나열해도 개체 점수가 올라가나요?</summary>
+            <summary>정상 구간 훼손률의 분모는 무엇인가요?</summary>
             <p>
-              출력 전체에서 이름을 검색하지 않습니다. 전사문을 최소 편집거리로
-              정렬한 후 주석된 위치를 평가합니다. 삽입 오류는 CER에도
-              반영됩니다. 동일 비용 정렬은 대각선·삭제·삽입 순으로 결정하며,
-              이름 오른쪽 경계의 삽입은 해당 이름에 포함합니다. 자세한 구현과
-              경계 사례는 공개 코드와 테스트를 따릅니다.
+              주입 구간 밖의 정답 문자 수입니다. 각 문자에 대응하는 출력이 그
+              문자와 다르면 훼손으로 셉니다. 치환·삭제와 해당 위치에 붙는 삽입을
+              포함합니다. 주입 구간 안의 원래 같던 글자는 이 분모에서
+              제외합니다. 주입 구간은 단어 또는 의미 있는 표현 단위로 일관되게
+              지정해야 합니다.
+            </p>
+          </details>
+          <details>
+            <summary>점수가 좋으면 음성을 잘 활용했다는 뜻인가요?</summary>
+            <p>
+              점수만으로는 알 수 없습니다. 초안만 보는 모델도 문법이나 상식으로
+              오답을 고칠 수 있습니다. 같은 모델의 Text only와 Audio + draft를
+              비교하고, 실제 ASR 초안으로 만든 별도 검증셋에서 재확인할
+              계획입니다. 음성 청취 검수와 실제 모델 실험은 코드 테스트로
+              대체하지 않습니다.
             </p>
           </details>
           <details>
             <summary>동점과 제출 횟수는 어떻게 처리하나요?</summary>
             <p>
-              팀별 가장 낮은 Macro CER을 반올림 전 값으로 정렬합니다. 정확한
-              동점은 공동 순위입니다. 기본 제출 한도는 UTC 하루 5회이며 한국
-              시간 오전 9시에 초기화됩니다. 무효 파일은 차감하지 않고, 같은
-              예측을 다시 제출하면 기존 결과를 돌려줍니다. 서버에 표시되는 실제
-              한도를 확인하세요.
-            </p>
-          </details>
-          <details>
-            <summary>오답 문맥 수용률이 곧 문맥의 인과적 영향인가요?</summary>
-            <p>
-              아닙니다. 문맥 없이도 같은 오답이 나올 수 있습니다. 문맥 때문에
-              정답이 오답으로 바뀌었는지는 동일 모델의 No context 실행과 짝지어
-              따로 분석해야 합니다. 신뢰구간과 짝지은 변화 분석은 공식 연구 보고
-              단계에 계획되어 있으며 현재 채점 결과에 포함되지 않습니다.
+              팀별 최저 Macro CER을 반올림 전 값으로 정렬하며 정확한 동점은 공동
+              순위입니다. 기본 한도는 UTC 하루 5회이며 한국 시간 오전 9시에
+              초기화됩니다. 무효 파일은 차감하지 않습니다. 같은 예측은 기존
+              결과를 반환합니다. 실제 한도는 서버 표시를 따릅니다.
             </p>
           </details>
         </div>
-        <p class="note">
-          공식 공개 전에 조건 구성, 외부 데이터·사전학습 규칙, 표기 기준을
-          확정합니다. 한국어 원천 데이터는 아직 선정되지 않았으며 사람의 독립
-          청취 검수와 화자·세션 분리가 필요합니다.
+        <div class="references spaced">
           <a
-            class="text-link"
+            href="https://github.com/jhparktime/TURST-YOUR-EARS#데이터-계약"
+            target="_blank"
+            rel="noopener"
+            >공개 입력·비공개 정답 형식과 데이터 검수 규칙 <span>↗</span></a
+          ><a
             href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/server/scoring.py"
             target="_blank"
             rel="noopener"
-            >채점 코드 보기 ↗</a
+            >웹·로컬 공통 채점 코드 <span>↗</span></a
           >
-        </p>
+        </div>
       </section>
 
       <section class="page" data-page="submit" hidden>
@@ -628,7 +647,9 @@ toy-002,박지훈이 한빛전자 회의를 진행합니다.</pre
               </div>
               <div id="result-empty">
                 <div class="result-placeholder">—<span>MACRO CER</span></div>
-                <p>채점 후 문맥 조건별 CER과 이름 진단 지표가 표시됩니다.</p>
+                <p>
+                  채점 후 초안 조건별 CER, 개선폭, 복원·훼손 지표가 표시됩니다.
+                </p>
               </div>
               <div id="result-content" hidden></div>
             </div>
@@ -669,8 +690,9 @@ toy-002,박지훈이 한빛전자 회의를 진행합니다.</pre
           </button>
         </div>
         <p class="intro">
-          팀별 최고 제출물을 Macro CER 오름차순으로 정렬합니다. 이름 정확도와
-          오답 문맥 수용률을 함께 보고, 정확한 동점은 공동 순위로 표시합니다.
+          팀별 최고 제출물을 Macro CER 오름차순으로 정렬합니다. 초안 대비
+          개선폭과 오류 복원·정상 구간 훼손을 함께 보고, 정확한 동점은 공동
+          순위로 표시합니다.
         </p>
         <div id="leaderboard-mode" class="status" role="status">
           평가 상태 확인 중…
@@ -686,8 +708,8 @@ toy-002,박지훈이 한빛전자 회의를 진행합니다.</pre
         </div>
         <p class="fine">
           낮을수록 좋은 지표는 ↓, 높을수록 좋은 지표는 ↑로 표시합니다. N/A는
-          평가 주석이 없다는 뜻입니다. 샌드박스 점수는 모델 성능이나 공식 대회
-          결과가 아닙니다.
+          해당 지표의 분모가 0이라는 뜻입니다. 샌드박스 점수는 모델 성능이나
+          공식 대회 결과가 아닙니다.
         </p>
       </section>
 
@@ -697,16 +719,16 @@ toy-002,박지훈이 한빛전자 회의를 진행합니다.</pre
           더 정확한 인식에서<br /><em>더 좋은 질문으로.</em>
         </h1>
         <p class="intro">
-          한국어 문맥 기반 음성인식, 평가 데이터 설계, 음향 검증을 함께 논의하는
-          연구 발표를 준비합니다.
+          한국어 전사 교정, 평가 데이터 설계, 음향 검증을 함께 논의하는 연구
+          발표를 준비합니다.
         </p>
         <div class="split">
           <article class="panel">
             <h2>발표와 토론 주제</h2>
             <ul class="plain-list">
-              <li>부분적으로 틀린 참고자료와 선택적 교정</li>
+              <li>틀린 전사 초안의 선택적 교정과 과잉 수정</li>
               <li>한국어 고유명사·조사·영문 혼용 평가</li>
-              <li>음성 품질에 따른 문맥 의존도 변화</li>
+              <li>텍스트만으로 교정 가능한 오류와 음성이 필요한 오류</li>
               <li>수정 전 음향 검증과 신뢰도 추정</li>
               <li>데이터 누출과 재현 가능한 리더보드</li>
             </ul>
@@ -740,7 +762,9 @@ toy-002,박지훈이 한빛전자 회의를 진행합니다.</pre
           height="40"
           alt=""
         /><span class="footer-wordmark"
-          >Trust Your Ears<small>Listen first. Verify the context.</small></span
+          >Trust Your Ears<small
+            >Listen first. Correct with evidence.</small
+          ></span
         ></a
       >
       <div>
@@ -749,7 +773,7 @@ toy-002,박지훈이 한빛전자 회의를 진행합니다.</pre
           target="_blank"
           rel="noopener"
           >GitHub ↗</a
-        ><a href="#data">평가 규칙</a><span>Korean ASR · 준비 중</span>
+        ><a href="#data">평가 규칙</a><span>Korean correction · 준비 중</span>
       </div>
     </footer>
     <noscript

@@ -1,0 +1,35 @@
+{
+  "name": "Korean correction pipeline · 6 text-only fixtures",
+  "items": [
+    {
+      "id": "toy-001",
+      "audio": null,
+      "draft": "김민서가 네오젠 실적을 발표합니다."
+    },
+    {
+      "id": "toy-002",
+      "audio": null,
+      "draft": "박지훈이 한빛전자 회의를 진행합니다."
+    },
+    {
+      "id": "toy-003",
+      "audio": null,
+      "draft": "김민수가 네오젠 실적을 발표합니다."
+    },
+    {
+      "id": "toy-004",
+      "audio": null,
+      "draft": "박지환이 한빛전자 회의를 진행합니다."
+    },
+    {
+      "id": "toy-005",
+      "audio": null,
+      "draft": "김민수가 네오진 실적을 발표합니다."
+    },
+    {
+      "id": "toy-006",
+      "audio": null,
+      "draft": "박지환이 한빛전기 회의를 진행합니다."
+    }
+  ]
+}

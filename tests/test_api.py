@@ -21,10 +21,11 @@ def test_end_to_end(client):
     response = post(client)
     assert response.status_code == 200
     data = response.json()
-    assert data['macro_cer'] == pytest.approx(100/62)
-    assert data['conditions']['misleading']['cer'] == pytest.approx(100/31)
-    assert data['entity_accuracy'] == 87.5
-    assert data['mixed_accuracy'] == 50
+    assert data['macro_cer'] == pytest.approx(200/31)
+    assert data['conditions']['multiple']['cer'] == pytest.approx(400/31)
+    assert data['restoration_rate'] == 0
+    assert data['harmful_edit_rate'] == 0
+    assert data['cer_improvement_pp'] == 0
     assert 'reference' not in data
     assert post(client).json()['reused'] is True
     history = client.get('/api/submissions', headers={'Authorization': 'Bearer demo-team-key'}).json()
@@ -102,13 +103,32 @@ def test_old_scoring_namespace_is_excluded(tmp_path):
     with connect(tmp_path / 'scores.sqlite3') as db:
         db.execute('INSERT INTO submissions VALUES (?, ?, ?, ?, ?, ?)', ('old', 'demo', old_namespace, '2020-01-01', 'old-digest', '{"macro_wer":0}'))
     assert client.get('/api/leaderboard').json()['entries'] == []
-    assert client.get('/api/health').json()['scorer'] == 'ko-cer-v1'
+    assert client.get('/api/health').json()['scorer'] == 'ko-correction-v1'
 
 
 def test_manifest_conditions_checked(tmp_path):
     manifest = json.loads((ROOT / 'examples/demo-references.json').read_text())
-    manifest['conditions'] = ['helpful']
+    manifest['conditions'] = ['clean']
     path = tmp_path / 'refs.json'
     path.write_text(json.dumps(manifest))
     with pytest.raises(RuntimeError, match='Declared conditions'):
+        create_app(data_dir=tmp_path, reference_path=path, demo=True)
+
+
+def test_incomplete_conditions_rejected(tmp_path):
+    manifest = json.loads((ROOT / 'examples/demo-references.json').read_text())
+    manifest['items'] = [r for r in manifest['items'] if r['condition'] == 'clean']
+    manifest['conditions'] = ['clean']
+    path = tmp_path / 'refs.json'
+    path.write_text(json.dumps(manifest))
+    with pytest.raises(RuntimeError, match='requires clean, single and multiple'):
+        create_app(data_dir=tmp_path, reference_path=path, demo=True)
+
+
+def test_old_protocol_rejected(tmp_path):
+    manifest = json.loads((ROOT / 'examples/demo-references.json').read_text())
+    manifest['protocol'] = 'ko-cer-v1'
+    path = tmp_path / 'refs.json'
+    path.write_text(json.dumps(manifest))
+    with pytest.raises(RuntimeError, match='protocol'):
         create_app(data_dir=tmp_path, reference_path=path, demo=True)

@@ -1,22 +1,18 @@
 const $ = (id) => document.getElementById(id);
 const apiBase = (window.CHALLENGE_CONFIG?.apiBase || "").replace(/\/$/, "");
 const awaitingService = !apiBase && location.hostname.endsWith("github.io");
-const EXPECTED_SCORER = "ko-cer-v1";
+const EXPECTED_SCORER = "ko-correction-v1";
 let service = null,
   submitting = false,
   connecting = false,
   leaderboardRequest = 0;
 const percent = (n) => (n == null ? "N/A" : `${Number(n).toFixed(2)}%`);
 const dateText = (s) => new Date(s).toLocaleString("ko-KR");
-const names = {
-  helpful: "도움",
-  partially_wrong: "부분 오류",
-  misleading: "오류",
-  irrelevant: "무관",
-  no_context: "문맥 없음",
-};
+const names = { clean: "무오류", single: "오류 1곳", multiple: "오류 2–4곳" };
+const points = (n) =>
+  n == null ? "N/A" : `${n > 0 ? "+" : ""}${Number(n).toFixed(2)}%p`;
 const titles = {
-  home: "한국어 ASR 챌린지",
+  home: "한국어 전사 교정 챌린지",
   challenge: "챌린지",
   data: "데이터·평가",
   submit: "제출",
@@ -176,23 +172,27 @@ function showResult(result) {
     );
   });
   const details = element("details", undefined, "result-details");
-  details.append(element("summary", "이름 진단 및 보조 지표"));
+  details.append(element("summary", "교정·보존 및 보조 지표"));
+  details.append(resultRow("초안 Macro CER", percent(result.draft_macro_cer)));
+  details.append(
+    resultRow("초안 대비 개선폭 ↑", points(result.cer_improvement_pp)),
+  );
   details.append(
     resultRow(
-      `핵심 개체 정확도 ↑ (${result.entity_total}개)`,
-      percent(result.entity_accuracy),
+      `오류 구간 복원률 ↑ (${result.edit_total}곳)`,
+      percent(result.restoration_rate),
     ),
   );
   details.append(
     resultRow(
-      `오답 문맥 수용률 ↓ (${result.wrong_total}개)`,
-      percent(result.wrong_context_rate),
+      `정상 구간 훼손률 ↓ (${result.preserved_total}문자)`,
+      percent(result.harmful_edit_rate),
     ),
   );
   details.append(
     resultRow(
-      `부분 오류 동시 정답률 ↑ (${result.mixed_total}개)`,
-      percent(result.mixed_accuracy),
+      `무오류 초안 변경률 ↓ (${result.clean_total}발화)`,
+      percent(result.clean_change_rate),
     ),
   );
   details.append(resultRow("최악 조건 CER ↓", percent(result.worst_cer)));
@@ -202,7 +202,7 @@ function showResult(result) {
     details,
     element(
       "p",
-      `${result.utterances}개 입력 · ${result.scorer} · N/A: 평가 주석 없음`,
+      `${result.utterances}개 입력 · ${result.scorer} · N/A: 해당 지표의 분모가 0`,
       "fine",
     ),
   );
@@ -363,9 +363,10 @@ async function loadLeaderboard() {
               "순위",
               "팀",
               "MACRO CER ↓",
-              "이름 정확도 ↑",
-              "오답 수용률 ↓",
-              "부분 오류 정답률 ↑",
+              "개선폭 ↑",
+              "오류 복원률 ↑",
+              "정상 구간 훼손률 ↓",
+              "무오류 변경률 ↓",
               "최악 CER ↓",
               "제출 시각",
             ],
@@ -373,9 +374,10 @@ async function loadLeaderboard() {
               String(r.rank).padStart(2, "0"),
               r.team,
               percent(r.macro_cer),
-              percent(r.entity_accuracy),
-              percent(r.wrong_context_rate),
-              percent(r.mixed_accuracy),
+              points(r.cer_improvement_pp),
+              percent(r.restoration_rate),
+              percent(r.harmful_edit_rate),
+              percent(r.clean_change_rate),
               percent(r.worst_cer),
               dateText(r.created),
             ]),
@@ -406,29 +408,23 @@ for (let i = 0; i < 63; i++) {
   wave.append(bar);
 }
 const contexts = {
-  helpful: [
-    "김민서 · 네오젠",
-    "두 이름 모두 정확합니다.",
-    "올바른 단서를 활용하세요.",
-    "참고자료의 이름이 실제 발화와 일치합니다.",
+  clean: [
+    "김민서가 네오젠 실적을 발표합니다.",
+    "초안이 실제 발화와 같습니다.",
+    "그대로 유지하세요.",
+    "맞는 전사를 불필요하게 고치지 않는 것도 과제입니다.",
   ],
-  partially_wrong: [
-    "김민수 · 네오젠",
-    "회사명은 맞지만 이름은 틀립니다.",
-    "정보별로 판단하세요.",
-    "네오젠은 활용하되, 김민수로 바꾸지 않아야 합니다.",
+  single: [
+    "김민수가 네오젠 실적을 발표합니다.",
+    "이름 한 곳을 비슷한 표현으로 바꾼 초안입니다.",
+    "김민수 → 김민서",
+    "음성을 근거로 이름만 고치고 나머지 표현은 보존합니다.",
   ],
-  misleading: [
-    "김민수 · 네오진",
-    "두 이름 모두 잘못되었습니다.",
-    "음향적 근거를 확인하세요.",
-    "자료의 오답 대신 실제 발화의 김민서와 네오젠을 지켜야 합니다.",
-  ],
-  irrelevant: [
-    "이서연 · 다온테크",
-    "다른 회의의 자료입니다.",
-    "필요 없는 문맥은 버리세요.",
-    "자료에 나온 이름을 음성에 없는 내용으로 추가하지 않아야 합니다.",
+  multiple: [
+    "김민수가 네오진 실적을 발표합니다.",
+    "서로 떨어진 두 구간에 오류가 있습니다.",
+    "김민수 → 김민서 · 네오진 → 네오젠",
+    "두 오류를 모두 복원하고 실제 발화와 같은 전체 문장을 출력합니다.",
   ],
 };
 document.querySelectorAll("[data-context]").forEach((button) =>

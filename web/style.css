@@ -692,3 +692,51 @@ footer {
     color: black;
   }
 }
+
+.header-tools {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  flex-shrink: 0;
+}
+.language-switch {
+  white-space: nowrap;
+  font-size: 12px;
+  color: var(--muted);
+}
+.language-switch button {
+  padding: 2px 3px;
+  border: 0;
+  background: transparent;
+  color: var(--link);
+  font: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.language-switch button[aria-pressed="true"] {
+  color: var(--accent);
+  font-weight: bold;
+  text-decoration: none;
+}
+html[lang="en"] h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  letter-spacing: -0.3px;
+}
+@media (max-width: 600px) {
+  .masthead-line {
+    flex-wrap: wrap;
+    gap: 9px;
+  }
+  .header-tools {
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+    width: 100%;
+    gap: 12px;
+  }
+  .language-switch button {
+    padding: 6px 3px;
+  }
+}

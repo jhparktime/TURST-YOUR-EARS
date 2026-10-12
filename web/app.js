@@ -400,13 +400,6 @@ async function loadLeaderboard() {
   }
 }
 $("refresh-leaderboard").addEventListener("click", loadLeaderboard);
-const wave = document.querySelector(".wave");
-for (let i = 0; i < 63; i++) {
-  const bar = document.createElement("i");
-  bar.style.height = `${5 + Math.sin((Math.PI * i) / 62) * (12 + Math.abs(Math.sin(i * 1.73)) * 53)}px`;
-  if (i > 36 && i < 49) bar.style.background = "#9eb777";
-  wave.append(bar);
-}
 const contexts = {
   clean: [
     "김민서가 네오젠 실적을 발표합니다.",

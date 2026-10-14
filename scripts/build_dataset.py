@@ -23,13 +23,16 @@ from server.scoring import VERSION, normalize, score, validate_manifest
 REVISION = '70bb2e84b976b7e960aa89f1c648e09c59f894dd'
 BASE = f'https://huggingface.co/datasets/google/fleurs/resolve/{REVISION}/data/ko_kr'
 ARCHIVE_HASHES = {
+    'train': '985d45a1ab3967f6851761bac8f7f325360eba3381ffed96f9ce920d3c24e9d9',
     'dev': '496edcb5323e75b4a2830f5b5623684a0baf86d3728101853fd4fe503372157c',
     'test': '3489e529f2aad18d3357b746c5f955941d258b79dc60d8a102d5bced2a223184',
 }
 TSV_HASHES = {
+    'train': '5a943f1fdbb8534c09ac8a81d94418c0f04b030d56a1485ec72f57a9a34d7a58',
     'dev': '6b236de107c6a1672233f6d710d26adfdb55570a3e6e35aca9dc4ff2be01cea4',
     'test': 'cf2f7c8765f6203e3c46ef620d5e936d3f331b6e8865455557777dd1347517f5',
 }
+ARCHIVE_BYTES = {'train':1420236944,'dev':126162634,'test':214425558}
 PARTICLES = {'', '은', '는', '이', '가', '을', '를', '에', '의', '와', '과', '도', '만', '에서',
              '에게', '에는', '에도', '으로', '로', '보다', '처럼', '부터', '까지', '마다', '이며',
              '이고', '이라', '이다', '입니다', '이었다', '이었습니다', '이지만', '들이', '들은',
@@ -54,9 +57,31 @@ def fetch(cache, split, audio=False):
     if not path.exists():
         temporary = path.with_suffix(path.suffix + '.part')
         url = f'{BASE}/audio/{name}' if audio else f'{BASE}/{name}'
-        with urllib.request.urlopen(url, timeout=90) as response, temporary.open('wb') as stream:
-            while chunk := response.read(1024 * 1024):
-                stream.write(chunk)
+        if audio:
+            # Bounded range requests avoid silently accepting a truncated large
+            # response. Interrupted downloads resume; the full digest gates use.
+            expected_size=ARCHIVE_BYTES[split]
+            while not temporary.exists() or temporary.stat().st_size<expected_size:
+                start=temporary.stat().st_size if temporary.exists() else 0
+                end=min(start+16*1024*1024,expected_size)-1
+                for attempt in range(3):
+                    try:
+                        request=urllib.request.Request(url,headers={'Range':f'bytes={start}-{end}'})
+                        with urllib.request.urlopen(request,timeout=90) as response:
+                            if response.status!=206 or response.headers.get('Content-Range')!=f'bytes {start}-{end}/{expected_size}':
+                                raise ValueError('Source server returned an unexpected byte range.')
+                            payload=response.read(end-start+1)
+                        if len(payload)!=end-start+1:
+                            raise ValueError('Source server truncated a byte range.')
+                        with temporary.open('ab') as stream:stream.write(payload)
+                        break
+                    except (OSError,ValueError):
+                        if attempt==2:raise
+        else:
+            with urllib.request.urlopen(url, timeout=90) as response, temporary.open('wb') as stream:
+                while chunk := response.read(1024 * 1024):stream.write(chunk)
+        if digest(temporary) != (ARCHIVE_HASHES if audio else TSV_HASHES)[split]:
+            raise ValueError(f'Downloaded source checksum mismatch: {temporary}')
         temporary.replace(path)
     if digest(path) != (ARCHIVE_HASHES if audio else TSV_HASHES)[split]:
         raise ValueError(f'Archive checksum mismatch: {path}')
@@ -80,7 +105,7 @@ def load_pairs(path):
     return mapping
 
 
-def candidates(text, mapping):
+def candidates(text, mapping, avoid_zero=False):
     found = []
     # Match entire noun stems plus a conservative list of particles, not substrings
     # inside unknown compounds or verbs. Numbers change value, never notation only.
@@ -92,6 +117,7 @@ def candidates(text, mapping):
             if token.end() < len(text) and text[token.end()] == '.':
                 continue
             replacement = str(int(word) + (1 if int(word) % 2 == 0 else -1))
+            if avoid_zero and word=='1':replacement='2'
             if len(replacement) != len(word):
                 continue
             found.append({'start':token.start(), 'end':token.end(), 'replacement':replacement, 'type':'number_value'})
@@ -122,7 +148,7 @@ def valid_edits(reference, options, count, rng):
     return None
 
 
-def source_rows(tsv, mapping, seed):
+def source_rows(tsv, mapping, seed, relaxed=False):
     selected, seen_ids, seen_text = [], set(), set()
     rows = [line.split('\t') for line in tsv.read_text(encoding='utf-8').splitlines()]
     random.Random(seed).shuffle(rows)
@@ -135,11 +161,12 @@ def source_rows(tsv, mapping, seed):
         key = normalize(text)
         if ident in seen_ids or key in seen_text:
             rejected['repeated_sentence'] += 1; continue
-        if not re.fullmatch(r'[가-힣0-9 .,!?%\-]+', text) or not 35 <= len(key) <= 180:
+        language_ok = (sum('가'<=c<='힣' for c in text) / max(1,sum(c.isalpha() for c in text))>=0.8) if relaxed else bool(re.fullmatch(r'[가-힣0-9 .,!?%\-]+', text))
+        if not language_ok or not (25 if relaxed else 35) <= len(key) <= 180:
             rejected['text_filter'] += 1; continue
         if not 4 <= int(samples) / 16000 <= 20:
             rejected['duration_filter'] += 1; continue
-        options = candidates(text, mapping)
+        options = candidates(text, mapping, avoid_zero=relaxed)
         # All three conditions come from the same two-error-eligible population.
         one = valid_edits(text, options, 1, random.Random(f'{seed}:{filename}:1'))
         two = valid_edits(text, options, 2, random.Random(f'{seed}:{filename}:2'))
@@ -255,7 +282,7 @@ def build(cache, output, private, lexicon, dev_count, eval_count, seed):
         write_json(public/'audio-checksums.json',{row['id']:row['audio_sha256'] for row,_ in chosen})
     write_json(private/'provenance.json',provenance)
     write_review_materials(output,private,provenance)
-    metadata={'name':'tye-fleurs-ko-v1','status':'pilot_pending_independent_listening','protocol':VERSION,'source':'google/fleurs','source_revision':REVISION,'language':'ko_kr','license':'CC-BY-4.0','seed':seed,'lexicon_sha256':digest(lexicon),'source_tsv_sha256':{s:digest(cache/f'{s}.tsv') for s in ('dev','test')},'source_archive_sha256':ARCHIVE_HASHES,'eligible_source_rows':{s:len(p) for s,p in pools.items()},'rejected':rejects,'splits':summary,'speaker_disjointness':'unverified: source TSV has no speaker identifiers; dev/test speakers may overlap','reference_policy':'Upstream normalized transcription, NFC only; not independently verified by our team','audio_policy':'Original 16 kHz WAV files copied byte-for-byte; no resampling or quantization','split_policy':'Official dev/test partitions; distinct sentence IDs, normalized texts (cross-split similarity < 0.85), and audio checksums; one recording per source sentence'}
+    metadata={'name':'tye-fleurs-ko-v1','status':'pilot_pending_independent_listening','protocol':VERSION,'source':'google/fleurs','source_revision':REVISION,'language':'ko_kr','license':'CC-BY-4.0','seed':seed,'lexicon_sha256':digest(lexicon),'source_tsv_sha256':{s:digest(cache/f'{s}.tsv') for s in ('dev','test')},'source_archive_sha256':{s:ARCHIVE_HASHES[s] for s in ('dev','test')},'eligible_source_rows':{s:len(p) for s,p in pools.items()},'rejected':rejects,'splits':summary,'speaker_disjointness':'unverified: source TSV has no speaker identifiers; dev/test speakers may overlap','reference_policy':'Upstream normalized transcription, NFC only; not independently verified by our team','audio_policy':'Original 16 kHz WAV files copied byte-for-byte; no resampling or quantization','split_policy':'Official dev/test partitions; distinct sentence IDs, normalized texts (cross-split similarity < 0.85), and audio checksums; one recording per source sentence'}
     write_json(output/'metadata.json',metadata)
     return metadata
 

@@ -1,0 +1,71 @@
+{
+  "name": "tye-ko-v2",
+  "status": "frozen_automatic_crosscheck",
+  "protocol": "ko-correction-v1",
+  "seed": 20261015,
+  "source": "google/fleurs",
+  "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+  "language": "ko_kr",
+  "license": "CC-BY-4.0",
+  "source_tsv_sha256": {
+    "train": "5a943f1fdbb8534c09ac8a81d94418c0f04b030d56a1485ec72f57a9a34d7a58",
+    "dev": "6b236de107c6a1672233f6d710d26adfdb55570a3e6e35aca9dc4ff2be01cea4",
+    "test": "cf2f7c8765f6203e3c46ef620d5e936d3f331b6e8865455557777dd1347517f5"
+  },
+  "source_archive_sha256": {
+    "train": "985d45a1ab3967f6851761bac8f7f325360eba3381ffed96f9ce920d3c24e9d9",
+    "dev": "496edcb5323e75b4a2830f5b5623684a0baf86d3728101853fd4fe503372157c",
+    "test": "3489e529f2aad18d3357b746c5f955941d258b79dc60d8a102d5bced2a223184"
+  },
+  "lexicon_sha256": "a211452354e0d27d5f11ccc75abe243e9e04bf88292fc487d41b11e3ae9e6198",
+  "splits": {
+    "dev": {
+      "utterances": 60,
+      "conditions": {
+        "clean": 20,
+        "multiple": 20,
+        "single": 20
+      },
+      "duration_seconds": 760.62,
+      "source_splits": {
+        "train": 60
+      },
+      "gender": {
+        "MALE": 23,
+        "FEMALE": 37
+      },
+      "inputs_sha256": "1457dc7ffd5b501ba8d20b251425ef87b172251c3a92eea92ee828b615e74af3",
+      "copy_macro_cer": 2.9778315452123993
+    },
+    "eval": {
+      "utterances": 60,
+      "conditions": {
+        "clean": 20,
+        "multiple": 20,
+        "single": 20
+      },
+      "duration_seconds": 777.0,
+      "source_splits": {
+        "test": 39,
+        "dev": 21
+      },
+      "gender": {
+        "MALE": 45,
+        "FEMALE": 15
+      },
+      "inputs_sha256": "8389e7ccdaa991170669ac88ad1893a7c0c430a51bc20e3a59953d5608a8a212",
+      "copy_macro_cer": 2.9561102284181575
+    }
+  },
+  "speaker_disjointness": "Inherited train vs dev/test speaker separation stated by the upstream dataset card; not independently identity-verified.",
+  "speaker_policy_source": "https://huggingface.co/datasets/google/fleurs/blob/70bb2e84b976b7e960aa89f1c648e09c59f894dd/README.md",
+  "reference_policy": "Upstream normalized transcription, NFC only, unchanged. Blind ASR corroborates injected spans; candidate ASR CER <=10%; human listening not performed.",
+  "audio_policy": "Original 16 kHz mono WAV copied byte-for-byte.",
+  "split_policy": "Source train -> development; source dev/test -> evaluation; one recording per source sentence; IDs/text/audio disjoint; cross-split text similarity <0.85.",
+  "corruption_policy": "Clean=0, Single=1, Multiple=2 annotated substitutions; balanced duration blocks; same two-edit-eligible population.",
+  "human_listening_review": "not_performed",
+  "qa_selection_bias": true,
+  "previous_release_overlap": "Evaluation excludes all v1 source sentence IDs, audio hashes and text similarity >=0.85.",
+  "candidate_plan_sha256": "a5dd3beedb21ca9544d88bd42a76187d58adb4ce0ab3fd178a9fdc325af2c990",
+  "evaluation_references_sha256": "054173fa77960b52e7cbbabc4887c8ea6470eb2f9d92f3df506ff4ddbc5b1dea"
+}

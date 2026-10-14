@@ -10,10 +10,10 @@
     <meta name="theme-color" content="#702c35" />
     <title>Trust Your Ears · 한국어 전사 교정 챌린지</title>
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="style.css?v=20261015-dataset-r1" />
-    <script src="config.js?v=20261015-dataset-r1" defer></script>
-    <script src="i18n.js?v=20261015-dataset-r1" defer></script>
-    <script src="app.js?v=20261015-dataset-r1" defer></script>
+    <link rel="stylesheet" href="style.css?v=20261015-final-v2" />
+    <script src="config.js?v=20261015-final-v2" defer></script>
+    <script src="i18n.js?v=20261015-final-v2" defer></script>
+    <script src="app.js?v=20261015-final-v2" defer></script>
   </head>
   <body>
     <a class="skip" href="#main" data-i18n="text001">본문으로 건너뛰기</a>
@@ -199,9 +199,9 @@
             </li>
           </ul>
           <p class="release-note" data-i18n="text044">
-            실제 한국어 음성 105개로 구성한 합성 오류 파일럿을 공개했습니다.
-            독립 청취 검수, 실제 모델 결과, 온라인 채점 서버 연결은 아직 남아
-            있습니다.
+            한국어 음성 120개를 포함한 최종 데이터 v2를 공개했습니다.
+            자동 교차 검증과 파일 무결성 검사를 거쳤습니다. 교정 모델 실험과
+            온라인 채점 서버 연결은 별도 진행 사항입니다.
           </p>
         </section>
 
@@ -391,50 +391,56 @@
         <section class="page" data-page="data" hidden>
           <h1 class="page-title" data-i18n="text096">데이터와 평가</h1>
           <p class="intro" data-i18n="text097">
-            FLEURS 한국어 원본 음성을 유지하고 전사 초안에만 치환 오류를
-            주입했습니다. 개발 30개·평가 75개의 실제 음성을 포함하며, 독립 청취
-            검수 전 파일럿입니다.
+            최종 데이터 v2는 FLEURS 한국어 실제 음성 120개로 구성했습니다.
+            개발 60개·평가 60개이며, 원본 음성과 정답 전사는 유지하고
+            전사 초안에만 치환 오류를 주입했습니다.
           </p>
-          <h2 data-i18n="datasetHeading">한국어 합성 오류 파일럿</h2>
+          <h2 data-i18n="datasetHeading">한국어 교정 데이터 v2</h2>
           <p data-i18n="datasetDetails">
-            개발셋은 조건별 10개, 평가셋은 조건별 25개입니다. 무오류·오류
-            1곳·오류 2곳을 비교하며 전체 음성 길이는 약 23분 52초입니다. 원본
-            WAV는 변환하지 않았습니다.
+            개발·평가 각각 무오류·오류 1곳·오류 2곳을 20개씩 포함합니다.
+            전체 음성은 약 25분 38초입니다. 평가셋은 v1에 사용한 문장과
+            겹치지 않으며, 원천의 train 대 dev/test 화자 분리를 따릅니다.
           </p>
           <p class="section-links" data-i18n="datasetLinks">
             <a
-              href="https://github.com/jhparktime/TURST-YOUR-EARS/tree/main/datasets/tye-fleurs-ko-v1"
+              href="https://github.com/jhparktime/TURST-YOUR-EARS/tree/main/datasets/tye-ko-v2"
               target="_blank"
               rel="noopener"
               >음성·입력 데이터</a
             >
             /
             <a
-              href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/datasets/tye-fleurs-ko-v1/README.md"
+              href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/datasets/tye-ko-v2/README.md"
               target="_blank"
               rel="noopener"
               >출처·라이선스·데이터 카드</a
             >
             /
             <a
-              href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/scripts/build_dataset.py"
+              href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/scripts/build_final_dataset.py"
               target="_blank"
               rel="noopener"
               >생성 코드</a
             >
             /
             <a
-              href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/datasets/tye-fleurs-ko-v1/eval/copy-draft.csv"
+              href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/datasets/tye-ko-v2/eval/copy-draft.csv"
               target="_blank"
               rel="noopener"
               >평가셋 CSV 예시</a
             >
           </p>
+          <p class="section-links" data-i18n="datasetDownloads">
+            <a href="https://github.com/jhparktime/TURST-YOUR-EARS/releases/download/dataset-v2.0.0/trust-your-ears-korean-v2-public.zip">전체 데이터 ZIP</a> /
+            <a href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/datasets/tye-ko-v2/quality-report.json" target="_blank" rel="noopener">검증 보고서</a> /
+            <a href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/datasets/tye-ko-v2/release-lock.json" target="_blank" rel="noopener">고정 파일 목록·해시</a>
+          </p>
           <p class="note" data-i18n="datasetLimits">
-            원천은 CC BY 4.0의 Google FLEURS입니다. 원본 전사의 청취 검수와 화자
-            분리 확인은 완료되지 않았습니다. 평가 정답·원천 대응표는 공개 입력과
-            분리했습니다. 공개 원문과 생성 코드로 정답을 재현할 수 있으므로
-            완전히 비밀인 평가셋은 아닙니다.
+            원천은 CC BY 4.0의 Google FLEURS입니다. 정답은 원천 전사 그대로이며,
+            오류를 주입할 단어는 초안·정답을 제공하지 않은 음성 전사로 교차
+            확인했습니다. 사람의 청취 검수를 인증하는 데이터는 아닙니다.
+            검증 모델에 따른 선택 편향과 공개 원문 조회 가능성은 남아 있으며,
+            평가 정답·원천 대응표는 공개 파일과 분리했습니다.
           </p>
           <div class="split">
             <article class="panel">
@@ -467,10 +473,10 @@ toy-002,박지훈이 한빛전자 회의를 진행합니다.</pre
                   이용 조건을 확인한 음성·전사에서 발화를 선택합니다.
                 </li>
                 <li data-i18n="text104">
-                  음성을 독립적으로 듣고 정답 전사를 검수합니다.
+                  블라인드 음성 전사로 전체 불일치와 주입할 단어를 검사합니다.
                 </li>
                 <li data-i18n="text105">
-                  화자·세션 기준으로 개발·평가를 나눈 뒤 초안을 만듭니다.
+                  원천 train 대 dev/test 분리를 따르고 이전 공개 문장을 평가에서 제외합니다.
                 </li>
                 <li data-i18n="text106">
                   정답은 유지하고, 치환 위치와 바꾼 표현을 기록합니다.
@@ -481,7 +487,7 @@ toy-002,박지훈이 한빛전자 회의를 진행합니다.</pre
               </ol>
               <p class="fine" data-i18n="text108">
                 발화를 새로 녹음하거나 모든 문장을 직접 작성할 필요는 없습니다.
-                규모는 파일럿 난도와 검수 가능량을 보고 확정합니다.
+                v2는 120개로 고정했으며, 추가 청취 검수표도 운영자에게 제공합니다.
               </p>
             </article>
           </div>

@@ -1,0 +1,35 @@
+{
+  "method": "Upstream references unchanged; blind ASR CER <=10%; at least two eligible injection spans corroborated verbatim by aligned ASR.",
+  "model": "mlx-community/whisper-large-v3-turbo",
+  "revision": "a4aaeec0636e6fef84abdcbe3544cb2bf7e9f6fb",
+  "initial_prompt": null,
+  "draft_access": false,
+  "reference_access": false,
+  "max_candidate_asr_cer": 10.0,
+  "source_candidate_counts": {
+    "train": {
+      "candidates": 180,
+      "exact_agreement": 96,
+      "admitted": 160,
+      "excluded_qa": 20
+    },
+    "dev": {
+      "candidates": 32,
+      "exact_agreement": 12,
+      "admitted": 26,
+      "excluded_qa": 6
+    },
+    "test": {
+      "candidates": 66,
+      "exact_agreement": 30,
+      "admitted": 49,
+      "excluded_qa": 17
+    }
+  },
+  "selected_span_corroboration": {
+    "dev": 60,
+    "eval": 60
+  },
+  "human_listening_review": "not_performed",
+  "selection_bias": "Candidates were screened using this ASR model. Audio-only scores are measured diagnostics, not unbiased benchmark performance or human listening certification."
+}

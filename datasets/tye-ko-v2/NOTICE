@@ -1,0 +1,11 @@
+Trust Your Ears Korean Correction v2
+Source: Google FLEURS, Korean ko_kr, Conneau et al. (2022).
+Authors: Alexis Conneau, Min Ma, Simran Khanuja, Yu Zhang, Vera Axelrod,
+Siddharth Dalmia, Jason Riesa, Clara Rivera, Ankur Bapna.
+Source: https://huggingface.co/datasets/google/fleurs
+Paper: https://arxiv.org/abs/2205.12446
+License: Creative Commons Attribution 4.0 International (CC BY 4.0)
+https://creativecommons.org/licenses/by/4.0/
+Changes: selected recordings; retained original audio/reference; synthesized
+transcript draft substitutions and annotations; added split and QA metadata.
+No endorsement by the source authors is implied.

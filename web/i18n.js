@@ -49,7 +49,7 @@
     text043:
       '<a href="assets/sample-submission.csv" download>Sample submission</a>: a six-row software test fixture without audio',
     text044:
-      "A synthetic-error pilot with 105 real Korean recordings is now available. Independent listening review, measured model results and the online scoring service are still pending.",
+      "Dataset v2 is released with 120 real Korean recordings and automatic cross-checks. Correction-model experiments and connection to an online scoring service are separate work items.",
     text045: "Challenge",
     text046:
       "Trust Your Ears takes Korean audio and a potentially erroneous transcript draft as input and returns a complete transcript matching the utterance. It is a transcript correction task using both audio and text.",
@@ -114,7 +114,7 @@
     text095: "Qwen2.5-Omni · Model & terms of use <span>↗</span>",
     text096: "Data & Evaluation",
     text097:
-      "We retain original Korean FLEURS audio and inject substitutions only into transcript drafts. The pilot includes 30 development and 75 evaluation recordings. Independent listening review is pending.",
+      "Dataset v2 contains 120 real Korean FLEURS recordings: 60 development and 60 evaluation utterances. Original audio and references are unchanged; substitutions are injected only into drafts.",
     text098: "Submission File",
     text099:
       "Use a UTF-8 CSV with the columns <code>id,prediction</code>. Include every evaluation ID exactly once and provide the complete corrected transcript.",
@@ -124,14 +124,14 @@
     text102: "Dataset Construction",
     text103:
       "Select utterances from audio–transcript sources with verified usage terms.",
-    text104: "Listen independently to verify the reference transcripts.",
+    text104: "Use blind audio transcription to screen gross mismatches and corroborate injection targets.",
     text105:
-      "Split development and evaluation data by speaker and session before creating drafts.",
+      "Follow source train versus dev/test separation and exclude previously released sentences from evaluation.",
     text106:
       "Keep references unchanged and record substituted spans and replacement expressions.",
     text107: "Distribute public inputs separately from private references.",
     text108:
-      "New recordings and manually writing every sentence are not required. Dataset size will depend on pilot difficulty and feasible review capacity.",
+      "New recordings and manually writing every sentence are not required. Dataset v2 is fixed at 120 utterances; an additional listening-review sheet is supplied to organizers.",
     text109:
       "Public evaluation inputs contain only one draft per original audio file. Releasing both clean and corrupted variants of the same audio can reveal the reference through comparison. We separately document source lookup and pretraining contamination risks from reusing public corpora.",
     text110: "Korean Evaluation Protocol",
@@ -234,13 +234,14 @@
     text187: "Organizers & contact",
     text188: "To be announced before official evaluation",
     text189: "Trust Your Ears · 2026 Speech Recognition Course Project",
-    datasetHeading: "Korean Synthetic-error Pilot",
+    datasetHeading: "Korean Correction Dataset v2",
     datasetDetails:
-      "The development set has 10 utterances per condition; evaluation has 25 per condition. Conditions are Clean, one error and two errors. Total audio duration is about 23 minutes 52 seconds. Original WAV files are unchanged.",
+      "Each split contains 20 Clean, 20 one-error and 20 two-error utterances. Total audio duration is about 25 minutes 38 seconds. Evaluation excludes v1 source sentences and inherits upstream train versus dev/test speaker separation.",
     datasetLinks:
-      '<a href="https://github.com/jhparktime/TURST-YOUR-EARS/tree/main/datasets/tye-fleurs-ko-v1" target="_blank" rel="noopener">Audio & inputs</a> / <a href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/datasets/tye-fleurs-ko-v1/README.md" target="_blank" rel="noopener">Source, license & dataset card</a> / <a href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/scripts/build_dataset.py" target="_blank" rel="noopener">Generation code</a> / <a href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/datasets/tye-fleurs-ko-v1/eval/copy-draft.csv" target="_blank" rel="noopener">Evaluation CSV example</a>',
+      '<a href="https://github.com/jhparktime/TURST-YOUR-EARS/tree/main/datasets/tye-ko-v2" target="_blank" rel="noopener">Audio & inputs</a> / <a href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/datasets/tye-ko-v2/README.md" target="_blank" rel="noopener">Source, license & dataset card</a> / <a href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/scripts/build_final_dataset.py" target="_blank" rel="noopener">Generation code</a> / <a href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/datasets/tye-ko-v2/eval/copy-draft.csv" target="_blank" rel="noopener">Evaluation CSV example</a>',
+    datasetDownloads: '<a href="https://github.com/jhparktime/TURST-YOUR-EARS/releases/download/dataset-v2.0.0/trust-your-ears-korean-v2-public.zip">Full dataset ZIP</a> / <a href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/datasets/tye-ko-v2/quality-report.json" target="_blank" rel="noopener">Quality report</a> / <a href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/datasets/tye-ko-v2/release-lock.json" target="_blank" rel="noopener">Frozen files & hashes</a>',
     datasetLimits:
-      "Source: Google FLEURS, CC BY 4.0. Independent listening review and speaker separation have not been established. Evaluation references and source mappings are separate from public inputs. Public source transcripts and generation code permit reconstruction of the answers, so this is not a fully secret evaluation set.",
+      "Source: Google FLEURS, CC BY 4.0. References remain upstream transcripts; injection targets are corroborated by blind audio transcription. This does not certify human listening review. QA-model selection bias and public-source lookup remain possible. Evaluation references and source mappings are separate from public files.",
   };
   const attributes = {
     "Trust Your Ears 홈": "Trust Your Ears home",

@@ -6,7 +6,7 @@
 
 [웹사이트](https://jhparktime.github.io/TURST-YOUR-EARS/) · [베이스라인](scripts/baseline.py) · [채점 코드](server/scoring.py)
 
-**현재 상태:** 웹·채점 규격·베이스라인 실행 코드와 [실제 한국어 음성을 포함한 합성 오류 파일럿](datasets/tye-fleurs-ko-v1/README.md)을 제공합니다. 개발 30개·평가 75개이며 독립 청취 검수는 아직 남아 있습니다. 실제 모델 결과와 호스팅된 채점 서버 연결은 준비 전입니다. `examples/`의 6행은 별도의 음성 없는 소프트웨어 테스트 자료입니다. 저장소의 기존 `TURST-YOUR-EARS` 철자는 유지합니다.
+**현재 상태:** 웹·채점 규격·베이스라인 코드와 [최종 한국어 교정 데이터 v2](datasets/tye-ko-v2/README.md)를 제공합니다. 개발 60개·평가 60개이며 원천 전사와 주입 단어를 자동 교차 검증했습니다. 사람의 독립 청취 검수는 수행하지 않았습니다. 교정 모델 비교 실험과 호스팅된 채점 서버 연결은 별도 작업입니다. `examples/`의 6행은 음성 없는 소프트웨어 테스트 자료입니다.
 
 ## 과제 정의
 
@@ -92,14 +92,20 @@ python -m scripts.evaluate --references /data/dev/references.json --predictions 
 
 ## 평가용 음성 데이터
 
-[FLEURS 한국어 기반 파일럿](datasets/tye-fleurs-ko-v1/README.md)에 원본 WAV 105개와 합성 오류 초안이 있습니다. 개발 30개(조건별 10개), 평가 75개(조건별 25개), 총 약 23분 52초입니다. 음성·정답은 원천 자료를 유지하고 초안만 치환했습니다. CC BY 4.0 출처·변경 사항과 재현 절차를 데이터 카드에 기록했습니다.
+[최종 데이터 v2](datasets/tye-ko-v2/README.md)는 실제 음성 120개, 개발 60개·평가 60개이며 각 split은 Clean/Single/Multiple을 20개씩 포함합니다. 총 약 25분 38초입니다. 원천 train은 개발, dev/test는 평가에 사용해 원천 화자 분리 정책을 따릅니다. **평가에서는 v1에 공개한 모든 원본 문장·음성과 유사 전사를 제외**했습니다. v1은 이전 파일럿 기록이며 v2 결과와 혼합하지 않습니다.
 
-[구축 코드](scripts/build_dataset.py)와 [검증 코드](scripts/validate_dataset.py)를 제공합니다. 공개 개발 정답은 `datasets/tye-fleurs-ko-v1/dev/references.json`, 비공개 평가 정답과 검수표는 로컬 `private-data/tye-fleurs-ko-v1/`에 있습니다. 생성 코드와 원천은 공개되어 있으므로 원문 조회·사전학습 오염을 해결한 비밀 평가셋은 아닙니다. 독립 청취 검수와 화자 분리 확인은 완료되지 않았습니다.
+[최종 구축 코드](scripts/build_final_dataset.py), [블라인드 음성 전사 코드](scripts/transcribe_audio.py), [검증 코드](scripts/validate_dataset.py)를 제공합니다. 원천 공식 전사는 변경하지 않으며, 전사 CER 10% 이하이고 주입할 단어 두 곳 이상을 음성 전사로 확인한 후보에서 선별합니다. 전체 일치를 요구하지 않아 검증 모델의 0% CER을 보장하지 않습니다. 선택에 사용한 모델의 `audio-only-qa.scores.json`은 진단용 실측값이며 공정한 독립 비교 결과가 아닙니다.
+
+[전체 공개 ZIP](https://github.com/jhparktime/TURST-YOUR-EARS/releases/download/dataset-v2.0.0/trust-your-ears-korean-v2-public.zip)을 내려받을 수 있습니다. 공개 개발 정답은 `datasets/tye-ko-v2/dev/references.json`, 운영자용 평가 정답·전사 검증 출력·원천 대응표·추가 청취 검수표는 로컬 `private-data/tye-ko-v2/`에 있습니다. 원천·생성 코드가 공개되어 완전히 비밀인 테스트셋은 아닙니다. 사람의 독립 청취 검수는 수행하지 않았으며 원천 및 검증 모델의 공통 오류와 사전학습 오염 가능성이 남습니다.
 
 ```sh
 pip install -r requirements-dataset.txt
-python -m scripts.validate_dataset --private private-data/tye-fleurs-ko-v1
+python -m scripts.validate_dataset --dataset datasets/tye-ko-v2 --private private-data/tye-ko-v2 --source-cache /path/to/fleurs-cache
+python -m scripts.baseline --mode copy --inputs datasets/tye-ko-v2/eval/inputs.json --output /tmp/tye-v2-copy.csv
+python -m scripts.evaluate --references private-data/tye-ko-v2/eval-references.json --predictions /tmp/tye-v2-copy.csv
 ```
+
+웹 서버에서 이 최종셋을 채점할 때는 `REFERENCE_PATH`에 운영자용 `eval-references.json`의 절대 경로를 지정합니다. 사용법·CC BY 4.0 출처 표시·선별 편향·재현 방법은 데이터 카드와 검증 보고서에 기록했습니다.
 
 ## 데이터 계약
 
@@ -151,7 +157,7 @@ python -m scripts.validate_dataset --private private-data/tye-fleurs-ko-v1
 
 ## 평가 규격
 
-공통 구현: [`server/scoring.py`](server/scoring.py), **ko-correction-v1**. 파일럿 음성 데이터가 제공되며, 독립 청취 검수 후 정식 평가 전에 분할·조건별 수량·표기 기준·모델/외부 데이터 사용 규칙을 동결합니다.
+공통 구현: [`server/scoring.py`](server/scoring.py), **ko-correction-v1**. 데이터 v2의 분할·조건 수량·정답·주입 주석·파일 해시는 고정했습니다. 사람의 청취 검수 인증을 뜻하지 않습니다. 챌린지 운영 전 제출 기간과 모델/외부 데이터 사용 규칙을 공지하고, 추가 검수로 내용을 변경하면 새 데이터 버전으로 배포합니다.
 
 ### 정규화와 순위
 
@@ -216,4 +222,4 @@ API: `GET /api/health`, `GET /api/leaderboard`, 인증된 `GET/POST /api/submiss
 
 ## 과제 제출 준비 상태
 
-웹 설명·베이스라인 코드·평가 규격은 전사 교정으로 통일했습니다. 실제 한국어 음성·합성 오류 초안과 정답 파일은 파일럿으로 구축했습니다. 남은 항목은 **독립 청취 검수와 정식 평가셋 확정**, **실측 모델 베이스라인 비교**, **외부 채점 서버 연결**, **수업 저장소용 단일 HTML 제출물**입니다. 이 저장소에 실제 성능이나 학회 제휴를 가장한 예시는 넣지 않습니다. 수업 저장소 PR은 별도 제출 단계입니다.
+웹 설명·베이스라인 코드·평가 규격은 전사 교정으로 통일했습니다. 실제 한국어 음성·합성 오류 초안과 정답 파일은 자동 교차 검증을 거친 **최종 데이터 v2**로 고정했습니다. 검증용 음성 모델의 실측 진단값도 포함하며, 그 모델을 사용한 선별 편향을 명시했습니다. 남은 프로젝트 항목은 **교정 모델 베이스라인 비교 실험**, **외부 채점 서버 연결**, **수업 저장소용 단일 HTML 제출물**입니다. 사람의 추가 청취 검수는 운영자 검수표로 진행할 수 있습니다. 이 저장소에 실제 성능이나 학회 제휴를 가장한 예시는 넣지 않습니다. 수업 저장소 PR은 별도 제출 단계입니다.

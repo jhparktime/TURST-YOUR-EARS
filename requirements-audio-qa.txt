@@ -1,0 +1,5 @@
+-r requirements-dataset.txt
+# Apple Silicon local audit only; not required by the web scorer or CI.
+mlx-whisper==0.4.3
+mlx==0.32.3
+huggingface-hub==2.2.0

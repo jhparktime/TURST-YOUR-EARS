@@ -6,7 +6,7 @@
 
 [웹사이트](https://jhparktime.github.io/TURST-YOUR-EARS/) · [베이스라인](scripts/baseline.py) · [채점 코드](server/scoring.py)
 
-**현재 상태:** 웹·채점 규격과 베이스라인 실행 코드를 제공합니다. 공식 한국어 음성 평가셋, 실제 모델 결과, 호스팅된 채점 서버 연결은 준비 전입니다. `examples/`의 6행은 음성 없는 공개 소프트웨어 테스트 자료이며 과제에서 요구하는 음성 평가 데이터셋을 대신하지 않습니다. 저장소의 기존 `TURST-YOUR-EARS` 철자는 유지합니다.
+**현재 상태:** 웹·채점 규격·베이스라인 실행 코드와 [실제 한국어 음성을 포함한 합성 오류 파일럿](datasets/tye-fleurs-ko-v1/README.md)을 제공합니다. 개발 30개·평가 75개이며 독립 청취 검수는 아직 남아 있습니다. 실제 모델 결과와 호스팅된 채점 서버 연결은 준비 전입니다. `examples/`의 6행은 별도의 음성 없는 소프트웨어 테스트 자료입니다. 저장소의 기존 `TURST-YOUR-EARS` 철자는 유지합니다.
 
 ## 과제 정의
 
@@ -90,6 +90,17 @@ python -m scripts.evaluate --references /data/dev/references.json --predictions 
 
 텍스트 예시에서 Copy draft와 입출력 검증을 실행할 수 있습니다. Audio 모드는 실제 음성 없이는 실패합니다. 예측 파일을 쓰기 전 모든 발화의 추론이 성공해야 하며, 실패한 행을 정답으로 채우는 대체 처리는 없습니다.
 
+## 평가용 음성 데이터
+
+[FLEURS 한국어 기반 파일럿](datasets/tye-fleurs-ko-v1/README.md)에 원본 WAV 105개와 합성 오류 초안이 있습니다. 개발 30개(조건별 10개), 평가 75개(조건별 25개), 총 약 23분 52초입니다. 음성·정답은 원천 자료를 유지하고 초안만 치환했습니다. CC BY 4.0 출처·변경 사항과 재현 절차를 데이터 카드에 기록했습니다.
+
+[구축 코드](scripts/build_dataset.py)와 [검증 코드](scripts/validate_dataset.py)를 제공합니다. 공개 개발 정답은 `datasets/tye-fleurs-ko-v1/dev/references.json`, 비공개 평가 정답과 검수표는 로컬 `private-data/tye-fleurs-ko-v1/`에 있습니다. 생성 코드와 원천은 공개되어 있으므로 원문 조회·사전학습 오염을 해결한 비밀 평가셋은 아닙니다. 독립 청취 검수와 화자 분리 확인은 완료되지 않았습니다.
+
+```sh
+pip install -r requirements-dataset.txt
+python -m scripts.validate_dataset --private private-data/tye-fleurs-ko-v1
+```
+
 ## 데이터 계약
 
 데이터 담당자는 **공개 입력**, **비공개 평가 정답**, **출처·검수 기록**을 분리해 전달합니다. 원본 전사 일부를 변경해 초안을 만들며, 정답 파일을 수정하지 않습니다.
@@ -140,7 +151,7 @@ python -m scripts.evaluate --references /data/dev/references.json --predictions 
 
 ## 평가 규격
 
-공통 구현: [`server/scoring.py`](server/scoring.py), **ko-correction-v1**. 데이터는 준비 중이며 정식 공개 전에 분할·조건별 수량·표기 기준·모델/외부 데이터 사용 규칙을 동결합니다.
+공통 구현: [`server/scoring.py`](server/scoring.py), **ko-correction-v1**. 파일럿 음성 데이터가 제공되며, 독립 청취 검수 후 정식 평가 전에 분할·조건별 수량·표기 기준·모델/외부 데이터 사용 규칙을 동결합니다.
 
 ### 정규화와 순위
 
@@ -205,4 +216,4 @@ API: `GET /api/health`, `GET /api/leaderboard`, 인증된 `GET/POST /api/submiss
 
 ## 과제 제출 준비 상태
 
-웹 설명·베이스라인 코드·평가 규격은 전사 교정으로 통일했습니다. 남은 항목은 **실제 한국어 평가 음성·초안·검수 정답**, **실측 베이스라인 비교**, **외부 채점 서버 연결**, **수업 저장소용 단일 HTML 제출물**입니다. 이 저장소에 실제 성능이나 학회 제휴를 가장한 예시는 넣지 않습니다. 수업 저장소 PR은 별도 제출 단계입니다.
+웹 설명·베이스라인 코드·평가 규격은 전사 교정으로 통일했습니다. 실제 한국어 음성·합성 오류 초안과 정답 파일은 파일럿으로 구축했습니다. 남은 항목은 **독립 청취 검수와 정식 평가셋 확정**, **실측 모델 베이스라인 비교**, **외부 채점 서버 연결**, **수업 저장소용 단일 HTML 제출물**입니다. 이 저장소에 실제 성능이나 학회 제휴를 가장한 예시는 넣지 않습니다. 수업 저장소 PR은 별도 제출 단계입니다.

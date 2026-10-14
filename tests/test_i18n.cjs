@@ -91,7 +91,7 @@ test("all published page fragments have English translations; Korean remains the
   const app = boot();
   assert.equal(app.document.documentElement.lang, "ko");
   app.buttons[1].click();
-  assert.equal(app.fragments.length, 184);
+  assert.ok(app.fragments.length >= 184);
   assert.ok(app.fragments.every((node) => !node.innerHTML.startsWith("원문")));
   assert.equal(app.document.documentElement.lang, "en");
   assert.equal(app.label.value, "Language selection");

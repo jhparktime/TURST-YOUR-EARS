@@ -10,10 +10,10 @@
     <meta name="theme-color" content="#702c35" />
     <title>Trust Your Ears · 한국어 전사 교정 챌린지</title>
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="style.css?v=20261012-bilingual-r1" />
-    <script src="config.js?v=20261012-bilingual-r1" defer></script>
-    <script src="i18n.js?v=20261012-bilingual-r1" defer></script>
-    <script src="app.js?v=20261012-bilingual-r1" defer></script>
+    <link rel="stylesheet" href="style.css?v=20261015-dataset-r1" />
+    <script src="config.js?v=20261015-dataset-r1" defer></script>
+    <script src="i18n.js?v=20261015-dataset-r1" defer></script>
+    <script src="app.js?v=20261015-dataset-r1" defer></script>
   </head>
   <body>
     <a class="skip" href="#main" data-i18n="text001">본문으로 건너뛰기</a>
@@ -199,8 +199,9 @@
             </li>
           </ul>
           <p class="release-note" data-i18n="text044">
-            현재 공개 범위는 코드와 텍스트 예시입니다. 한국어 음성 평가셋, 실측
-            베이스라인 결과, 온라인 채점 서버는 준비 중입니다.
+            실제 한국어 음성 105개로 구성한 합성 오류 파일럿을 공개했습니다.
+            독립 청취 검수, 실제 모델 결과, 온라인 채점 서버 연결은 아직 남아
+            있습니다.
           </p>
         </section>
 
@@ -390,9 +391,50 @@
         <section class="page" data-page="data" hidden>
           <h1 class="page-title" data-i18n="text096">데이터와 평가</h1>
           <p class="intro" data-i18n="text097">
-            공개 한국어 음성·전사를 재사용하고, 검수 전사 일부를 치환해 초안을
-            만듭니다. 실제 음성 평가셋은 준비 중이며 현재 예시는 음성 없는
-            소프트웨어 검증용 6행입니다.
+            FLEURS 한국어 원본 음성을 유지하고 전사 초안에만 치환 오류를
+            주입했습니다. 개발 30개·평가 75개의 실제 음성을 포함하며, 독립 청취
+            검수 전 파일럿입니다.
+          </p>
+          <h2 data-i18n="datasetHeading">한국어 합성 오류 파일럿</h2>
+          <p data-i18n="datasetDetails">
+            개발셋은 조건별 10개, 평가셋은 조건별 25개입니다. 무오류·오류
+            1곳·오류 2곳을 비교하며 전체 음성 길이는 약 23분 52초입니다. 원본
+            WAV는 변환하지 않았습니다.
+          </p>
+          <p class="section-links" data-i18n="datasetLinks">
+            <a
+              href="https://github.com/jhparktime/TURST-YOUR-EARS/tree/main/datasets/tye-fleurs-ko-v1"
+              target="_blank"
+              rel="noopener"
+              >음성·입력 데이터</a
+            >
+            /
+            <a
+              href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/datasets/tye-fleurs-ko-v1/README.md"
+              target="_blank"
+              rel="noopener"
+              >출처·라이선스·데이터 카드</a
+            >
+            /
+            <a
+              href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/scripts/build_dataset.py"
+              target="_blank"
+              rel="noopener"
+              >생성 코드</a
+            >
+            /
+            <a
+              href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/datasets/tye-fleurs-ko-v1/eval/copy-draft.csv"
+              target="_blank"
+              rel="noopener"
+              >평가셋 CSV 예시</a
+            >
+          </p>
+          <p class="note" data-i18n="datasetLimits">
+            원천은 CC BY 4.0의 Google FLEURS입니다. 원본 전사의 청취 검수와 화자
+            분리 확인은 완료되지 않았습니다. 평가 정답·원천 대응표는 공개 입력과
+            분리했습니다. 공개 원문과 생성 코드로 정답을 재현할 수 있으므로
+            완전히 비밀인 평가셋은 아닙니다.
           </p>
           <div class="split">
             <article class="panel">

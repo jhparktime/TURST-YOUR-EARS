@@ -1,0 +1,79 @@
+{
+  "name": "tye-fleurs-ko-v1",
+  "status": "pilot_pending_independent_listening",
+  "protocol": "ko-correction-v1",
+  "source": "google/fleurs",
+  "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+  "language": "ko_kr",
+  "license": "CC-BY-4.0",
+  "seed": 20261015,
+  "lexicon_sha256": "c3ab30e0d0febe07edf5469c80383c178568edd29c1b8594f3fb07b05609ff6b",
+  "source_tsv_sha256": {
+    "dev": "6b236de107c6a1672233f6d710d26adfdb55570a3e6e35aca9dc4ff2be01cea4",
+    "test": "cf2f7c8765f6203e3c46ef620d5e936d3f331b6e8865455557777dd1347517f5"
+  },
+  "source_archive_sha256": {
+    "dev": "496edcb5323e75b4a2830f5b5623684a0baf86d3728101853fd4fe503372157c",
+    "test": "3489e529f2aad18d3357b746c5f955941d258b79dc60d8a102d5bced2a223184"
+  },
+  "eligible_source_rows": {
+    "dev": 34,
+    "test": 76
+  },
+  "rejected": {
+    "dev": {
+      "no_two_valid_spans": 58,
+      "text_filter": 101,
+      "duration_filter": 5,
+      "repeated_sentence": 28
+    },
+    "test": {
+      "text_filter": 155,
+      "no_two_valid_spans": 112,
+      "duration_filter": 5,
+      "repeated_sentence": 34
+    }
+  },
+  "splits": {
+    "dev": {
+      "utterances": 30,
+      "conditions": {
+        "multiple": 10,
+        "single": 10,
+        "clean": 10
+      },
+      "duration_seconds": 421.86,
+      "audio_bytes": 27000780,
+      "characters_min": 35,
+      "characters_max": 79,
+      "gender": {
+        "FEMALE": 12,
+        "MALE": 18
+      },
+      "inputs_sha256": "3f751943c3240118b26df7efdda945d3eea9ef16ae41ac8c2f2186be99943009",
+      "copy_macro_cer": 2.546568814820478
+    },
+    "eval": {
+      "utterances": 75,
+      "conditions": {
+        "single": 25,
+        "clean": 25,
+        "multiple": 25
+      },
+      "duration_seconds": 1009.86,
+      "audio_bytes": 64635390,
+      "characters_min": 35,
+      "characters_max": 89,
+      "gender": {
+        "MALE": 47,
+        "FEMALE": 28
+      },
+      "inputs_sha256": "708ed168133e4626c8758854099fc077b95cf6b2257f5b869c4579ba94a59f41",
+      "copy_macro_cer": 2.5417114018933766
+    }
+  },
+  "speaker_disjointness": "unverified: source TSV has no speaker identifiers; dev/test speakers may overlap",
+  "reference_policy": "Upstream normalized transcription, NFC only; not independently verified by our team",
+  "audio_policy": "Original 16 kHz WAV files copied byte-for-byte; no resampling or quantization",
+  "split_policy": "Official dev/test partitions; distinct sentence IDs, normalized texts (cross-split similarity < 0.85), and audio checksums; one recording per source sentence"
+}

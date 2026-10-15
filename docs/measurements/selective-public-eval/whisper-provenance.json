@@ -1,0 +1,22 @@
+{
+  "model": "mlx-community/whisper-large-v3-turbo",
+  "revision": "a4aaeec0636e6fef84abdcbe3544cb2bf7e9f6fb",
+  "draft_access": false,
+  "reference_access": false,
+  "decoding": {
+    "language": "ko",
+    "task": "transcribe",
+    "temperature": 0.0,
+    "condition_on_previous_text": false
+  },
+  "packages": {
+    "mlx-whisper": "0.4.3",
+    "mlx": "0.32.3",
+    "soundfile": "0.13.1",
+    "huggingface-hub": "2.2.0"
+  },
+  "split": "eval",
+  "utterances": 409,
+  "public_predictions_sha256": "c78cc6bdc53dbd9a27d4b256d8303f8cebf5810623e664de8890424ebae292e7",
+  "public_inputs_sha256": "935de51578cd38ab1f4340a555e24e8af28e003c162e50d3d39c86b2432b4c60"
+}

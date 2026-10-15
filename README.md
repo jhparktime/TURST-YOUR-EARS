@@ -69,6 +69,7 @@ CI는 임시 PostgreSQL로 재시작 후 결과 보존도 확인합니다. 로�
 | Qwen2.5-Omni-3B · Audio-only | 음성 | 동일 모델 입력 비교용, 실행 준비/진행 중 |
 
 [전체 지표](docs/baseline-results.md)와 [분자·분모 및 조건별 결과 JSON](web/data/baselines.json)을 제공합니다.
+[합성 오류의 난이도 점검](docs/difficulty-audit.md)과 [공개 eval의 선택적 교정 진단](docs/measurements/selective-public-eval/README.md)도 제공합니다. 후자는 생성 규칙을 아는 단순 필터의 개발용 분석이며 비공개 Test 결과나 독창성의 증거가 아닙니다.
 미완료 실험에는 점수를 넣지 않습니다. Whisper는 초안을 보지 않았으며,
 Whisper와 Qwen의 차이를 입력 방식만의 효과로 해석하지 않습니다.
 같은 Qwen 체크포인트와 생성 설정을 사용하는 세 입력 비교로 음성의 추가 이득을 확인합니다.

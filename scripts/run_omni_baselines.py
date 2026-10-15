@@ -75,6 +75,21 @@ def generated_prediction(decoded, token_ids, max_new_tokens, eos_token_id):
                         'at_token_limit': capped, 'empty_output': not prediction}
 
 
+def release_mps_cache(torch, device):
+    """Release unused allocator buffers after output tensors are discarded.
+
+    This changes memory housekeeping only, after the prediction is saved.
+    It does not change weights, inputs, decoding or the resume contract.
+    """
+    if device != 'mps':
+        return None
+    torch.mps.synchronize()
+    torch.mps.empty_cache()
+    return {'tensor_bytes': torch.mps.current_allocated_memory(),
+            'driver_bytes': torch.mps.driver_allocated_memory(),
+            'recommended_bytes': torch.mps.recommended_max_memory()}
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--public', type=Path, required=True)
@@ -119,7 +134,8 @@ def main():
               'packages': {x: importlib.metadata.version(x) for x in
                            ('torch', 'torchvision', 'transformers', 'accelerate', 'soundfile', 'safetensors')}}
     execution = {'runner_source_sha256': sha(Path(__file__)),
-                 'output_policy': 'score_actual_output_including_empty_and_fixed_token_limit'}
+                 'output_policy': 'score_actual_output_including_empty_and_fixed_token_limit',
+                 'memory_policy': 'release_unused_mps_cache_after_each_saved_prediction'}
     status = {'state': 'loading', 'started_at': utc(), 'hardware': platform.platform(),
               'execution': execution,
               'jobs_per_mode': len(jobs), 'modes': args.modes, 'contract': common}
@@ -190,10 +206,13 @@ def main():
                 prior['items'].append(record)
                 done[key] = record
                 atomic_json(path, prior)
+                del batch, generated, tokens
+                memory = release_mps_cache(torch, args.device)
+                if memory is not None:
+                    status['mps_memory_after_cleanup'] = memory
                 status.update(state='running', mode=mode, processed=len(done), updated_at=utc())
                 atomic_json(args.work / 'status.json', status)
                 print(f'{mode} {len(done)}/{len(jobs)} {record["elapsed_seconds"]:.2f}s', flush=True)
-                del batch, generated, tokens
             for split in args.splits:
                 target = args.work / split / f'{mode}.csv'
                 target.parent.mkdir(parents=True, exist_ok=True)

@@ -1,0 +1,5 @@
+# Apple Silicon audio-only baseline; environment used in the merged-v1 run.
+mlx-whisper==0.4.3
+mlx==0.32.3
+soundfile==0.13.1
+huggingface-hub==2.2.0

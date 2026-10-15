@@ -1,0 +1,91 @@
+{
+  "name": "tye-ko-merged-v1",
+  "protocol": "ko-correction-v1",
+  "seed": 20261016,
+  "status": "pilot_pending_independent_listening",
+  "human_listening_review": "not_performed",
+  "source": "kresnik/zeroth_korean",
+  "source_revision": "1fe937899f828af822293d05e086200946088bdf",
+  "license": "CC-BY-4.0",
+  "gold_policy": "unchanged_upstream_text_NFC_only",
+  "pool": {
+    "recordings": 4081,
+    "seconds": 34927.3378125,
+    "speakers": 115
+  },
+  "splits": {
+    "train": {
+      "visibility": "public",
+      "utterances": 472,
+      "duration_seconds": 4395.9708125,
+      "speakers": 63,
+      "conditions": {
+        "multiple": 165,
+        "clean": 157,
+        "single": 150
+      },
+      "copy_macro_cer": 2.50418392407477,
+      "inputs_sha256": "028b62c36806a335cde4b144a19e5d7fe98b225076886db48580255c39c4d007",
+      "references_sha256": "9d66d96f50070d870468052ea3990d86e9da8dd3c857460c9a4cf467a3f41341"
+    },
+    "eval": {
+      "visibility": "public",
+      "utterances": 409,
+      "duration_seconds": 3600.0348125,
+      "speakers": 20,
+      "conditions": {
+        "multiple": 136,
+        "single": 136,
+        "clean": 137
+      },
+      "copy_macro_cer": 2.626332321288199,
+      "inputs_sha256": "935de51578cd38ab1f4340a555e24e8af28e003c162e50d3d39c86b2432b4c60",
+      "references_sha256": "fc530a929e6c91e5bf5005146739bca213319ea441b2bc0c6a977314090ee47b"
+    },
+    "test": {
+      "visibility": "private",
+      "utterances": 1750,
+      "duration_seconds": 14399.81675,
+      "speakers": 32,
+      "conditions": {
+        "multiple": 584,
+        "clean": 583,
+        "single": 583
+      },
+      "copy_macro_cer": 2.7210911671097837,
+      "inputs_sha256": "ffb51735530fd472003220493ca38d6e8fa948453457e2206f92b3da27b065b9",
+      "references_sha256": "a30819e3dadc78861661e2ccb673e8d76a35947af9a71693c339af22bacdac96"
+    }
+  },
+  "reserved": {
+    "recordings": 1450,
+    "reasons": {
+      "exact_sentence_in_eval_or_test": 1281,
+      "heldout_speaker_surplus_or_alternate_reading": 168,
+      "near_sentence_in_eval_or_test": 1
+    }
+  },
+  "selection_used_asr_predictions": false,
+  "target_duration_seconds": {
+    "eval": 3600,
+    "test": 14400
+  },
+  "policy": "Expose old public/pilot speakers only in train/eval; select private test from the remaining speakers; exclude identical/near sentences across splits; archive every unused reading.",
+  "limitations": [
+    "Independent listening pending.",
+    "Public-source pretraining/search contamination remains.",
+    "Synthetic noun substitutions are not measured ASR confusions.",
+    "Training condition counts need not be balanced; held-out counts differ by at most one.",
+    "Source-pool and reserved recordings must not be used for training or prompt tuning."
+  ],
+  "input_manifest_sha256": {
+    "old-public-metadata.json": "bdbb497cb7e192d4d8ed845d064ef20f74312c1b57f7742a308cc578d4eb2e44",
+    "old-public-release-lock.json": "58159dc4201ac04fa640583b821daa9ed8a80459aee979b28b75774dffc7b0f8",
+    "old-private-metadata.json": "bdbb497cb7e192d4d8ed845d064ef20f74312c1b57f7742a308cc578d4eb2e44",
+    "old-private-release-lock.json": "6b4d78d8b11a52e2cef90c69869a98801b2ce10ae7fafc4c977f6eb3004c7d6a",
+    "incoming-public-metadata.json": "417d51703ffc6d09b4f5ab460df5f081a3154b209226eaaa9f66d3ce399e4af7",
+    "incoming-public-release-lock.json": "91df64fabc4d058afe6150b907fb9c5e4141ea7e109d392f1c217aa84dd660ae",
+    "incoming-private-metadata.json": "417d51703ffc6d09b4f5ab460df5f081a3154b209226eaaa9f66d3ce399e4af7",
+    "incoming-private-release-lock.json": "52ad4c05eeda43b1c33abe1da6e37e542b7c86e9038942331a270f7ca46f885d"
+  }
+}

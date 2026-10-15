@@ -6,7 +6,7 @@
 
 [웹사이트](https://jhparktime.github.io/TURST-YOUR-EARS/) · [베이스라인](scripts/baseline.py) · [채점 코드](server/scoring.py)
 
-**현재 상태:** [한국어 교정 5시간 데이터 v1](datasets/tye-ko-5h-v1/README.md)을 구성했습니다. **공개 eval 421개·1시간 / 비공개 test 1,658개·4시간**, 화자는 각각 20명·46명입니다. 원천·해시·중복·분할·전체 test 채점을 검사했습니다. 사람의 독립 청취 검수와 모델 비교 실험은 아직 수행하지 않았습니다. 호스팅된 채점 서버 연결은 별도 작업입니다. `examples/`의 6행은 음성 없는 소프트웨어 테스트 자료입니다.
+**현재 로컬 데이터:** [통합 데이터 merged v1](datasets/tye-ko-merged-v1/README.md)을 구성했습니다. 기존 5시간 자료와 추가 train/eval 자료 4,081개·약 9시간 42분을 모두 보존하고, **train 472개·약 1시간 13분 / 공개 eval 409개·1시간 / 비공개 test 1,750개·4시간**으로 다시 분할했습니다. 나머지 1,450개는 중복·평가 화자·목표 시간 초과 사유와 함께 운영자 예비 풀에 보관합니다. 전체 4,081개 음성 복호화와 분할·채점 검증을 통과했고, 새 eval/test 2,159개에서 Copy와 Whisper 평가를 완료했습니다. Text-only·Audio+draft를 포함한 Qwen 입력 비교는 진행 중입니다. 독립 청취 검수는 아직입니다. [통합·재현·추론 안내](docs/merged-dataset.md)를 확인하세요. 새 train에 이전 test 일부가 포함되므로 새 학습 정답 공개 시 이전 test는 종료된 버전으로 보관합니다.
 
 ## 과제 정의
 
@@ -60,39 +60,58 @@ CI는 임시 PostgreSQL로 재시작 후 결과 보존도 확인합니다. 로�
 
 ## 베이스라인
 
-| 실행 모드 | 모델에 보이는 입력 | 역할 |
+| 방법 | 입력 | 현재 상태 |
 |---|---|---|
-| `copy` | 초안 | 그대로 복사하는 기준점 |
-| `audio-only` | 음성 | 초안 없이 다시 전사 |
-| `text-only` | 초안 | 언어 지식만으로 가능한 교정 |
-| `audio-draft` | 음성 + 초안 | 음성 근거를 이용하는 단순 교정 |
+| Copy draft | 초안 | eval/test 완료 |
+| Whisper large-v3-turbo | 음성 | eval/test 2,159개 완료 |
+| Qwen2.5-Omni-3B · Text-only | 초안 | 실행 준비/진행 중 |
+| Qwen2.5-Omni-3B · Audio+draft | 음성 + 초안 | 실행 준비/진행 중 |
+| Qwen2.5-Omni-3B · Audio-only | 음성 | 동일 모델 입력 비교용, 실행 준비/진행 중 |
 
-모델 방식 세 가지는 **동일한 Qwen2.5-Omni 체크포인트**를 사용합니다. 모델 크기·생성 설정·개발 데이터·출력 후처리를 고정합니다. Audio only 프롬프트에는 초안을 넣지 않고, Text only에는 음성 파일이나 음성 인식 결과를 넣지 않습니다. 각 발화는 새 대화로 처리하며 다른 평가 발화의 출력은 재사용하지 않습니다.
+[전체 지표](docs/baseline-results.md)와 [분자·분모 및 조건별 결과 JSON](web/data/baselines.json)을 제공합니다.
+미완료 실험에는 점수를 넣지 않습니다. Whisper는 초안을 보지 않았으며,
+Whisper와 Qwen의 차이를 입력 방식만의 효과로 해석하지 않습니다.
+같은 Qwen 체크포인트와 생성 설정을 사용하는 세 입력 비교로 음성의 추가 이득을 확인합니다.
+각 발화는 새 대화이고 정답·오류 위치·조건은 추론 입력에 넣지 않습니다.
 
-[공식 모델 카드](https://huggingface.co/Qwen/Qwen2.5-Omni-3B)의 텍스트·음성 입력 인터페이스에 맞춘 실행 코드입니다. **한국어 실제 추론은 아직 실행하지 않았습니다.** 한국어 적합성, GPU 메모리, 설치 조합은 파일럿에서 확인하고 최종 모델을 확정합니다. 모델 이용 조건도 해당 모델 카드를 따릅니다.
-
-모델 실험은 웹 서버와 별도 Python 3.12 환경에서 준비합니다. 아래 Transformers 태그는 모델 카드의 설치 예시를 따릅니다. GPU에 맞는 PyTorch 및 ffmpeg가 필요하며 전체 환경 잠금 파일은 첫 실험 후 보관합니다.
+Apple Silicon 로컬 실행은 음성 이해 인코더를 유지한 Thinker를 사용합니다.
+음성 출력 가중치는 불러오지 않습니다. 모델 스냅샷은
+`Qwen/Qwen2.5-Omni-3B@f75b40e3da2003cdd6e1829b1f420ca70797c34e`으로 고정합니다.
 
 ```sh
-pip install 'git+https://github.com/huggingface/transformers@v4.51.3-Qwen2.5-Omni-preview' accelerate qwen-omni-utils
+pip install -r requirements-omni.txt
+python -m scripts.run_omni_baselines \
+  --public /data/merged-public --private /data/merged-private \
+  --model-cache /path/to/fixed-qwen-snapshot --work /data/private-omni-results
+python -m scripts.evaluate --references /data/merged-private/test-references.json \
+  --predictions /data/private-omni-results/test/audio-draft.csv --output /data/audio-draft.scores.json
 ```
 
-모델을 불변 버전으로 내려받은 로컬 스냅샷 경로를 사용합니다. 입력 JSON의 음성 경로는 그 JSON이 있는 폴더 기준입니다.
+생성은 seed 0, greedy, 최대 새 토큰 512개, 출력 후처리는 앞뒤 공백 제거로 고정합니다.
+입력·모델 파일 해시, 패키지 버전, 하드웨어, 실제 프롬프트를 기록하고 발화마다 체크포인트를 저장합니다.
+중단 후 같은 설정으로만 재개할 수 있습니다. 출력 제한·누락 가중치·빈 출력은 실패로 기록하며
+실패한 예측을 정답이나 초안으로 채우지 않습니다. smoke test는 공개 eval에서만 실행합니다.
+텍스트 전용 입력에는 음성이나 ASR 결과를 넣지 않습니다.
+
+[간단한 단일 모드 CLI](scripts/baseline.py)도 제공합니다. Copy는 모델 설치 없이 실행됩니다.
+모델 이용 조건은 [공식 모델 카드](https://huggingface.co/Qwen/Qwen2.5-Omni-3B)를 확인하세요.
+
+## 현재 통합 데이터와 추론
+
+[merged v1 데이터 카드](datasets/tye-ko-merged-v1/README.md)와 [통합·재분할 안내](docs/merged-dataset.md)가 현재 로컬 구성의 기준입니다. 음성과 정답을 바꾸지 않고 화자·세션·동일/근접 문장·PCM이 split 사이에 겹치지 않도록 구성했습니다. 실제 eval/test 분량은 원본 발화를 유지한 채 목표 1시간/4시간에서 0.3초 이내입니다.
+
+새 공개 manifest는 `datasets/tye-ko-merged-v1/`에 있고, 음성 포함 공개용 폴더와 모든 원본을 보존한 운영자 폴더는 별도 전달합니다. 원격 release와 온라인 채점 서버는 아직 새 버전으로 전환하지 않았습니다. 기존 데이터 버전의 점수와 혼합하지 않습니다.
+
+Copy 기준점의 Macro CER는 train 2.504184%, eval 2.626332%, test 2.721091%입니다. 고정된 Whisper large-v3-turbo를 새 eval/test 2,159개에 음성만 입력해 실행 완료했습니다. 이는 위 Qwen2.5-Omni 기반 동일 모델 세 입력 비교 실험과 별도입니다.
 
 ```sh
-python -m scripts.baseline --mode audio-only --model /path/to/fixed-model-snapshot --inputs /data/dev/inputs.json --output /tmp/audio-only.csv
-python -m scripts.baseline --mode text-only --model /path/to/fixed-model-snapshot --inputs /data/dev/inputs.json --output /tmp/text-only.csv
-python -m scripts.baseline --mode audio-draft --model /path/to/fixed-model-snapshot --inputs /data/dev/inputs.json --output /tmp/audio-draft.csv
-python -m scripts.evaluate --references /data/dev/references.json --predictions /tmp/audio-draft.csv --output /tmp/audio-draft.scores.json
+pip install -r requirements-asr-mlx.txt
+python -m scripts.run_merged_baselines --public /data/merged-public --private /data/merged-private --work /data/private-results --model-cache /data/whisper-turbo
 ```
 
-원격 모델 ID를 사용하면 `--revision`에 40자리 커밋 SHA를 지정해야 합니다. 모델 가중치를 자동으로 실행하거나 유료 API를 호출하는 웹 기능은 없습니다. 예측 CSV 옆의 `.run.json`에는 모델·버전·프롬프트·시드·패키지 목록과 입력/출력 파일 해시가 저장됩니다. 모델 스냅샷 해시, 음성 파일 해시, 하드웨어 정보도 실험 보고에 함께 보관하세요. 출력 제한에 도달하면 조용히 잘라 제출하지 않고 실패합니다.
+## 이전 5시간 데이터 v1 · 재현 기록
 
-텍스트 예시에서 Copy draft와 입출력 검증을 실행할 수 있습니다. Audio 모드는 실제 음성 없이는 실패합니다. 예측 파일을 쓰기 전 모든 발화의 추론이 성공해야 하며, 실패한 행을 정답으로 채우는 대체 처리는 없습니다.
-
-## 평가용 음성 데이터
-
-[5시간 데이터 카드](datasets/tye-ko-5h-v1/README.md)와 [구축·인계 안내](docs/five-hour-dataset.md)를 기준으로 합니다. Zeroth-Korean의 실제 음성을 사용하고 전사 초안에만 합성 치환을 넣었습니다. 공개 eval은 개발·튜닝용이며, 비공개 test는 최종 리더보드용입니다. 원천 공식 train/test를 합친 뒤 화자와 문장을 새로 분할했습니다.
+[5시간 데이터 카드](datasets/tye-ko-5h-v1/README.md)와 [구축·인계 안내](docs/five-hour-dataset.md)는 이전 버전의 기록입니다. Zeroth-Korean의 실제 음성을 사용하고 전사 초안에만 합성 치환을 넣었습니다. 공개 eval은 개발·튜닝용이며, 비공개 test는 최종 리더보드용입니다. 원천 공식 train/test를 합친 뒤 화자와 문장을 새로 분할했습니다.
 
 | Split | 발화 | 재생 시간 | 공개 범위 |
 |---|---:|---:|---|
@@ -109,7 +128,7 @@ REFERENCE_PATH=/data/private/test-references.json uvicorn server.app:create_app 
 
 독립 원본 2,079개를 사용해 총 18,000.0084375초를 구성했습니다. 패딩·반복·속도 변경은 없으며 자연 무음은 포함합니다. 정답은 원천 전사의 NFC만 적용했습니다. Clean/Single/Multiple은 각각 0/1/2곳의 치환이며, split별 조건 수는 최대 1개 차이입니다. 화자·세션·문장·PCM 중복과 이전 노출 전사에 대한 test 근접 중복을 검사했습니다.
 
-**독립 청취 검수와 블라인드 ASR 검증은 수행하지 않았습니다.** 공개 원천 검색·사전학습 오염 가능성도 남습니다. Copy/정답 제출은 소프트웨어 검사이며 모델 성능이 아닙니다. 새 데이터는 이전 FLEURS v2 및 pilot160과 점수를 섞지 않습니다.
+**이전 버전 구축 당시 독립 청취 검수와 블라인드 ASR 검증은 수행하지 않았습니다.** 공개 원천 검색·사전학습 오염 가능성도 남습니다. Copy/정답 제출은 소프트웨어 검사이며 모델 성능이 아닙니다. 새 데이터는 이전 FLEURS v2 및 pilot160과 점수를 섞지 않습니다.
 
 ### 이전 FLEURS v2
 
@@ -209,10 +228,11 @@ CSV는 정확히 `id,prediction` 두 열, UTF-8, 모든 ID 한 번씩입니다. 
 상단의 **한국어 / English** 버튼으로 여섯 페이지의 설명, 접근성 문구, 채점 결과·제출 기록·리더보드·오류 안내를 전환합니다. 언어 선택만 브라우저에 저장하며, 전사 예시와 제출 파일은 한국어 원문을 유지합니다. 전환 중 팀 키·선택 파일·결과는 유지되고 추가 API 요청이나 제출은 발생하지 않습니다.
 
 - GitHub Pages는 `web/`만 배포합니다. 정답·서버·DB는 배포하지 않습니다.
-- 별도 HTTPS Python API가 팀 키를 확인하고 비공개 정답으로 채점합니다.
+- 공개 eval은 브라우저 Worker에서 무료로 채점하며 파일을 업로드하지 않습니다. [브라우저 구현](web/scorer.js)은 Python과의 전체 공개 eval 일치 검사를 통과했습니다.
+- 별도 HTTPS Python API가 팀 키를 확인하고 비공개 test 정답으로 채점합니다. 호스팅 연결은 별도입니다.
 - 로컬 SQLite 또는 `DATABASE_URL`의 PostgreSQL에 팀·점수를 보관합니다.
 
-GitHub Pages만으로 비공개 서버 채점을 실행할 수 없습니다. `web/config.js`의 `apiBase`가 비어 있으면 Pages는 평가 준비 상태를 표시하고 제출을 막습니다. 로컬에서는 같은 출처의 FastAPI에 연결됩니다. 웹과 서버의 scorer 버전이 다르면 제출을 막습니다.
+GitHub Pages만으로 비공개 서버 채점을 실행할 수 없습니다. `web/config.js`의 `apiBase`가 비어 있으면 공개 eval 채점은 계속 사용할 수 있고, Pages는 비공개 test 서버 제출만 준비 상태로 표시합니다. 로컬에서는 같은 출처의 FastAPI에 연결됩니다. 웹과 서버의 scorer 버전이 다르면 제출을 막습니다.
 
 배포는 GitHub Settings → Pages → GitHub Actions를 선택한 후 `main`에 push하면 테스트 후 실행됩니다. 호스팅된 API 연결은 별도 운영 단계입니다. [`render.yaml`](render.yaml)을 활용할 수 있으나 [무료 서비스의 현재 제약](https://render.com/docs/free)을 확인하고 영속 DB를 사용해야 합니다. 서버 계정·키는 이 저장소에서 발급하지 않습니다.
 
@@ -236,4 +256,15 @@ API: `GET /api/health`, `GET /api/leaderboard`, 인증된 `GET/POST /api/submiss
 
 ## 과제 제출 준비 상태
 
-웹 설명·베이스라인 코드·평가 규격은 전사 교정으로 통일했습니다. **공개 eval 1시간·비공개 test 4시간**의 실제 한국어 음성과 합성 오류 초안을 구성하고 원천·분할·중복·재생성·전체 test API 채점을 검증했습니다. 사람의 독립 청취 검수는 아직 수행하지 않았습니다. 남은 항목은 **청취 검수**, **교정 모델 베이스라인 비교 실험**, **외부 채점 서버 연결**, **수업 저장소용 단일 HTML 제출물**입니다. 수업 저장소 PR은 별도 제출 단계입니다.
+수업 제출물은 원래 설계한 학회 워크샵 스타일을 유지하며 HTML 한 개로 묶습니다.
+CSS·한/영 전환·공개 eval 채점기·공개 정답·실측 벤치마크가 포함되고, 별도 서버 없이 공개 eval을 채점합니다.
+비공개 test 정답·예측·음성과 관리 대응표는 포함하지 않습니다.
+
+```sh
+python -m scripts.build_submission_assets --results /data/private-baseline-results --public /data/merged-public
+python -m scripts.build_course_submission --output /data/submission/Team_NAME_STUDENTID.html
+```
+
+[제출 점검표](docs/submission-readiness.md)에 필수 항목, 검증 결과와 남은 사항을 기록합니다.
+대표 학번 확인과 추가 모델 전체 평가, 새 공개 데이터 release·웹 반영을 마친 뒤 최종 파일을 확정합니다.
+독립 청취 미검수와 합성 치환의 한계는 제출물에 명시합니다.

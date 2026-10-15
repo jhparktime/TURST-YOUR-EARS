@@ -1,0 +1,9 @@
+{
+  "mode": "local_production_test_not_deployed",
+  "rows": 1750,
+  "copy_macro_cer": 2.7210911671097837,
+  "oracle_macro_cer": 0.0,
+  "oracle_restoration_rate": 100.0,
+  "private_gold_http_status": 404,
+  "source_pool_http_status": 404
+}

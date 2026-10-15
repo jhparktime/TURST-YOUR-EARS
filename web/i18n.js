@@ -1,6 +1,15 @@
 // Translations are trusted, repository-owned markup. API values never enter this map.
 (() => {
   const english = {
+    publicEvalHeading: "Public eval · Score in your browser",
+    publicEvalNote: "The 409-utterance, one-hour public eval split of merged-v1. Score without a server or team key; your CSV is not uploaded. These are development scores using public references, separate from official private-test submissions and rankings.",
+    publicEvalFile: "Public eval prediction CSV · id,prediction · Maximum 2 MiB",
+    publicEvalButton: "Score public eval",
+    publicEvalCopy: "409-row Copy baseline CSV",
+    privateTestHeading: "Private test · Submit to the organizer server",
+    baselineResultsHeading: "Baseline benchmark",
+    baselineResultsNote: "Dataset: tye-ko-merged-v1. Eval is the public development split; test is the organizer-held evaluation split. The table reports measured fixed-model results, separate from participant rankings.",
+    teamLeaderboardHeading: "Participant leaderboard",
     text001: "Skip to content",
     text002: "Speech Recognition Project",
     text003: "Overview",
@@ -15,7 +24,7 @@
     text012: "Evaluation Code",
     text013: "Correcting Korean Transcript Drafts",
     text014:
-      "Listen to the audio and correct errors in a transcript draft. Drafts may contain a few substituted names or numbers. Some transcripts need no correction.",
+      "Listen to the audio and correct a transcript draft. The current dataset uses synthetic substitutions between phonetically similar nouns and includes drafts requiring no correction.",
     text015:
       "We evaluate both <strong>restoring erroneous spans</strong> and <strong>preserving correct spans</strong>. Comparisons with copying the draft and retranscribing the entire utterance help assess how audio contributes to correction.",
     text016: "Example utterance",
@@ -49,7 +58,7 @@
     text043:
       '<a href="assets/sample-submission.csv" download>Sample submission</a>: a six-row software test fixture without audio',
     text044:
-      "The five-hour Korean correction dataset contains 421 public eval utterances (one hour) and 1,658 private test utterances (four hours). File, split and scoring checks passed. Independent listening review, model experiments and the hosted scoring connection are pending.",
+      "Merged-v1: 472 train utterances (about 1h 13m), 409 public eval utterances (1h), and 1,750 private test utterances (4h). Copy and Whisper evaluations are complete. Additional model comparisons are in progress; independent listening review and the hosted private-test service remain pending.",
     text045: "Challenge",
     text046:
       "Trust Your Ears takes Korean audio and a potentially erroneous transcript draft as input and returns a complete transcript matching the utterance. It is a transcript correction task using both audio and text.",
@@ -88,10 +97,10 @@
     text074:
       "Does the system correct several errors while preserving the rest?",
     text075:
-      "The first version focuses on original audio and substitution errors. Changes to spaces or punctuation alone are not counted as injected errors. Identical pronunciations cannot be distinguished from audio alone and are not used as evidence of restoration ability.",
+      "This version uses original audio and synthetic noun substitutions. Whitespace or punctuation changes alone are not injected errors. Some homophones are filtered automatically; independent listening is still needed to verify every substitution is acoustically distinguishable.",
     text076: "Four Baselines",
     text077:
-      "Runnable code is available · No evaluation results on actual Korean audio yet.",
+      "Measured Copy and Whisper results are on the Leaderboard page. Additional input-ablation experiments are in progress.",
     text078: "Method",
     text079: "Available input",
     text080: "Purpose",
@@ -104,7 +113,7 @@
     text087: "Audio + draft",
     text088: "Additional benefit of providing audio",
     text089:
-      "The three model-based methods use the same Qwen2.5-Omni checkpoint and generation settings, varying only the input. Korean suitability and runtime requirements need pilot verification. Copy draft runs without installing a model.",
+      "Copy and Whisper audio-only have been measured. Separate Text-only, Audio+draft and Audio-only ablations use the same Qwen2.5-Omni checkpoint. Differences between Whisper and Qwen cannot be attributed solely to input modality.",
     text090: "Baseline code <span>↗</span>",
     text091: "Execution & reproducibility details <span>↗</span>",
     text092: "Research Focus",
@@ -114,7 +123,7 @@
     text095: "Qwen2.5-Omni · Model & terms of use <span>↗</span>",
     text096: "Data & Evaluation",
     text097:
-      "The dataset contains 2,079 real Zeroth-Korean recordings totaling five hours. Public eval (one hour) supports development and tuning; private test (four hours) is for the final leaderboard. Original audio and references are preserved; only drafts are corrupted.",
+      "We pooled 4,081 original recordings (about 9h 42m) and assigned 2,631 to disjoint active splits: public train about 1h 13m, public eval 1h, and private test 4h. Original audio and references are preserved; errors are synthesized only in drafts.",
     text098: "Submission File",
     text099:
       "Use a UTF-8 CSV with the columns <code>id,prediction</code>. Include every evaluation ID exactly once and provide the complete corrected transcript.",
@@ -131,7 +140,7 @@
       "Keep references unchanged and record substituted spans and replacement expressions.",
     text107: "Distribute public inputs separately from private references.",
     text108:
-      "The pilot contains 2,079 independent recordings and still requires independent human listening review. Organizers receive a review sheet.",
+      "Whisper transcription is complete for all 2,159 evaluation utterances. Automated file/split checks and model inference do not replace independent human listening review.",
     text109:
       "Public evaluation inputs contain only one draft per original audio file. Releasing both clean and corrupted variants of the same audio can reveal the reference through comparison. We separately document source lookup and pretraining contamination risks from reusing public corpora.",
     text110: "Korean Evaluation Protocol",
@@ -191,7 +200,7 @@
     text151: "Shared web & local scoring code <span>↗</span>",
     text152: "Submit Results",
     text153:
-      "Run your model in your own environment. Submit a transcript CSV here to view the results calculated by the scoring server.",
+      "Run your model in your own environment. Score public eval directly on this page; submit private test predictions to the organizer server.",
     text154: "Reconnect to scoring service ↻",
     text155: "Submit a Transcript File",
     text156: "Team key",
@@ -204,9 +213,9 @@
     text162: "Evaluation Results",
     text163:
       "After scoring, this panel shows condition CERs, improvement, restoration and damage metrics.",
-    text164: "References stay on the server",
+    text164: "Private test references stay on the server",
     text165:
-      "Official reference transcripts are not included in this page. Public sandbox examples are software test data with published references.",
+      "Public eval references are included for browser scoring. Private test references are excluded from the website, public repository and submission HTML.",
     text166: "Recent Submissions",
     text167: "Load history with team key ↻",
     text168: "Leaderboard",
@@ -234,14 +243,14 @@
     text187: "Organizers & contact",
     text188: "To be announced before official evaluation",
     text189: "Trust Your Ears · 2026 Speech Recognition Course Project",
-    datasetHeading: "Korean Transcript Correction · Five Hours v1",
+    datasetHeading: "Korean Transcript Correction · merged-v1",
     datasetDetails:
-      "Eval has 421 utterances from 20 speakers; test has 1,658 utterances from 46 speakers. Speakers, sessions, source sentences and waveforms are disjoint. Clean / Single / Multiple counts are 140 / 141 / 140 for eval and 553 / 552 / 553 for test, with 0 / 1 / 2 substitutions. Original recordings provide one and four hours without repeats, padding or speed changes.",
+      "Train: 472 utterances / 63 speakers; eval: 409 / 20; test: 1,750 / 32. Clean / Single / Multiple counts are 157 / 150 / 165 for train, 137 / 136 / 136 for eval, and 583 / 583 / 584 for test. Speakers, sessions, identical/near sentences and PCM waveforms are separated. The 1,450 reserved recordings are organizer-only and must not be used for training.",
     datasetLinks:
-      "<a href=\"https://github.com/jhparktime/TURST-YOUR-EARS/tree/main/datasets/tye-ko-5h-v1\" target=\"_blank\" rel=\"noopener\">Public inputs & references</a> / <a href=\"https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/datasets/tye-ko-5h-v1/README.md\" target=\"_blank\" rel=\"noopener\">Source, license & dataset card</a> / <a href=\"https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/scripts/build_five_hour_dataset.py\" target=\"_blank\" rel=\"noopener\">Generation code</a> / <a href=\"https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/datasets/tye-ko-5h-v1/eval/copy-draft.csv\" target=\"_blank\" rel=\"noopener\">Public eval Copy CSV</a>",
-    datasetDownloads: "<a href=\"https://github.com/jhparktime/TURST-YOUR-EARS/releases/download/dataset-ko-5h-v1/trust-your-ears-ko-5h-v1-public-eval.zip\" target=\"_blank\" rel=\"noopener\">Public eval audio, drafts & references ZIP</a> / <a href=\"https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/datasets/tye-ko-5h-v1/validation-report.json\" target=\"_blank\" rel=\"noopener\">Validation report</a> / <a href=\"https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/datasets/tye-ko-5h-v1/public-release-lock.json\" target=\"_blank\" rel=\"noopener\">Public bundle files & hashes</a>",
+      "<a href=\"https://github.com/jhparktime/TURST-YOUR-EARS/tree/main/datasets/tye-ko-merged-v1\" target=\"_blank\" rel=\"noopener\">Public inputs, references & dataset card</a> / <a href=\"https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/scripts/merge_correction_datasets.py\" target=\"_blank\" rel=\"noopener\">Merge & split code</a> / <a href=\"data/eval-copy.csv\" download>Public eval Copy CSV</a>",
+    datasetDownloads: "<a href=\"https://github.com/jhparktime/TURST-YOUR-EARS/releases/download/dataset-ko-merged-v1/tye-ko-merged-v1-participant.zip\">Train & eval audio, drafts and references ZIP</a> / <a href=\"https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/datasets/tye-ko-merged-v1/validation-report.json\" target=\"_blank\" rel=\"noopener\">Validation report</a> / <a href=\"https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/datasets/tye-ko-merged-v1/public-release-lock.json\" target=\"_blank\" rel=\"noopener\">Public file hashes</a>",
     datasetLimits:
-      "Source: Zeroth-Korean, CC BY 4.0. Official train/test partitions are pooled and repartitioned by speaker and sentence. Gold is upstream text with NFC only. Independent human listening and blind ASR checks have not been performed. Public-source lookup and pretraining contamination remain possible. Test audio, drafts, references and source mappings are kept in the private organizer bundle.",
+      "Source: Zeroth-Korean, CC BY 4.0. References receive NFC only. Blind Whisper inference is complete; independent listening review is pending. Synthetic substitutions do not represent an observed ASR error distribution and may be solvable from text cues. Public-source lookup and pretraining contamination remain possible. Releasing the new train split retires the previous test version; scores must not be mixed.",
   };
   const attributes = {
     "Trust Your Ears 홈": "Trust Your Ears home",

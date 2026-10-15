@@ -47,7 +47,11 @@ def transcribe(inputs, output, model_cache):
         row = {'id':ident, 'audio_sha256':checksum, 'prediction':result['text'].strip(),
                'elapsed_seconds':round(time.monotonic()-start, 3)}
         state['items'].append(row)
-        write_json(checkpoint, state)
+        # A stopped or interrupted long run must leave its last complete JSON
+        # checkpoint readable, rather than a partly overwritten file.
+        pending = checkpoint.with_suffix('.json.pending')
+        write_json(pending, state)
+        pending.replace(checkpoint)
         print(f'{index}/{len(audio_rows)} {ident}: {row["prediction"]}', flush=True)
     with (output / 'audio-only.csv').open('w', encoding='utf-8', newline='') as stream:
         writer = csv.writer(stream, lineterminator='\n')

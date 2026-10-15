@@ -10,10 +10,11 @@
     <meta name="theme-color" content="#702c35" />
     <title>Trust Your Ears · 한국어 전사 교정 챌린지</title>
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="style.css?v=20261015-5h-v1" />
-    <script src="config.js?v=20261015-5h-v1" defer></script>
-    <script src="i18n.js?v=20261015-5h-v1" defer></script>
-    <script src="app.js?v=20261015-5h-v1" defer></script>
+    <link rel="stylesheet" href="style.css?v=20261016-merged-v1" />
+    <script src="config.js?v=20261016-merged-v1" defer></script>
+    <script src="i18n.js?v=20261016-merged-v1" defer></script>
+    <script src="app.js?v=20261016-merged-v1" defer></script>
+    <script src="public-eval.js?v=20261016-merged-v1" defer></script>
   </head>
   <body>
     <a class="skip" href="#main" data-i18n="text001">본문으로 건너뛰기</a>
@@ -95,11 +96,7 @@
       <main id="main" tabindex="-1">
         <section class="page" data-page="home">
           <h1 data-i18n="text013">한국어 전사 초안의 오류 교정</h1>
-          <p class="intro" data-i18n="text014">
-            음성을 듣고 전사 초안의 틀린 표현을 고치는 과제입니다. 이름이나
-            숫자를 몇 군데 바꾼 초안을 제공하며, 수정할 필요가 없는 문장도
-            포함합니다.
-          </p>
+          <p class="intro" data-i18n="text014">음성을 듣고 전사 초안의 틀린 표현을 고치는 과제입니다. 현재 데이터는 발음이 가까운 명사를 일부 치환한 합성 초안을 제공하며, 수정할 필요가 없는 문장도 포함합니다.</p>
           <p data-i18n="text015">
             평가에서는 <strong>오류를 복원하는 능력</strong>과
             <strong>맞는 구간을 보존하는 능력</strong>을 함께 봅니다. 초안을
@@ -194,7 +191,7 @@
               : 음성 없는 6행의 프로그램 검증 자료
             </li>
           </ul>
-          <p class="release-note" data-i18n="text044">5시간 한국어 교정 데이터를 구성했습니다. 공개 eval 421개·1시간, 비공개 test 1,658개·4시간입니다. 파일·분할·채점 검사를 완료했으며 독립 청취 검수와 모델 실험, 온라인 채점 서버 연결은 아직 진행 전입니다.</p>
+          <p class="release-note" data-i18n="text044">통합 데이터 merged-v1: train 472개·약 1시간 13분, 공개 eval 409개·1시간, 비공개 test 1,750개·4시간입니다. Copy와 Whisper 평가를 완료했습니다. 추가 모델 비교는 진행 중이며, 독립 청취 검수와 비공개 채점 서버 연결은 아직입니다.</p>
         </section>
 
         <section class="page" data-page="challenge" hidden>
@@ -288,11 +285,7 @@
               </tbody>
             </table>
           </div>
-          <p class="note" data-i18n="text075">
-            첫 버전은 원본 음성과 치환 오류에 집중합니다. 공백·문장부호만 바꾸는
-            조작은 오류로 세지 않습니다. 서로 완전히 같은 발음의 표기는
-            음성만으로 구별할 수 없으므로 복원 능력의 근거로 사용하지 않습니다.
-          </p>
+          <p class="note" data-i18n="text075">현재 버전은 원본 음성과 합성 명사 치환 오류를 사용합니다. 공백·문장부호만 바꾸는 조작은 오류로 세지 않습니다. 일부 동음어를 자동 제외했지만, 모든 치환의 청각적 구분 가능성은 독립 청취로 확인해야 합니다.</p>
           <h2 class="spaced" data-i18n="text076">네 가지 베이스라인</h2>
           <div
             class="table-wrap"
@@ -302,9 +295,7 @@
             data-i18n-attr="aria-label"
           >
             <table>
-              <caption data-i18n="text077">
-                실행 코드 제공 · 실제 한국어 음성 평가 결과는 아직 없습니다.
-              </caption>
+              <caption data-i18n="text077">Copy·Whisper 실측 결과는 리더보드 페이지에서 확인할 수 있습니다. 추가 입력 비교 실험은 진행 중입니다.</caption>
               <thead>
                 <tr>
                   <th scope="col" data-i18n="text078">방법</th>
@@ -336,11 +327,7 @@
               </tbody>
             </table>
           </div>
-          <p data-i18n="text089">
-            세 모델 방식은 같은 Qwen2.5-Omni 체크포인트와 생성 설정으로 입력만
-            바꿉니다. 한국어 적합성과 실행 환경은 파일럿에서 확인해야 합니다.
-            Copy draft는 모델 설치 없이 실행할 수 있습니다.
-          </p>
+          <p data-i18n="text089">Copy와 Whisper audio-only를 측정했습니다. 별도로 같은 Qwen2.5-Omni 체크포인트에서 Text-only·Audio+draft·Audio-only 입력을 비교합니다. Whisper와 Qwen의 차이를 입력 방식만의 효과로 해석하지 않습니다.</p>
           <div class="references">
             <a
               href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/scripts/baseline.py"
@@ -382,12 +369,12 @@
 
         <section class="page" data-page="data" hidden>
           <h1 class="page-title" data-i18n="text096">데이터와 평가</h1>
-          <p class="intro" data-i18n="text097">Zeroth-Korean 실제 음성 2,079개, 총 5시간으로 구성했습니다. 공개 eval 1시간은 개발·튜닝용, 비공개 test 4시간은 최종 리더보드용입니다. 원본 음성과 정답을 유지하고 초안에만 오류를 주입했습니다.</p>
-          <h2 data-i18n="datasetHeading">한국어 전사 교정 · 5시간 v1</h2>
-          <p data-i18n="datasetDetails">Eval은 421개·화자 20명, test는 1,658개·화자 46명입니다. 화자·세션·원본 문장·파형을 분리했습니다. Clean / Single / Multiple 수량은 eval 140 / 141 / 140, test 553 / 552 / 553개이며, 오류는 각각 0 / 1 / 2곳입니다. 반복·패딩·속도 변경 없이 원본 재생 시간으로 1시간과 4시간을 구성했습니다.</p>
-          <p class="section-links" data-i18n="datasetLinks"><a href="https://github.com/jhparktime/TURST-YOUR-EARS/tree/main/datasets/tye-ko-5h-v1" target="_blank" rel="noopener">공개 입력·정답</a> / <a href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/datasets/tye-ko-5h-v1/README.md" target="_blank" rel="noopener">출처·라이선스·데이터 카드</a> / <a href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/scripts/build_five_hour_dataset.py" target="_blank" rel="noopener">생성 코드</a> / <a href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/datasets/tye-ko-5h-v1/eval/copy-draft.csv" target="_blank" rel="noopener">공개 eval Copy CSV</a></p>
-          <p class="section-links" data-i18n="datasetDownloads"><a href="https://github.com/jhparktime/TURST-YOUR-EARS/releases/download/dataset-ko-5h-v1/trust-your-ears-ko-5h-v1-public-eval.zip" target="_blank" rel="noopener">공개 eval 음성·초안·정답 ZIP</a> / <a href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/datasets/tye-ko-5h-v1/validation-report.json" target="_blank" rel="noopener">검증 보고서</a> / <a href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/datasets/tye-ko-5h-v1/public-release-lock.json" target="_blank" rel="noopener">공개 묶음 파일·해시</a></p>
-          <p class="note" data-i18n="datasetLimits">원천은 CC BY 4.0의 Zeroth-Korean입니다. 원천 공식 train/test를 합쳐 화자와 문장을 새로 분할했습니다. 정답은 원천 전사에 NFC만 적용했습니다. 사람의 독립 청취 검수와 블라인드 ASR 검증은 수행하지 않았습니다. 공개 원문 조회·사전학습 오염 가능성은 남아 있으며 test 음성·초안·정답·대응표는 운영자 비공개 묶음에 보관합니다.</p>
+          <p class="intro" data-i18n="text097">전체 원본 4,081개·약 9시간 42분을 통합하고, 독립 분할에 2,631개를 배정했습니다. 공개 train 약 1시간 13분, 공개 eval 1시간, 비공개 test 4시간입니다. 원본 음성과 정답을 유지하고 초안에만 오류를 합성했습니다.</p>
+          <h2 data-i18n="datasetHeading">한국어 전사 교정 · merged-v1</h2>
+          <p data-i18n="datasetDetails">Train은 472개·화자 63명, eval은 409개·20명, test는 1,750개·32명입니다. Clean / Single / Multiple 수량은 각각 train 157 / 150 / 165, eval 137 / 136 / 136, test 583 / 583 / 584개입니다. 화자·세션·동일/근접 문장·PCM 중복을 분리했습니다. 예비 1,450개는 운영자만 보관하며 학습에 사용하지 않습니다.</p>
+          <p class="section-links" data-i18n="datasetLinks"><a href="https://github.com/jhparktime/TURST-YOUR-EARS/tree/main/datasets/tye-ko-merged-v1" target="_blank" rel="noopener">공개 입력·정답과 데이터 카드</a> / <a href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/scripts/merge_correction_datasets.py" target="_blank" rel="noopener">통합·분할 코드</a> / <a href="data/eval-copy.csv" download>공개 eval Copy CSV</a></p>
+          <p class="section-links" data-i18n="datasetDownloads"><a href="https://github.com/jhparktime/TURST-YOUR-EARS/releases/download/dataset-ko-merged-v1/tye-ko-merged-v1-participant.zip">Train·eval 음성·초안·정답 ZIP</a> / <a href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/datasets/tye-ko-merged-v1/validation-report.json" target="_blank" rel="noopener">검증 보고서</a> / <a href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/datasets/tye-ko-merged-v1/public-release-lock.json" target="_blank" rel="noopener">공개 파일 해시</a></p>
+          <p class="note" data-i18n="datasetLimits">원천은 CC BY 4.0의 Zeroth-Korean입니다. 정답에는 NFC만 적용했습니다. Whisper 블라인드 추론은 완료했으나 독립 청취 검수는 아직입니다. 합성 치환은 실제 ASR 오류 분포가 아니며 텍스트 단서만으로 풀릴 가능성이 있습니다. 공개 원문 조회·사전학습 오염 가능성도 남습니다. 새 train 공개와 함께 이전 test 버전은 종료하며 점수를 혼합하지 않습니다.</p>
           <div class="split">
             <article class="panel">
               <h2 data-i18n="text098">제출 파일</h2>
@@ -427,7 +414,7 @@ toy-002,박지훈이 한빛전자 회의를 진행합니다.</pre
                   공개 입력과 비공개 정답을 분리해 전달합니다.
                 </li>
               </ol>
-              <p class="fine" data-i18n="text108">2,079개 독립 발화를 사용했습니다. 사람의 독립 청취 검수가 필요한 파일럿이며, 운영자에게 청취 검수표를 제공합니다.</p>
+              <p class="fine" data-i18n="text108">평가 2,159개 발화에 대한 Whisper 음성 전사를 완료했습니다. 자동 파일·분할 검증과 모델 추론은 사람의 독립 청취 검수를 대체하지 않습니다.</p>
             </article>
           </div>
           <p class="note" data-i18n="text109">
@@ -622,10 +609,19 @@ toy-002,박지훈이 한빛전자 회의를 진행합니다.</pre
 
         <section class="page" data-page="submit" hidden>
           <h1 class="page-title" data-i18n="text152">결과 제출</h1>
-          <p class="intro" data-i18n="text153">
-            모델은 참가자의 환경에서 실행합니다. 이 사이트에서는 전사 CSV를
-            제출하고 서버가 계산한 결과를 확인합니다.
-          </p>
+          <p class="intro" data-i18n="text153">모델은 참가자의 환경에서 실행합니다. 공개 eval은 이 페이지에서 바로 채점하고, 비공개 test는 운영자 서버에 제출합니다.</p>
+          <h2 data-i18n="publicEvalHeading">공개 eval · 브라우저에서 채점</h2>
+          <p data-i18n="publicEvalNote">merged-v1의 409개·1시간 공개 eval입니다. 서버나 팀 키 없이 채점하며 CSV는 외부로 전송하지 않습니다. 공개 정답을 사용하는 개발 점수로, 비공개 test의 공식 제출·순위와 구분합니다.</p>
+          <form id="public-eval-form" class="panel">
+            <label for="public-eval-file" data-i18n="publicEvalFile">공개 eval 예측 CSV · id,prediction · 최대 2 MiB</label>
+            <input id="public-eval-file" type="file" accept=".csv,text/csv" required />
+            <div class="form-actions">
+              <button id="public-eval-score" type="submit" class="button" data-i18n="publicEvalButton">공개 eval 채점</button>
+              <a href="data/eval-copy.csv" download data-i18n="publicEvalCopy">409행 Copy 기준점 CSV</a>
+            </div>
+          </form>
+          <div id="public-eval-result" class="panel result-panel" aria-live="polite"></div>
+          <h2 class="spaced" data-i18n="privateTestHeading">비공개 test · 운영자 서버 제출</h2>
           <div id="connection" class="status" role="status">
             채점 서비스에 연결하고 있습니다…
           </div>
@@ -716,11 +712,8 @@ toy-002,박지훈이 한빛전자 회의를 진행합니다.</pre
                 <div id="result-content" hidden></div>
               </div>
               <div class="small-note">
-                <strong data-i18n="text164">정답은 서버에서 관리합니다</strong>
-                <p data-i18n="text165">
-                  공식 정답 전사는 웹페이지에 포함하지 않습니다. 공개 샌드박스
-                  예시는 정답이 공개된 소프트웨어 테스트용 자료입니다.
-                </p>
+                <strong data-i18n="text164">비공개 test 정답은 서버에서 관리합니다</strong>
+                <p data-i18n="text165">공개 eval 정답은 브라우저 채점을 위해 포함됩니다. 비공개 test 정답은 웹페이지·공개 저장소·제출 HTML에 포함하지 않습니다.</p>
               </div>
             </aside>
           </div>
@@ -760,6 +753,10 @@ toy-002,박지훈이 한빛전자 회의를 진행합니다.</pre
             개선폭과 오류 복원·정상 구간 훼손을 함께 보고, 정확한 동점은 공동
             순위로 표시합니다.
           </p>
+          <h2 data-i18n="baselineResultsHeading">베이스라인 벤치마크</h2>
+          <p data-i18n="baselineResultsNote">현재 데이터 버전은 tye-ko-merged-v1입니다. Eval은 공개 개발셋, test는 운영자 비공개 평가셋입니다. 아래 표는 고정 모델의 실측값이며 참가 팀 순위와 구분합니다.</p>
+          <div id="baseline-results" aria-live="polite"></div>
+          <h2 class="spaced" data-i18n="teamLeaderboardHeading">참가 팀 리더보드</h2>
           <div id="leaderboard-mode" class="status" role="status">
             평가 상태 확인 중…
           </div>

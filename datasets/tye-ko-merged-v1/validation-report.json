@@ -1,0 +1,31 @@
+{
+  "name": "tye-ko-merged-v1",
+  "status": "software_validated_human_review_pending",
+  "pool_recordings_decoded": 4081,
+  "active_recordings": 2631,
+  "reserved_recordings": 1450,
+  "cross_split_speaker_session_text_pcm_overlap": 0,
+  "cross_split_near_sentences": 0,
+  "private_test_previously_exposed_sentences": 0,
+  "human_listening_review": "not_performed",
+  "splits": {
+    "train": {
+      "recordings": 472,
+      "seconds": 4395.9708125,
+      "speakers": 63,
+      "copy_macro_cer": 2.50418392407477
+    },
+    "eval": {
+      "recordings": 409,
+      "seconds": 3600.0348125,
+      "speakers": 20,
+      "copy_macro_cer": 2.626332321288199
+    },
+    "test": {
+      "recordings": 1750,
+      "seconds": 14399.81675,
+      "speakers": 32,
+      "copy_macro_cer": 2.7210911671097837
+    }
+  }
+}

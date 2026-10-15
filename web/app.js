@@ -202,6 +202,13 @@ async function connectService() {
   try {
     const health = await api("/health");
     ensureVersion(health);
+    if (health.mode === "evaluation" &&
+        (health.dataset !== window.CHALLENGE_CONFIG.expectedDataset ||
+         health.dataset_version !== window.CHALLENGE_CONFIG.expectedReferenceVersion))
+      throw localizedError(
+        "채점 서버의 데이터가 merged-v1과 다릅니다. 운영자에게 문의해 주세요.",
+        "The scoring server is not using merged-v1. Please contact the organizers.",
+      );
     service = health;
     const sandbox = health.mode === "sandbox";
     text("connection", () =>
@@ -534,8 +541,8 @@ async function loadLeaderboard() {
     );
     content("leaderboard", () =>
       empty(
-        "아직 공식 결과가 없습니다. 데이터·평가 페이지에서 채점 규칙과 예시 CSV를 확인하세요.",
-        "No official results yet. See Data & Evaluation for the scoring rules and sample CSV.",
+            "아직 참가 팀의 공식 결과가 없습니다. 위 베이스라인 표와 공개 eval 채점을 이용할 수 있습니다.",
+            "No official participant results yet. The baseline benchmark above and public eval scoring are available.",
       ),
     );
     $("refresh-leaderboard").hidden = true;

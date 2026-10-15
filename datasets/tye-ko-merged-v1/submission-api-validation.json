@@ -1,0 +1,10 @@
+{
+  "dataset": "tye-ko-merged-v1-test",
+  "reference_version": "a30819e3dadc",
+  "samples": 1750,
+  "actual_copy_and_whisper_test_submissions": "passed",
+  "restart_persistence": "passed",
+  "private_routes": "404",
+  "public_eval_whisper_python_browser_parity": "exact_match",
+  "hosted_private_api": "not_connected"
+}

@@ -53,8 +53,9 @@
       t("동일 merged-v1 평가셋 · 측정 완료된 결과만 표시", "Same merged-v1 evaluation sets · Completed measurements only")));
     box.append(wrap);
     if (baselineData.pending.length) box.append(element("p",
-      t("Qwen2.5-Omni의 Text-only·Audio+draft·Audio-only 비교는 실행 준비/진행 중입니다. 미완료 점수는 순위에 포함하지 않습니다.",
-        "Matched Qwen2.5-Omni Text-only, Audio+draft and Audio-only runs are being prepared or executed. Unfinished runs are excluded."), "fine"));
+      t("추가 모델의 split별 평가 ", "Additional per-split measurements pending: ") + baselineData.pending.length +
+      t("건이 진행 중입니다. 표에는 각 split의 전체 추론과 채점을 완료한 결과만 표시합니다.",
+        ". Only results with complete inference and scoring for that split are shown."), "fine"));
     const details = element("details"); details.append(element("summary", t("조건별 CER·WER와 전체 지표", "Condition CER/WER and full metrics")));
     const conditionWrap = element("div"); conditionWrap.className = "table-wrap";
     conditionWrap.append(table([t("방법", "Method"), "Split", "Clean CER", "Single CER", "Multiple CER", "Micro CER", "WER", "Worst CER"],

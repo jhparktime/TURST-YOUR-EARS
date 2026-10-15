@@ -8,7 +8,7 @@
 |---|---|---|
 | 메인화면 index.html | `web/index.html` | 자체 워크샵 디자인, 여섯 페이지와 한/영 전환 |
 | Challenge 설명·프로젝트 | Challenge·연구 발표 페이지, README | 음성+초안→전체 전사 교정으로 통일 |
-| Leaderboard·벤치마크 비교 | `web/data/baselines.json`, `docs/baseline-results.md` | Copy·Whisper eval/test 완료; Qwen 추가 실험 진행 중 |
+| Leaderboard·벤치마크 비교 | `web/data/baselines.json`, `docs/baseline-results.md` | Copy·Whisper eval/test와 Qwen Text-only eval 완료; 나머지 진행 중 |
 | 개인 GitHub | https://github.com/jhparktime/TURST-YOUR-EARS | 페이지 내 링크 |
 | Baseline 코드 | `scripts/baseline.py`, `scripts/run_omni_baselines.py` | 입력 분리·프롬프트·고정 버전·중단 재개 |
 | Evaluation 데이터 | `datasets/tye-ko-merged-v1/`, 참가자 ZIP | 공개 eval 409개·1시간 포함; 음성 ZIP 새 release 공개 완료 |

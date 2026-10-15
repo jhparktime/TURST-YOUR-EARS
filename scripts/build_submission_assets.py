@@ -7,10 +7,47 @@ import json
 from pathlib import Path
 
 from scripts.build_dataset import digest, write_json
+from scripts.run_omni_baselines import MODEL, REVISION
+from scripts.baseline import PROMPTS, SYSTEM
 from server.scoring import parse_submission, score, validate_manifest
 
 ROOT = Path(__file__).resolve().parent.parent
 DATASET = 'tye-ko-merged-v1'
+
+
+def public_eval_snapshot(omni, mode, public, refs):
+    """Accept a completed public split while private inference is still running.
+
+    The active runner files are never changed. Partial ID coverage, changed
+    inputs and mismatched inference settings must fail before publication.
+    """
+    folder = omni.parent / 'completed-public-eval'
+    score_path = folder / f'{mode}.scores.json'
+    if not score_path.exists():
+        return None
+    csv_path = folder / f'{mode}.csv'
+    proof = json.loads((folder / f'{mode}.receipt.json').read_text())
+    contract = proof['contract']
+    expected = {'model': MODEL, 'revision': REVISION, 'mode': mode,
+                'prompt': PROMPTS[mode], 'system': SYSTEM, 'row_limit': None,
+                'reference_access': False, 'seed': 0, 'max_new_tokens': 512,
+                'do_sample': False, 'output_postprocessing': 'strip_only'}
+    if any(key not in contract or contract[key] != value for key, value in expected.items()):
+        raise ValueError('Public snapshot model/settings differ from the fixed run.')
+    active = json.loads((omni / 'status.json').read_text())
+    if mode not in active['modes'] or contract != active['contract'] | {'mode': mode, 'prompt': PROMPTS[mode]}:
+        raise ValueError('Public snapshot does not match the inference run contract.')
+    if (proof.get('state') != 'full_public_eval_completed'
+            or proof.get('private_predictions_exported') is not False
+            or proof.get('rows') != len(refs)
+            or proof.get('predictions_sha256') != digest(csv_path)
+            or proof.get('reference_sha256') != digest(public / 'eval/references.json')
+            or contract['input_manifests_sha256']['eval'] != digest(public / 'eval/inputs.json')):
+        raise ValueError('Public snapshot coverage/provenance mismatch.')
+    metrics = json.loads(score_path.read_text())
+    if score(parse_submission(csv_path.read_bytes()), refs) != metrics:
+        raise ValueError('Public snapshot scores differ from current evaluator.')
+    return score_path, csv_path
 
 
 def build(results, public, output):
@@ -36,12 +73,17 @@ def build(results, public, output):
     for label, folder, mode in candidates:
         for split in ('eval', 'test'):
             score_path = folder / split / f'{mode}.scores.json'
+            csv_path = folder / split / f'{mode}.csv'
+            if not score_path.exists() and folder == omni and split == 'eval':
+                snapshot = public_eval_snapshot(omni, mode, public, refs)
+                if snapshot is not None:
+                    score_path, csv_path = snapshot
             if not score_path.exists():
                 pending.append({'baseline': label, 'split': split, 'state': 'not_completed'})
                 continue
             metrics = json.loads(score_path.read_text())
             if split == 'eval':
-                fresh = score(parse_submission((folder / split / f'{mode}.csv').read_bytes()), refs)
+                fresh = score(parse_submission(csv_path.read_bytes()), refs)
                 if fresh != metrics:
                     raise ValueError('Saved scores differ from current evaluator.')
             if metrics['scorer'] != metadata['protocol'] or metrics['utterances'] != metadata['splits'][split]['utterances']:

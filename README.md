@@ -64,7 +64,7 @@ CI는 임시 PostgreSQL로 재시작 후 결과 보존도 확인합니다. 로�
 |---|---|---|
 | Copy draft | 초안 | eval/test 완료 |
 | Whisper large-v3-turbo | 음성 | eval/test 2,159개 완료 |
-| Qwen2.5-Omni-3B · Text-only | 초안 | 실행 준비/진행 중 |
+| Qwen2.5-Omni-3B · Text-only | 초안 | 공개 eval 409개 완료; test 진행 중 |
 | Qwen2.5-Omni-3B · Audio+draft | 음성 + 초안 | 실행 준비/진행 중 |
 | Qwen2.5-Omni-3B · Audio-only | 음성 | 동일 모델 입력 비교용, 실행 준비/진행 중 |
 

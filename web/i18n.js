@@ -100,7 +100,7 @@
       "This version uses original audio and synthetic noun substitutions. Whitespace or punctuation changes alone are not injected errors. Some homophones are filtered automatically; independent listening is still needed to verify every substitution is acoustically distinguishable.",
     text076: "Four Baselines",
     text077:
-      "Measured Copy and Whisper results are on the Leaderboard page. Additional input-ablation experiments are in progress.",
+      "Measured eval/test results for Copy and Whisper, plus public-eval results for Qwen Text-only, are on the Leaderboard page. The remaining input-ablation experiments are in progress.",
     text078: "Method",
     text079: "Available input",
     text080: "Purpose",

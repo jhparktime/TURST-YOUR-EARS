@@ -783,6 +783,21 @@ toy-002,박지훈이 한빛전자 회의를 진행합니다.</pre
             한국어 전사 교정, 평가 데이터 설계, 음향 검증을 함께 논의하는 연구
             발표를 준비합니다.
           </p>
+          <h2 data-i18n="diagnosticHeading">예비 실험 · 합성 오류의 난이도</h2>
+          <p data-i18n="diagnosticMethod">공개 eval 409개에서 기존 Whisper 출력과 초안을 비교해, 길이가 같고 자모 차이가 작은 한글 단어만 수정했습니다. 수정 한도 5개를 비교한 개발 실험입니다.</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th data-i18n="diagnosticMethodColumn">방법</th><th>Macro CER ↓</th><th data-i18n="diagnosticRestoreColumn">오류 복원률 ↑</th><th data-i18n="diagnosticDamageColumn">정상 구간 훼손률 ↓</th></tr></thead>
+              <tbody>
+                <tr><td data-i18n="diagnosticCopy">초안 복사</td><td>2.63%</td><td>0.00%</td><td>0.00%</td></tr>
+                <tr><td data-i18n="diagnosticWhisper">Whisper 전체 재전사</td><td>6.19%</td><td>96.57%</td><td>6.34%</td></tr>
+                <tr><td data-i18n="diagnosticFilter">Whisper + 단순 수정 필터 (2/2)</td><td>1.71%</td><td>70.10%</td><td>1.00%</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p data-i18n="diagnosticInterpretation">2/2는 최대 음절 변화 2개·자모 편집 거리 2를 뜻하며, 공개 eval에서 CER가 가장 낮은 조합입니다. 이 필터도 정상 문장 137개 중 42개(30.66%)를 바꿨습니다. 생성 규칙을 아는 간단한 필터가 유리하다는 결과로, 비공개 test 성능이나 새로운 방법의 독창성을 입증하지 않습니다.</p>
+          <p data-i18n="diagnosticNext">현재 자료는 통제된 합성 오류의 파일럿입니다. 후속 검증에는 실제 ASR 오류와 문맥상 자연스러운 혼동, 독립 청취 검수가 필요합니다. 이 실험은 아래 토론 주제인 음향 검증 모듈의 구현·검증 결과와 구분합니다.</p>
+          <p><a href="https://github.com/jhparktime/TURST-YOUR-EARS/tree/main/docs/measurements/selective-public-eval" target="_blank" rel="noopener" data-i18n="diagnosticLink">전체 5개 조합·공개 예측·재현 코드</a></p>
           <div class="split">
             <article class="panel">
               <h2 data-i18n="text174">발표와 토론 주제</h2>

@@ -35,6 +35,7 @@ GitHub Pages와 수업 HTML에 넣지 않는다. Test 집계 성능과 조건별
 3. 완료: 참가자 train/eval ZIP과 SHA256을 [새 release](https://github.com/jhparktime/TURST-YOUR-EARS/releases/tag/dataset-ko-merged-v1)로 공개했다. 운영자 ZIP은 비공개다.
 4. 완료: Push와 Pages 배포 CI가 통과했고, 실제 공개 사이트에서 409행 Copy 제출의 채점과 한/영 전환을 확인했다.
 5. 최신 공개 자료로 HTML을 다시 생성해 단일 파일에서 채점·한/영 전환을 확인한다.
+6. 비공개 Test 채점 서버는 아직 미연결이다. [무료 배포 안내](free-evaluation-hosting.md)에 따라 계정·Secret File·DB를 연결하고 원격 채점과 재시작 후 보존을 확인한다.
 
 독립 청취 미검수와 합성 명사 치환의 한계는 공개 자료에 명시한다. 현재 결과만으로
 실제 ASR 오류에 대한 일반화나 음성 활용의 추가 이득을 입증했다고 주장하지 않는다.

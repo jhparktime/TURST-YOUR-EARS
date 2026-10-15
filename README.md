@@ -190,7 +190,7 @@ REFERENCE_PATH=/data/private/test-references.json uvicorn server.app:create_app 
 
 ## 평가 규격
 
-공통 구현: [`server/scoring.py`](server/scoring.py), **ko-correction-v1**. 5시간 데이터 v1의 분할·조건 수량·정답·주입 주석·파일 해시는 고정했습니다. 사람의 청취 검수 인증을 뜻하지 않습니다. 챌린지 운영 전 제출 기간과 모델/외부 데이터 사용 규칙을 공지하고, 추가 검수로 내용을 변경하면 새 데이터 버전으로 배포합니다.
+공통 구현: [`server/scoring.py`](server/scoring.py), **ko-correction-v1**. 현재 `tye-ko-merged-v1`의 분할·조건 수량·정답·주입 주석·파일 해시는 고정했습니다. 사람의 청취 검수 인증을 뜻하지 않습니다. 챌린지 운영 전 제출 기간과 모델/외부 데이터 사용 규칙을 공지하고, 추가 검수로 내용을 변경하면 새 데이터 버전으로 배포합니다.
 
 ### 정규화와 순위
 
@@ -235,6 +235,8 @@ CSV는 정확히 `id,prediction` 두 열, UTF-8, 모든 ID 한 번씩입니다. 
 GitHub Pages만으로 비공개 서버 채점을 실행할 수 없습니다. `web/config.js`의 `apiBase`가 비어 있으면 공개 eval 채점은 계속 사용할 수 있고, Pages는 비공개 test 서버 제출만 준비 상태로 표시합니다. 로컬에서는 같은 출처의 FastAPI에 연결됩니다. 웹과 서버의 scorer 버전이 다르면 제출을 막습니다.
 
 배포는 GitHub Settings → Pages → GitHub Actions를 선택한 후 `main`에 push하면 테스트 후 실행됩니다. 호스팅된 API 연결은 별도 운영 단계입니다. [`render.yaml`](render.yaml)을 활용할 수 있으나 [무료 서비스의 현재 제약](https://render.com/docs/free)을 확인하고 영속 DB를 사용해야 합니다. 서버 계정·키는 이 저장소에서 발급하지 않습니다.
+
+[무료 비공개 채점 서버 연결 안내](docs/free-evaluation-hosting.md)에 현재 Test 정답의 Secret File 전달 방법과 정확한 설정값, 연결 확인 절차를 정리했습니다. Render·Supabase 계정 연결과 실제 원격 배포 검증은 아직입니다.
 
 ```text
 DEMO_MODE=0

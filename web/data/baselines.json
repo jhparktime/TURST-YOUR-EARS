@@ -632,14 +632,99 @@
         "utterances": 409
       },
       "score_file_sha256": "0372e2d6620bea580e0282046fe3a7a5bd8966b0e22e9bd0b94b3958c5e9ac9f"
-    }
-  ],
-  "pending": [
+    },
     {
       "baseline": "Qwen2.5-Omni-3B · audio-draft",
       "split": "test",
-      "state": "not_completed"
-    },
+      "metrics": {
+        "scorer": "ko-correction-v1",
+        "primary_metric": "macro_cer",
+        "macro_cer": 4.383286468004256,
+        "draft_macro_cer": 2.7210911671097837,
+        "cer_improvement_pp": -1.662195300894472,
+        "micro_cer": 4.385540224320181,
+        "micro_wer": 11.878140948225486,
+        "worst_cer": 5.113818531580635,
+        "restoration_rate": 67.44717304397487,
+        "restored": 1181,
+        "edit_total": 1751,
+        "harmful_edit_rate": 2.9752906771399914,
+        "harmed": 2106,
+        "preserved_total": 70783,
+        "clean_change_rate": 25.900514579759864,
+        "clean_changed": 151,
+        "clean_total": 583,
+        "conditions": {
+          "clean": {
+            "errors": 913,
+            "draft_errors": 0,
+            "characters": 24725,
+            "word_errors": 811,
+            "words": 8546,
+            "utterances": 583,
+            "restored": 0,
+            "edit_total": 0,
+            "harmed": 873,
+            "preserved_total": 24725,
+            "clean_changed": 151,
+            "clean_total": 583,
+            "cer": 3.692618806875632,
+            "draft_cer": 0.0,
+            "cer_improvement_pp": -3.692618806875632,
+            "wer": 9.489819798736251,
+            "restoration_rate": null,
+            "harmful_edit_rate": 3.5308392315470174,
+            "clean_change_rate": 25.900514579759864
+          },
+          "single": {
+            "errors": 1276,
+            "draft_errors": 665,
+            "characters": 24952,
+            "word_errors": 1084,
+            "words": 8599,
+            "utterances": 583,
+            "restored": 406,
+            "edit_total": 583,
+            "harmed": 662,
+            "preserved_total": 23762,
+            "clean_changed": 0,
+            "clean_total": 0,
+            "cer": 5.113818531580635,
+            "draft_cer": 2.6651170246873996,
+            "cer_improvement_pp": -2.448701506893235,
+            "wer": 12.606116990347715,
+            "restoration_rate": 69.63979416809606,
+            "harmful_edit_rate": 2.785960777712314,
+            "clean_change_rate": null
+          },
+          "multiple": {
+            "errors": 1072,
+            "draft_errors": 1357,
+            "characters": 24681,
+            "word_errors": 1154,
+            "words": 8524,
+            "utterances": 584,
+            "restored": 775,
+            "edit_total": 1168,
+            "harmed": 571,
+            "preserved_total": 22296,
+            "clean_changed": 0,
+            "clean_total": 0,
+            "cer": 4.343422065556501,
+            "draft_cer": 5.4981564766419515,
+            "cer_improvement_pp": 1.1547344110854503,
+            "wer": 13.53824495541999,
+            "restoration_rate": 66.3527397260274,
+            "harmful_edit_rate": 2.5609974883387157,
+            "clean_change_rate": null
+          }
+        },
+        "utterances": 1750
+      },
+      "score_file_sha256": "21d8740aa91aa3b4136b14611e6344c761345a8513fa8b0cd0fe1add0a9d2325"
+    }
+  ],
+  "pending": [
     {
       "baseline": "Qwen2.5-Omni-3B · audio-only",
       "split": "eval",

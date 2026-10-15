@@ -191,7 +191,7 @@
               : 음성 없는 6행의 프로그램 검증 자료
             </li>
           </ul>
-          <p class="release-note" data-i18n="text044">통합 데이터 merged-v1: train 472개·약 1시간 13분, 공개 eval 409개·1시간, 비공개 test 1,750개·4시간입니다. Copy와 Whisper 평가를 완료했습니다. 추가 모델 비교는 진행 중이며, 독립 청취 검수와 비공개 채점 서버 연결은 아직입니다.</p>
+          <p class="release-note" data-i18n="text044">통합 데이터 merged-v1: train 472개·약 1시간 13분, 공개 eval 409개·1시간, 비공개 test 1,750개·4시간입니다. Copy·Whisper·Qwen Text-only의 eval/test 평가를 완료했습니다. Qwen의 두 음성 입력 비교는 진행 중이며, 독립 청취 검수와 비공개 채점 서버 연결은 아직입니다.</p>
         </section>
 
         <section class="page" data-page="challenge" hidden>
@@ -295,7 +295,7 @@
             data-i18n-attr="aria-label"
           >
             <table>
-              <caption data-i18n="text077">Copy·Whisper의 eval/test와 Qwen Text-only의 공개 eval 실측 결과를 리더보드 페이지에서 확인할 수 있습니다. 나머지 입력 비교 실험은 진행 중입니다.</caption>
+              <caption data-i18n="text077">Copy·Whisper·Qwen Text-only의 eval/test 실측 결과를 리더보드 페이지에서 확인할 수 있습니다. 나머지 입력 비교 실험은 진행 중입니다.</caption>
               <thead>
                 <tr>
                   <th scope="col" data-i18n="text078">방법</th>
@@ -327,7 +327,7 @@
               </tbody>
             </table>
           </div>
-          <p data-i18n="text089">Copy와 Whisper audio-only를 측정했습니다. 별도로 같은 Qwen2.5-Omni 체크포인트에서 Text-only·Audio+draft·Audio-only 입력을 비교합니다. Whisper와 Qwen의 차이를 입력 방식만의 효과로 해석하지 않습니다.</p>
+          <p data-i18n="text089">Copy·Whisper audio-only·Qwen Text-only를 측정했습니다. 같은 Qwen2.5-Omni 체크포인트에서 두 음성 입력 조건의 추가 실험을 진행합니다. Whisper와 Qwen의 차이를 입력 방식만의 효과로 해석하지 않습니다.</p>
           <div class="references">
             <a
               href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/scripts/baseline.py"

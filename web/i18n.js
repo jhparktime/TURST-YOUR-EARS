@@ -58,7 +58,7 @@
     text043:
       '<a href="assets/sample-submission.csv" download>Sample submission</a>: a six-row software test fixture without audio',
     text044:
-      "Merged-v1: 472 train utterances (about 1h 13m), 409 public eval utterances (1h), and 1,750 private test utterances (4h). Eval/test evaluations for Copy, Whisper, Qwen Text-only and Qwen Audio+draft are complete. The matched Qwen Audio-only comparison is in progress; independent listening review and the hosted private-test service remain pending.",
+      "Merged-v1: 472 train utterances (about 1h 13m), 409 public eval utterances (1h), and 1,750 private test utterances (4h). Eval/test evaluations for Copy, Whisper, Qwen Text-only and Qwen Audio+draft are complete. Public eval for the matched Qwen Audio-only comparison is also complete; its test inference is in progress. Independent listening review and the hosted private-test service remain pending.",
     text045: "Challenge",
     text046:
       "Trust Your Ears takes Korean audio and a potentially erroneous transcript draft as input and returns a complete transcript matching the utterance. It is a transcript correction task using both audio and text.",
@@ -100,7 +100,7 @@
       "This version uses original audio and synthetic noun substitutions. Whitespace or punctuation changes alone are not injected errors. Some homophones are filtered automatically; independent listening is still needed to verify every substitution is acoustically distinguishable.",
     text076: "Four Baselines",
     text077:
-      "Measured eval/test results for Copy, Whisper, Qwen Text-only and Qwen Audio+draft are on the Leaderboard page. The matched Qwen Audio-only comparison is in progress.",
+      "Measured eval/test results for Copy, Whisper, Qwen Text-only and Qwen Audio+draft are on the Leaderboard page. Public eval for the matched Qwen Audio-only comparison is also complete; its test inference is in progress.",
     text078: "Method",
     text079: "Available input",
     text080: "Purpose",
@@ -113,7 +113,7 @@
     text087: "Audio + draft",
     text088: "Additional benefit of providing audio",
     text089:
-      "Copy, Whisper audio-only, Qwen Text-only and Qwen Audio+draft have been measured on eval and test. The Audio-only comparison uses the same Qwen2.5-Omni checkpoint. Differences between Whisper and Qwen cannot be attributed solely to input modality.",
+      "Copy, Whisper audio-only, Qwen Text-only and Qwen Audio+draft have been measured on eval and test. The Audio-only comparison uses the same Qwen2.5-Omni checkpoint; public eval is complete and test inference is in progress. Differences between Whisper and Qwen cannot be attributed solely to input modality.",
     text090: "Baseline code <span>↗</span>",
     text091: "Execution & reproducibility details <span>↗</span>",
     text092: "Research Focus",

@@ -13,6 +13,7 @@
 | Qwen2.5-Omni-3B · text-only | test | 10.6928 | 10.6915 | 18.3490 | -7.9717 | 8.2810 | 7.3238 | 49.0566 | 13.1437 |
 | Qwen2.5-Omni-3B · audio-draft | eval | 4.7073 | 4.7054 | 12.6479 | -2.0810 | 66.6667 | 3.7181 | 30.6569 | 5.4470 |
 | Qwen2.5-Omni-3B · audio-draft | test | 4.3833 | 4.3855 | 11.8781 | -1.6622 | 67.4472 | 2.9753 | 25.9005 | 5.1138 |
+| Qwen2.5-Omni-3B · audio-only | eval | 13.9612 | 13.9445 | 31.3719 | -11.3349 | 93.3824 | 10.1842 | 71.5328 | 20.8020 |
 
 Copy는 초안을 그대로 유지합니다. Whisper는 초안 없이 음성만 입력합니다.
 Whisper: `mlx-community/whisper-large-v3-turbo@a4aaeec0636e6fef84abdcbe3544cb2bf7e9f6fb`.
@@ -20,7 +21,7 @@ ko, temperature 0, task transcribe, initial prompt 없음, 이전 발화 문맥 
 Qwen 실험은 고정 `Qwen/Qwen2.5-Omni-3B@f75b40e3da2003cdd6e1829b1f420ca70797c34e`에서 입력만 비교합니다.
 Whisper와 Qwen의 성능 차이를 입력 효과만으로 해석하지 않습니다.
 
-미완료 split별 측정: 2건. 조건별 CER/WER와 분자·분모는 [전체 JSON](../web/data/baselines.json)을 확인하세요.
+미완료 split별 측정: 1건. 조건별 CER/WER와 분자·분모는 [전체 JSON](../web/data/baselines.json)을 확인하세요.
 
 현재 오류는 실제 ASR 오인식이 아닌 합성 명사 치환입니다. 독립 청취 검수는 아직이며,
 높은 주입 구간 복원률을 전체 문장 정확도 또는 음성 활용의 증거로 해석하지 않습니다.

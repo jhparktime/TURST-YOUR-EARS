@@ -1,0 +1,16 @@
+{
+  "scope": "export replay using the same pinned sources and prepared build plan",
+  "public_files_compared": 430,
+  "private_files_compared": 1673,
+  "all_file_sha256_identical": true,
+  "public_archive": {
+    "exact_replay": true,
+    "files": 430,
+    "archive": "trust-your-ears-ko-5h-v1-public-eval.zip",
+    "bytes": 85979975,
+    "sha256": "6cfcb9d93f8f8dbed8c78bdb4d4de24e7af8e26e7802a566dda618db9b94898c",
+    "zip_crc": "passed"
+  },
+  "private_archive_crc": "passed",
+  "private_archive_published": false
+}

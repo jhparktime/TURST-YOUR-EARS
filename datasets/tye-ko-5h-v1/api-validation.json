@@ -1,0 +1,8 @@
+{
+  "test_rows": 1658,
+  "api_mode": "production_local_test",
+  "copy_macro_cer": 2.686545780369217,
+  "oracle_macro_cer": 0,
+  "oracle_restoration_rate": 100,
+  "private_reference_http_status": 404
+}

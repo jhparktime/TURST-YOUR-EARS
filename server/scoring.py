@@ -7,7 +7,8 @@ from collections import defaultdict
 VERSION = "ko-correction-v1"
 CONDITIONS = ("clean", "single", "multiple")
 MAX_ROWS = 20000
-MAX_CELLS = 15_000_000
+# Bounded total dynamic-programming work for a four-hour test submission.
+MAX_CELLS = 40_000_000
 IGNORED = set(',!?;:"\'“”‘’()[]{}<>，！？。…·')
 
 

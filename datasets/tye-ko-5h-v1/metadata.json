@@ -1,0 +1,74 @@
+{
+  "name": "tye-ko-5h-v1",
+  "protocol": "ko-correction-v1",
+  "status": "pilot_pending_independent_listening",
+  "source": "kresnik/zeroth_korean",
+  "source_revision": "1fe937899f828af822293d05e086200946088bdf",
+  "license": "CC-BY-4.0",
+  "source_files": {
+    "test-00000-of-00001.parquet": {
+      "bytes": 59847930,
+      "sha256": "2f6382b902622ede1bf35e5a167a9b06b0f1b8c896e1947324b8b5180fca7502"
+    },
+    "train-00000-of-00006.parquet": {
+      "bytes": 499070876,
+      "sha256": "6801a64e3f5c9b49bedfffc41733dfceffbf822237ac9cd70c9687944a685943"
+    },
+    "train-00001-of-00006.parquet": {
+      "bytes": 470691683,
+      "sha256": "5f189248aed0befdecea9fb3cd843d18819419acfbe2be32fcc61af94360b64b"
+    },
+    "train-00002-of-00006.parquet": {
+      "bytes": 444033028,
+      "sha256": "b7f7b4cdd57af262313485bd41c454f575509ef4eba17240f2078033693b2069"
+    }
+  },
+  "human_listening_review": "not_performed",
+  "blind_asr_crosscheck": "not_performed",
+  "gold_policy": "unchanged_upstream_text_NFC_only",
+  "speaker_disjointness": "checked_upstream_speaker_ids",
+  "draft_recipe": "attested_noun_nearest_one_or_two_jamo_component_substitutions",
+  "splits": {
+    "eval": {
+      "visibility": "public",
+      "utterances": 421,
+      "duration_seconds": 3600.001375,
+      "speakers": 20,
+      "conditions": {
+        "single": 141,
+        "clean": 140,
+        "multiple": 140
+      },
+      "copy_macro_cer": 2.715577098992489,
+      "inputs_sha256": "3efab80aed781984e04dafcd2acf0db980725b20833046b255e4081efa292e41",
+      "references_sha256": "3294fc9a8f611b152385fdc0af116e7d3b0e21af28f032c6f7c724839a8254e7"
+    },
+    "test": {
+      "visibility": "private",
+      "utterances": 1658,
+      "duration_seconds": 14400.0070625,
+      "speakers": 46,
+      "conditions": {
+        "single": 552,
+        "clean": 553,
+        "multiple": 553
+      },
+      "copy_macro_cer": 2.686545780369217,
+      "inputs_sha256": "98be00e2f88b64740bb733208fdbe7cfcd3fc8e14c005bb27161dd1fd2827f8f",
+      "references_sha256": "d158f0627d90c5ebbce3757d13466543668cc3fac080924c7fa571f7304a8a26"
+    }
+  },
+  "target_duration_seconds": {
+    "eval": 3600,
+    "test": 14400
+  },
+  "limitations": [
+    "Source transcripts and phonetic distinguishability are not independently human audited.",
+    "Synthetic real-word substitutions do not represent measured ASR confusion probabilities.",
+    "Simplified homophone exclusions do not implement full Korean phonology.",
+    "Public upstream audio/text may be searchable or present in model pretraining.",
+    "Official train/test partitions are pooled then repartitioned by speaker and sentence.",
+    "Durations include natural source silences; no padding, cropping, or speed changes.",
+    "Test answers and source mappings remain private; public source data cannot be made secret."
+  ]
+}

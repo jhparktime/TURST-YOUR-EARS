@@ -2,11 +2,11 @@
 
 **한국어 음성 + 전사 초안 → 실제 발화에 맞게 교정한 전체 전사문.**
 
-음성을 근거로 초안의 오류를 복원하면서 원래 맞던 부분을 보존하는 **Audio-grounded Transcript Correction** 챌린지입니다. 한국어 음성·전사 자료를 재사용하고 전사의 일부만 치환해 입력 초안을 만듭니다. 음성과 검수된 정답 전사는 바꾸지 않습니다.
+음성을 근거로 초안의 오류를 복원하면서 원래 맞던 부분을 보존하는 **Audio-grounded Transcript Correction** 챌린지입니다. 한국어 음성·전사 자료를 재사용하고 전사의 일부만 치환해 입력 초안을 만듭니다. 음성과 원천 정답 전사는 바꾸지 않습니다.
 
 [웹사이트](https://jhparktime.github.io/TURST-YOUR-EARS/) · [베이스라인](scripts/baseline.py) · [채점 코드](server/scoring.py)
 
-**현재 상태:** 웹·채점 규격·베이스라인 코드와 [최종 한국어 교정 데이터 v2](datasets/tye-ko-v2/README.md)를 제공합니다. 개발 60개·평가 60개이며 원천 전사와 주입 단어를 자동 교차 검증했습니다. 사람의 독립 청취 검수는 수행하지 않았습니다. 교정 모델 비교 실험과 호스팅된 채점 서버 연결은 별도 작업입니다. `examples/`의 6행은 음성 없는 소프트웨어 테스트 자료입니다.
+**현재 상태:** [한국어 교정 5시간 데이터 v1](datasets/tye-ko-5h-v1/README.md)을 구성했습니다. **공개 eval 421개·1시간 / 비공개 test 1,658개·4시간**, 화자는 각각 20명·46명입니다. 원천·해시·중복·분할·전체 test 채점을 검사했습니다. 사람의 독립 청취 검수와 모델 비교 실험은 아직 수행하지 않았습니다. 호스팅된 채점 서버 연결은 별도 작업입니다. `examples/`의 6행은 음성 없는 소프트웨어 테스트 자료입니다.
 
 ## 과제 정의
 
@@ -92,20 +92,28 @@ python -m scripts.evaluate --references /data/dev/references.json --predictions 
 
 ## 평가용 음성 데이터
 
-[최종 데이터 v2](datasets/tye-ko-v2/README.md)는 실제 음성 120개, 개발 60개·평가 60개이며 각 split은 Clean/Single/Multiple을 20개씩 포함합니다. 총 약 25분 38초입니다. 원천 train은 개발, dev/test는 평가에 사용해 원천 화자 분리 정책을 따릅니다. **평가에서는 v1에 공개한 모든 원본 문장·음성과 유사 전사를 제외**했습니다. v1은 이전 파일럿 기록이며 v2 결과와 혼합하지 않습니다.
+[5시간 데이터 카드](datasets/tye-ko-5h-v1/README.md)와 [구축·인계 안내](docs/five-hour-dataset.md)를 기준으로 합니다. Zeroth-Korean의 실제 음성을 사용하고 전사 초안에만 합성 치환을 넣었습니다. 공개 eval은 개발·튜닝용이며, 비공개 test는 최종 리더보드용입니다. 원천 공식 train/test를 합친 뒤 화자와 문장을 새로 분할했습니다.
 
-[최종 구축 코드](scripts/build_final_dataset.py), [블라인드 음성 전사 코드](scripts/transcribe_audio.py), [검증 코드](scripts/validate_dataset.py)를 제공합니다. 원천 공식 전사는 변경하지 않으며, 전사 CER 10% 이하이고 주입할 단어 두 곳 이상을 음성 전사로 확인한 후보에서 선별합니다. 전체 일치를 요구하지 않아 검증 모델의 0% CER을 보장하지 않습니다. 선택에 사용한 모델의 `audio-only-qa.scores.json`은 진단용 실측값이며 공정한 독립 비교 결과가 아닙니다.
+| Split | 발화 | 재생 시간 | 공개 범위 |
+|---|---:|---:|---|
+| eval | 421 | 1시간 | 음성·초안·정답 |
+| test | 1,658 | 4시간 | 운영자 비공개; 참가자 입력은 별도 배포 |
 
-[전체 공개 ZIP](https://github.com/jhparktime/TURST-YOUR-EARS/releases/download/dataset-v2.0.0/trust-your-ears-korean-v2-public.zip)을 내려받을 수 있습니다. 공개 개발 정답은 `datasets/tye-ko-v2/dev/references.json`, 운영자용 평가 정답·전사 검증 출력·원천 대응표·추가 청취 검수표는 로컬 `private-data/tye-ko-v2/`에 있습니다. 원천·생성 코드가 공개되어 완전히 비밀인 테스트셋은 아닙니다. 사람의 독립 청취 검수는 수행하지 않았으며 원천 및 검증 모델의 공통 오류와 사전학습 오염 가능성이 남습니다.
+[공개 eval ZIP](https://github.com/jhparktime/TURST-YOUR-EARS/releases/download/dataset-ko-5h-v1/trust-your-ears-ko-5h-v1-public-eval.zip)을 내려받아 사용합니다. Git에는 공개 manifest와 검증 보고서를 보관하며, 음성 파일은 release ZIP에 있습니다. 비공개 정답·원본 대응표·청취 검수표는 로컬 `private-data/tye-ko-5h-v1/`에 있고 공개 release에 포함하지 않습니다.
 
 ```sh
-pip install -r requirements-dataset.txt
-python -m scripts.validate_dataset --dataset datasets/tye-ko-v2 --private private-data/tye-ko-v2 --source-cache /path/to/fleurs-cache
-python -m scripts.baseline --mode copy --inputs datasets/tye-ko-v2/eval/inputs.json --output /tmp/tye-v2-copy.csv
-python -m scripts.evaluate --references private-data/tye-ko-v2/eval-references.json --predictions /tmp/tye-v2-copy.csv
+python -m scripts.baseline --mode copy --inputs /data/tye-ko-5h-v1-public/eval/inputs.json --output /tmp/eval-copy.csv
+python -m scripts.evaluate --references /data/tye-ko-5h-v1-public/eval/references.json --predictions /tmp/eval-copy.csv
+REFERENCE_PATH=/data/private/test-references.json uvicorn server.app:create_app --factory
 ```
 
-웹 서버에서 이 최종셋을 채점할 때는 `REFERENCE_PATH`에 운영자용 `eval-references.json`의 절대 경로를 지정합니다. 사용법·CC BY 4.0 출처 표시·선별 편향·재현 방법은 데이터 카드와 검증 보고서에 기록했습니다.
+독립 원본 2,079개를 사용해 총 18,000.0084375초를 구성했습니다. 패딩·반복·속도 변경은 없으며 자연 무음은 포함합니다. 정답은 원천 전사의 NFC만 적용했습니다. Clean/Single/Multiple은 각각 0/1/2곳의 치환이며, split별 조건 수는 최대 1개 차이입니다. 화자·세션·문장·PCM 중복과 이전 노출 전사에 대한 test 근접 중복을 검사했습니다.
+
+**독립 청취 검수와 블라인드 ASR 검증은 수행하지 않았습니다.** 공개 원천 검색·사전학습 오염 가능성도 남습니다. Copy/정답 제출은 소프트웨어 검사이며 모델 성능이 아닙니다. 새 데이터는 이전 FLEURS v2 및 pilot160과 점수를 섞지 않습니다.
+
+### 이전 FLEURS v2
+
+[이전 120개·약 25분 38초 파일럿](datasets/tye-ko-v2/README.md)과 [기존 release](https://github.com/jhparktime/TURST-YOUR-EARS/releases/tag/dataset-v2.0.0)는 재현 기록으로 유지합니다. 해당 버전에만 적용된 자동 ASR 선별과 진단 결과를 새 5시간 데이터의 검증 결과로 해석하지 않습니다.
 
 ### 첨부 Zeroth pilot160의 전사 교정 변환
 
@@ -163,7 +171,7 @@ python -m scripts.evaluate --references private-data/tye-ko-v2/eval-references.j
 
 ## 평가 규격
 
-공통 구현: [`server/scoring.py`](server/scoring.py), **ko-correction-v1**. 데이터 v2의 분할·조건 수량·정답·주입 주석·파일 해시는 고정했습니다. 사람의 청취 검수 인증을 뜻하지 않습니다. 챌린지 운영 전 제출 기간과 모델/외부 데이터 사용 규칙을 공지하고, 추가 검수로 내용을 변경하면 새 데이터 버전으로 배포합니다.
+공통 구현: [`server/scoring.py`](server/scoring.py), **ko-correction-v1**. 5시간 데이터 v1의 분할·조건 수량·정답·주입 주석·파일 해시는 고정했습니다. 사람의 청취 검수 인증을 뜻하지 않습니다. 챌린지 운영 전 제출 기간과 모델/외부 데이터 사용 규칙을 공지하고, 추가 검수로 내용을 변경하면 새 데이터 버전으로 배포합니다.
 
 ### 정규화와 순위
 
@@ -192,7 +200,7 @@ Copy draft는 개선폭 0, 오류 복원 0, 정상 구간 훼손 0이 기준입�
 
 ### 제출 및 버전
 
-CSV는 정확히 `id,prediction` 두 열, UTF-8, 모든 ID 한 번씩입니다. BOM·따옴표로 감싼 쉼표를 지원하며 빈 예측은 삭제 오류입니다. API는 최대 2 MiB, 20,000행, ID 120자, 예측 4,000자입니다. 정답·초안은 NFC, 정규화 후 1–1,000자 및 원문 최대 4,000자, 치환 최대 4곳·치환문 최대 100자입니다. 계산량 1,500만 DP cell 한도를 적용하므로 운영자는 전체 데이터셋과 긴 예측으로 공개 전 점검해야 합니다.
+CSV는 정확히 `id,prediction` 두 열, UTF-8, 모든 ID 한 번씩입니다. BOM·따옴표로 감싼 쉼표를 지원하며 빈 예측은 삭제 오류입니다. API는 최대 2 MiB, 20,000행, ID 120자, 예측 4,000자입니다. 정답·초안은 NFC, 정규화 후 1–1,000자 및 원문 최대 4,000자, 치환 최대 4곳·치환문 최대 100자입니다. 계산량 4,000만 DP cell 한도를 적용하므로 운영자는 전체 데이터셋과 긴 예측으로 공개 전 점검해야 합니다.
 
 기본 제출 한도는 팀별 UTC 하루 5개의 유효한 새 예측입니다. 한국 시간 오전 9시에 초기화되며 무효 파일은 차감하지 않습니다. 동일 ID/예측 매핑은 기존 결과를 반환합니다. 평가 버전과 정답 manifest 해시로 결과·이력·한도를 분리하여 예전 규격 점수를 섞지 않습니다. API는 집계값만 반환하고 개별 정답·오류 위치를 반환하지 않습니다.
 
@@ -228,4 +236,4 @@ API: `GET /api/health`, `GET /api/leaderboard`, 인증된 `GET/POST /api/submiss
 
 ## 과제 제출 준비 상태
 
-웹 설명·베이스라인 코드·평가 규격은 전사 교정으로 통일했습니다. 실제 한국어 음성·합성 오류 초안과 정답 파일은 자동 교차 검증을 거친 **최종 데이터 v2**로 고정했습니다. 검증용 음성 모델의 실측 진단값도 포함하며, 그 모델을 사용한 선별 편향을 명시했습니다. 남은 프로젝트 항목은 **교정 모델 베이스라인 비교 실험**, **외부 채점 서버 연결**, **수업 저장소용 단일 HTML 제출물**입니다. 사람의 추가 청취 검수는 운영자 검수표로 진행할 수 있습니다. 이 저장소에 실제 성능이나 학회 제휴를 가장한 예시는 넣지 않습니다. 수업 저장소 PR은 별도 제출 단계입니다.
+웹 설명·베이스라인 코드·평가 규격은 전사 교정으로 통일했습니다. **공개 eval 1시간·비공개 test 4시간**의 실제 한국어 음성과 합성 오류 초안을 구성하고 원천·분할·중복·재생성·전체 test API 채점을 검증했습니다. 사람의 독립 청취 검수는 아직 수행하지 않았습니다. 남은 항목은 **청취 검수**, **교정 모델 베이스라인 비교 실험**, **외부 채점 서버 연결**, **수업 저장소용 단일 HTML 제출물**입니다. 수업 저장소 PR은 별도 제출 단계입니다.

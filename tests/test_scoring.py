@@ -138,9 +138,9 @@ def test_work_limit_checked_before_alignment(monkeypatch):
     def forbidden(*args):
         raise AssertionError('Alignment must not start before workload validation.')
     monkeypatch.setattr('server.scoring.alignment', forbidden)
-    refs = [ref('가'*1000, id=str(i)) for i in range(16)]
+    refs = [ref('가'*1000, id=str(i)) for i in range(32)]
     with pytest.raises(ValueError, match='computation limit'):
-        score({str(i):'나'*1000 for i in range(16)}, refs)
+        score({str(i):'나'*1000 for i in range(32)}, refs)
 
 
 def test_ambiguous_corruption_cannot_reward_copy_draft():

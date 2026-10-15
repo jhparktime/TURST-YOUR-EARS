@@ -1,0 +1,43 @@
+{
+  "status": "software_validated_human_review_pending",
+  "human_listening_review": "not_performed",
+  "upstream_source_verified": true,
+  "splits": {
+    "eval": {
+      "utterances": 421,
+      "seconds": 3600.001375,
+      "speakers": 20,
+      "conditions": {
+        "single": 141,
+        "clean": 140,
+        "multiple": 140
+      },
+      "condition_seconds": {
+        "single": 1210.9218750000005,
+        "clean": 1195.0136250000003,
+        "multiple": 1194.065875
+      },
+      "copy_macro_cer": 2.715577098992489
+    },
+    "test": {
+      "utterances": 1658,
+      "seconds": 14400.0070625,
+      "speakers": 46,
+      "conditions": {
+        "single": 552,
+        "clean": 553,
+        "multiple": 553
+      },
+      "condition_seconds": {
+        "single": 4786.955999999999,
+        "clean": 4805.207312500004,
+        "multiple": 4807.843749999995
+      },
+      "copy_macro_cer": 2.686545780369217
+    }
+  },
+  "total_seconds": 18000.0084375,
+  "speaker_overlap": 0,
+  "duplicate_waveforms": 0,
+  "cross_split_near_duplicate_texts": 0
+}

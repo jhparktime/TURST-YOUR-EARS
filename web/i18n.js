@@ -246,7 +246,7 @@
     text179: "Data leakage and reproducible leaderboards",
     text180: "Schedule & Organization",
     text181: "Data release",
-    text182: "To be announced",
+    text182: '<a href="https://github.com/jhparktime/TURST-YOUR-EARS/releases/tag/dataset-ko-merged-v1" target="_blank" rel="noopener">merged-v1 · Train/Eval available</a>',
     text183: "Submission deadline",
     text184: "To be announced",
     text185: "Final presentations",

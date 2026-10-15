@@ -6,7 +6,7 @@
 
 [웹사이트](https://jhparktime.github.io/TURST-YOUR-EARS/) · [베이스라인](scripts/baseline.py) · [채점 코드](server/scoring.py)
 
-**현재 로컬 데이터:** [통합 데이터 merged v1](datasets/tye-ko-merged-v1/README.md)을 구성했습니다. 기존 5시간 자료와 추가 train/eval 자료 4,081개·약 9시간 42분을 모두 보존하고, **train 472개·약 1시간 13분 / 공개 eval 409개·1시간 / 비공개 test 1,750개·4시간**으로 다시 분할했습니다. 나머지 1,450개는 중복·평가 화자·목표 시간 초과 사유와 함께 운영자 예비 풀에 보관합니다. 전체 4,081개 음성 복호화와 분할·채점 검증을 통과했고, 새 eval/test 2,159개에서 Copy와 Whisper 평가를 완료했습니다. Text-only·Audio+draft를 포함한 Qwen 입력 비교는 진행 중입니다. 독립 청취 검수는 아직입니다. [통합·재현·추론 안내](docs/merged-dataset.md)를 확인하세요. 새 train에 이전 test 일부가 포함되므로 새 학습 정답 공개 시 이전 test는 종료된 버전으로 보관합니다.
+**현재 데이터:** [통합 데이터 merged v1](datasets/tye-ko-merged-v1/README.md)을 구성했습니다. 기존 5시간 자료와 추가 train/eval 자료 4,081개·약 9시간 42분을 모두 보존하고, **train 472개·약 1시간 13분 / 공개 eval 409개·1시간 / 비공개 test 1,750개·4시간**으로 다시 분할했습니다. 나머지 1,450개는 중복·평가 화자·목표 시간 초과 사유와 함께 운영자 예비 풀에 보관합니다. 전체 4,081개 음성 복호화와 분할·채점 검증을 통과했고, 새 eval/test 2,159개에서 Copy와 Whisper 평가를 완료했습니다. Text-only·Audio+draft를 포함한 Qwen 입력 비교는 진행 중입니다. 독립 청취 검수는 아직입니다. [통합·재현·추론 안내](docs/merged-dataset.md)를 확인하세요. 새 train에 이전 test 일부가 포함되므로 새 학습 정답 공개 시 이전 test는 종료된 버전으로 보관합니다.
 
 ## 과제 정의
 
@@ -98,9 +98,9 @@ python -m scripts.evaluate --references /data/merged-private/test-references.jso
 
 ## 현재 통합 데이터와 추론
 
-[merged v1 데이터 카드](datasets/tye-ko-merged-v1/README.md)와 [통합·재분할 안내](docs/merged-dataset.md)가 현재 로컬 구성의 기준입니다. 음성과 정답을 바꾸지 않고 화자·세션·동일/근접 문장·PCM이 split 사이에 겹치지 않도록 구성했습니다. 실제 eval/test 분량은 원본 발화를 유지한 채 목표 1시간/4시간에서 0.3초 이내입니다.
+[merged v1 데이터 카드](datasets/tye-ko-merged-v1/README.md)와 [통합·재분할 안내](docs/merged-dataset.md)가 현재 구성의 기준입니다. 음성과 정답을 바꾸지 않고 화자·세션·동일/근접 문장·PCM이 split 사이에 겹치지 않도록 구성했습니다. 실제 eval/test 분량은 원본 발화를 유지한 채 목표 1시간/4시간에서 0.3초 이내입니다.
 
-새 공개 manifest는 `datasets/tye-ko-merged-v1/`에 있고, 음성 포함 공개용 폴더와 모든 원본을 보존한 운영자 폴더는 별도 전달합니다. 원격 release와 온라인 채점 서버는 아직 새 버전으로 전환하지 않았습니다. 기존 데이터 버전의 점수와 혼합하지 않습니다.
+새 공개 manifest는 `datasets/tye-ko-merged-v1/`에 있고, 음성 포함 공개용 폴더와 모든 원본을 보존한 운영자 폴더는 별도 전달합니다. [새 참가자 ZIP](https://github.com/jhparktime/TURST-YOUR-EARS/releases/tag/dataset-ko-merged-v1)과 GitHub Pages를 새 버전으로 반영했습니다. 비공개 test의 외부 채점 서버 연결은 별도입니다. 기존 데이터 버전의 점수와 혼합하지 않습니다.
 
 Copy 기준점의 Macro CER는 train 2.504184%, eval 2.626332%, test 2.721091%입니다. 고정된 Whisper large-v3-turbo를 새 eval/test 2,159개에 음성만 입력해 실행 완료했습니다. 이는 위 Qwen2.5-Omni 기반 동일 모델 세 입력 비교 실험과 별도입니다.
 
@@ -266,5 +266,5 @@ python -m scripts.build_course_submission --output /data/submission/Team_NAME_ST
 ```
 
 [제출 점검표](docs/submission-readiness.md)에 필수 항목, 검증 결과와 남은 사항을 기록합니다.
-대표 학번 확인과 추가 모델 전체 평가, 새 공개 데이터 release·웹 반영을 마친 뒤 최종 파일을 확정합니다.
+새 공개 데이터 release와 웹 반영을 완료했습니다. 대표 학번 확인과 추가 모델 전체 평가를 마친 뒤 최종 파일을 확정합니다.
 독립 청취 미검수와 합성 치환의 한계는 제출물에 명시합니다.

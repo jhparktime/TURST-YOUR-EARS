@@ -1,3 +1,5 @@
+> 종료된 평가 버전입니다. 새 train에 이전 test 일부가 포함되므로 merged-v1 공개 후에는 이 test로 공식 순위를 운영하지 않습니다. [현재 merged-v1](../tye-ko-merged-v1/README.md)을 사용하고 점수를 혼합하지 마세요.
+
 # TYE Korean Correction · 5 hours v1
 
 한국어 **음성 + 전사 초안 → 교정된 전체 전사문** 데이터입니다. 정답은 Zeroth-Korean 원천 전사 그대로이며, 초안에만 실제 명사 치환을 주입했습니다. 상태는 **독립 청취 미검수 파일럿**입니다.

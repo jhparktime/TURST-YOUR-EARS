@@ -11,7 +11,7 @@
 | Leaderboard·벤치마크 비교 | `web/data/baselines.json`, `docs/baseline-results.md` | Copy·Whisper eval/test 완료; Qwen 추가 실험 진행 중 |
 | 개인 GitHub | https://github.com/jhparktime/TURST-YOUR-EARS | 페이지 내 링크 |
 | Baseline 코드 | `scripts/baseline.py`, `scripts/run_omni_baselines.py` | 입력 분리·프롬프트·고정 버전·중단 재개 |
-| Evaluation 데이터 | `datasets/tye-ko-merged-v1/`, 참가자 ZIP | 공개 eval 409개·1시간 포함; 음성 ZIP 원격 공개 준비 |
+| Evaluation 데이터 | `datasets/tye-ko-merged-v1/`, 참가자 ZIP | 공개 eval 409개·1시간 포함; 음성 ZIP 새 release 공개 완료 |
 | 평가 방법·코드 | `server/scoring.py`, `web/scorer.js` | 동일 ko-correction-v1, 브라우저/Python 공개 eval 점수 일치 |
 | 웹 안에서 평가 | 결과 제출의 공개 eval 채점 | 브라우저 실제 409행 Copy 채점 및 영어 전환 검증 |
 | 단일 HTML | `scripts/build_course_submission.py` | CSS·JS·공개 eval 정답·벤치마크·예시 CSV 내장 |
@@ -32,10 +32,12 @@ GitHub Pages와 수업 HTML에 넣지 않는다. Test 집계 성능과 조건별
 
 1. 대표 이름·학번을 확인하고 정식 파일명을 확정한다. 학번을 추정해 쓰지 않는다.
 2. Qwen Text-only·Audio+draft·Audio-only 전체 추론과 지표를 완료한 뒤 표를 갱신한다.
-3. 참가자 train/eval ZIP과 SHA256을 새 GitHub release로 공개한다. 운영자 ZIP은 공개하지 않는다.
-4. 저장소를 push하고 Pages CI 및 실제 사이트의 공개 eval 채점을 확인한다.
+3. 완료: 참가자 train/eval ZIP과 SHA256을 [새 release](https://github.com/jhparktime/TURST-YOUR-EARS/releases/tag/dataset-ko-merged-v1)로 공개했다. 운영자 ZIP은 비공개다.
+4. Push와 Pages 배포 CI 완료. 실제 공개 사이트의 공개 eval 채점 확인을 진행한다.
 5. 최신 공개 자료로 HTML을 다시 생성해 단일 파일에서 채점·한/영 전환을 확인한다.
 
 독립 청취 미검수와 합성 명사 치환의 한계는 공개 자료에 명시한다. 현재 결과만으로
 실제 ASR 오류에 대한 일반화나 음성 활용의 추가 이득을 입증했다고 주장하지 않는다.
 수업 PR의 실제 제출은 최종 파일명과 내용을 확인한 뒤 진행한다.
+
+원격 CI 실행 [38787199199](https://github.com/jhparktime/TURST-YOUR-EARS/actions/runs/38787199199)의 테스트와 Pages 배포가 성공했다. 로컬 API에서는 새 test 전체의 Copy·Whisper 실제 예측 제출, 재시작 후 순위 보존, 비공개 경로 404를 확인했다.

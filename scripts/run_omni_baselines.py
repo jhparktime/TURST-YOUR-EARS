@@ -87,13 +87,13 @@ def main():
 
     import torch
     import soundfile as sf
-    from transformers import Qwen2_5OmniProcessor, Qwen2_5OmniThinkerForConditionalGeneration
+    from transformers import GenerationConfig, Qwen2_5OmniProcessor, Qwen2_5OmniThinkerConfig, Qwen2_5OmniThinkerForConditionalGeneration
 
     if args.device == 'mps' and not torch.backends.mps.is_available():
         raise ValueError('MPS requested but unavailable.')
     torch.manual_seed(0)
     torch.set_num_threads(4)
-    dtype = torch.float16 if args.device == 'mps' else torch.float32
+    dtype = torch.bfloat16 if args.device == 'mps' else torch.float32
     common = {'model': MODEL, 'revision': REVISION, 'model_files_sha256': model_hashes,
               'input_manifests_sha256': manifests, 'splits': args.splits,
               'row_limit': args.limit, 'system': SYSTEM, 'seed': 0,
@@ -106,19 +106,26 @@ def main():
               'jobs_per_mode': len(jobs), 'modes': args.modes, 'contract': common}
     atomic_json(args.work / 'status.json', status)
     try:
+        full_config = json.loads((args.model_cache / 'config.json').read_text())
+        thinker_config = Qwen2_5OmniThinkerConfig.from_dict(full_config['thinker_config'])
         model, info = Qwen2_5OmniThinkerForConditionalGeneration.from_pretrained(
-            args.model_cache, local_files_only=True, dtype=dtype,
+            args.model_cache, config=thinker_config, local_files_only=True, dtype=dtype,
             device_map=args.device, attn_implementation='sdpa', output_loading_info=True)
         missing = info.get('missing_keys', [])
         mismatched = info.get('mismatched_keys', [])
         if missing or mismatched:
             raise ValueError(f'Missing/mismatched Thinker weights: {missing}, {mismatched}')
+        # The upstream generation_config.json has no token IDs. Derive these
+        # from the actual Thinker subconfig, rather than the parent Omni config.
+        model.generation_config = GenerationConfig.from_model_config(thinker_config)
         model.eval()
         processor = Qwen2_5OmniProcessor.from_pretrained(args.model_cache, local_files_only=True)
         atomic_json(args.work / 'loading.json', {'missing_keys': missing,
             'mismatched_keys': mismatched, 'unexpected_keys_count': len(info.get('unexpected_keys', [])),
             'parameters': sum(x.numel() for x in model.parameters()),
-            'device': str(model.device), 'dtype': str(model.dtype)})
+            'device': str(model.device), 'dtype': str(model.dtype),
+            'generation_eos_token_id': model.generation_config.eos_token_id,
+            'generation_pad_token_id': model.generation_config.pad_token_id})
         for mode in args.modes:
             contract = common | {'mode': mode, 'prompt': PROMPTS[mode]}
             path = args.work / mode / 'checkpoint.json'
@@ -153,6 +160,9 @@ def main():
                         max_new_tokens=args.max_new_tokens, use_audio_in_video=False)
                 tokens = generated[:, batch['input_ids'].shape[1]:]
                 if tokens.shape[1] >= args.max_new_tokens:
+                    atomic_json(args.work / 'failure-diagnostic.json', {'split':split, 'id':row['id'],
+                        'mode':mode, 'new_tokens':tokens.shape[1],
+                        'decoded_output':processor.batch_decode(tokens, skip_special_tokens=False)[0]})
                     raise ValueError(f'Token limit reached: {split}/{row["id"]}')
                 prediction = processor.batch_decode(tokens, skip_special_tokens=True,
                     clean_up_tokenization_spaces=False)[0].strip()

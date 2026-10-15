@@ -20,4 +20,4 @@ train과 eval은 음성·초안·정답 공개용이며 test 정답은 운영자
 
 CC BY 4.0 출처는 NOTICE, 실제 분량·해시는 metadata.json 및 release-lock.json을 확인하세요. 공개 원천 검색·사전학습 오염, 원천 전사 오류 및 합성 치환의 한계는 남습니다.
 
-이 저장소 폴더는 음성을 제외한 공개 manifest 사본입니다. WAV는 별도 공개용 ZIP에 있습니다. `public-release-lock.json`은 WAV 포함 전체 공개 묶음의 해시 목록입니다. 현재 새 묶음은 로컬 구성 상태이며 원격 release 다운로드는 아직 없습니다.
+이 저장소 폴더는 음성을 제외한 공개 manifest 사본입니다. WAV는 별도 공개용 ZIP에 있습니다. `public-release-lock.json`은 WAV 포함 전체 공개 묶음의 해시 목록입니다. [음성 포함 참가자 ZIP과 SHA256](https://github.com/jhparktime/TURST-YOUR-EARS/releases/tag/dataset-ko-merged-v1)을 공개했습니다. 비공개 test 입력·정답·운영자 ZIP은 해당 release에 포함하지 않습니다.

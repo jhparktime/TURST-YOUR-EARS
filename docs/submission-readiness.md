@@ -8,7 +8,7 @@
 |---|---|---|
 | 메인화면 index.html | `web/index.html` | 자체 워크샵 디자인, 여섯 페이지와 한/영 전환 |
 | Challenge 설명·프로젝트 | Challenge·연구 발표 페이지, README | 음성+초안→전체 전사 교정으로 통일 |
-| Leaderboard·벤치마크 비교 | `web/data/baselines.json`, `docs/baseline-results.md` | Copy·Whisper·Qwen Text-only의 eval/test 완료; 두 음성 입력 비교는 미완료 |
+| Leaderboard·벤치마크 비교 | `web/data/baselines.json`, `docs/baseline-results.md` | Copy·Whisper·Qwen Text-only의 eval/test와 Qwen Audio+draft 공개 eval 완료; 나머지 3건 미완료 |
 | 개인 GitHub | https://github.com/jhparktime/TURST-YOUR-EARS | 페이지 내 링크 |
 | Baseline 코드 | `scripts/baseline.py`, `scripts/run_omni_baselines.py` | 입력 분리·프롬프트·고정 버전·중단 재개 |
 | Evaluation 데이터 | `datasets/tye-ko-merged-v1/`, 참가자 ZIP | 공개 eval 409개·1시간 포함; 음성 ZIP 새 release 공개 완료 |
@@ -31,7 +31,7 @@ GitHub Pages와 수업 HTML에 넣지 않는다. Test 집계 성능과 조건별
 ## 최종 확정 전 남은 항목
 
 1. 대표 학번을 확인하고 정식 파일명을 확정한다. 대표 이름은 박재현으로 준비하며, 학번은 추정해 쓰지 않는다.
-2. Qwen Audio+draft·Audio-only의 eval/test 전체 추론과 지표를 완료한 뒤 표를 갱신한다. Text-only는 2,159개 전체 채점을 완료했다.
+2. Qwen Audio+draft의 test와 Audio-only의 eval/test 추론·지표를 완료한 뒤 표를 갱신한다. Text-only는 2,159개 전체, Audio+draft는 공개 eval 409개 채점을 완료했다.
 3. 모든 모델 결과를 반영한 HTML을 다시 생성해 단일 파일에서 채점·한/영 전환을 확인한다.
 4. 비공개 Test 채점 서버는 아직 미연결이다. [무료 배포 안내](free-evaluation-hosting.md)에 따라 계정·Secret File·DB를 연결하고 원격 채점과 재시작 후 보존을 확인한다.
 5. 준비한 개인 포크의 `submission/`에 정식 파일 하나만 추가하고, 원본 수업 저장소에 제출할 PR의 변경 범위를 확인한다. 현재 제출 브랜치·수업 PR은 만들지 않았다.
@@ -40,7 +40,7 @@ GitHub Pages와 수업 HTML에 넣지 않는다. Test 집계 성능과 조건별
 
 - 참가자 train/eval ZIP과 SHA256을 [새 release](https://github.com/jhparktime/TURST-YOUR-EARS/releases/tag/dataset-ko-merged-v1)로 공개했다. 운영자 ZIP과 Test 입력 묶음은 비공개 보관 중이다.
 - Pages의 공개 eval에서 실제 409행 Copy CSV 채점과 한/영 전환을 확인했다. 이 검증은 비공개 Test 서버의 배포 완료를 뜻하지 않는다.
-- Copy·Whisper·Qwen Text-only 각각의 eval/test 결과 6건을 공개했다. [Text-only의 전체 실행 증빙](measurements/qwen-text-only-completed.json)에는 생성 한도 도달 1건도 실제 출력 그대로 채점했다는 기록을 포함한다.
+- Copy·Whisper·Qwen Text-only 각각의 eval/test와 Qwen Audio+draft 공개 eval 결과 7건을 공개했다. [Text-only의 전체 실행 증빙](measurements/qwen-text-only-completed.json)에는 생성 한도 도달 1건도 실제 출력 그대로 채점했다는 기록을 포함한다.
 - [공개 개발셋 난이도 진단](measurements/selective-public-eval/README.md)의 전체 후보와 예측을 공개하고 연구 발표 페이지에 반영했다. 이 필터의 비공개 Test 성능은 측정하지 않았다.
 - 개인 포크 [jhparktime/Speech-Recognition-Challenge-2026](https://github.com/jhparktime/Speech-Recognition-Challenge-2026)을 준비했다. 원본 샘플 대신 자체 사이트를 묶는 방식이며 대표 학번은 아직 확인되지 않았다.
 

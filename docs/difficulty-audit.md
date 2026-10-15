@@ -35,12 +35,20 @@ eval ID 409개가 정확히 일치하는지와 입력·초안 해시를 확인�
 초안으로 대체하지 않았다. [완료된 입력 조건의 집계·실행 증빙](measurements/qwen-text-only-completed.json)을
 확인한다. 두 음성 입력 조건의 전체 실험은 아직 진행 중이다.
 
+Audio+draft도 공개 eval 409개 전체 추론을 완료했다. 같은 Qwen의 Macro CER는
+Text-only 8.4616%에서 Audio+draft 4.7073%로 낮아졌다. Audio+draft의 복원률은
+272/408(66.6667%), 정상 구간 훼손률은 640/17,213(3.7181%), Clean 변경률은
+42/137(30.6569%)다. 다만 Copy 2.6263%보다 CER가 높으므로, 이 설정의 교정이 초안
+보존보다 낫다고 할 수 없다. [공개 eval 집계와 고정 설정](measurements/qwen-audio-draft-eval.json)을
+보관한다. 이 비교는 공개 개발셋 결과이며, Audio+draft test와 같은 모델 Audio-only는 아직 미완료다.
+
 오류 종류가 좁고 초안 오류율이 낮다는 한계는 확인했다. 주입 오류를 음성으로 복원하는
 하위 과제는 Whisper에서 높은 복원률을 보인다. 반면 고정 Qwen의 Text-only는 공개 eval에서
 낮은 복원률과 불필요한 수정이 관찰됐다. 이 한 모델의 실패를 모든 텍스트 모델의 한계로
 일반화할 수 없으며, Whisper와 Qwen의 차이는 모델과 입력이 함께 달라 음성 효과만을
-분리하지 못한다. Audio+draft의 추가 이득은 아직 미확인이다. 같은 모델의 text-only,
-audio-only, audio+draft 전체 입력 비교가 필요하다. 독립 청취를 통한 원문 검수도 아직 하지 않았다.
+분리하지 못한다. 같은 Qwen의 공개 eval에서는 음성 추가 시 CER가 낮아졌지만, 초안 제공의
+추가 이득과 비공개 성능을 확인하려면 같은 모델의 text-only, audio-only, audio+draft 전체
+입력 비교가 필요하다. 독립 청취를 통한 원문 검수도 아직 하지 않았다.
 
 리더보드는 Macro CER와 함께 조건별 CER, 오류 복원률, 정상 구간 훼손률,
 Clean 변경률을 표시한다. 복사 기준점은 반드시 유지한다. 측정한 결과에 맞춰

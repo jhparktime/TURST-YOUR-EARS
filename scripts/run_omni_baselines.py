@@ -59,6 +59,22 @@ def validate_checkpoint(checkpoint, contract):
     return {(r['split'], r['id']): r for r in records}
 
 
+def generated_prediction(decoded, token_ids, max_new_tokens, eos_token_id):
+    """Keep actual bounded model output, including empty/length-limited text.
+
+    A model's generation behavior is an evaluation outcome. It must not cause
+    a row to be dropped, replaced with its draft, or retried with a larger cap.
+    """
+    prediction = decoded.strip()
+    if len(prediction) > 4000:
+        raise ValueError('Oversized prediction: exceeds the submission format.')
+    eos_ids = {eos_token_id} if isinstance(eos_token_id, int) else set(eos_token_id or [])
+    ended = bool(token_ids) and token_ids[-1] in eos_ids
+    capped = len(token_ids) >= max_new_tokens
+    return prediction, {'finish_reason': 'eos' if ended else 'length' if capped else 'other',
+                        'at_token_limit': capped, 'empty_output': not prediction}
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--public', type=Path, required=True)
@@ -102,7 +118,10 @@ def main():
               'reference_access': False, 'output_postprocessing': 'strip_only',
               'packages': {x: importlib.metadata.version(x) for x in
                            ('torch', 'torchvision', 'transformers', 'accelerate', 'soundfile', 'safetensors')}}
+    execution = {'runner_source_sha256': sha(Path(__file__)),
+                 'output_policy': 'score_actual_output_including_empty_and_fixed_token_limit'}
     status = {'state': 'loading', 'started_at': utc(), 'hardware': platform.platform(),
+              'execution': execution,
               'jobs_per_mode': len(jobs), 'modes': args.modes, 'contract': common}
     atomic_json(args.work / 'status.json', status)
     try:
@@ -131,6 +150,7 @@ def main():
             path = args.work / mode / 'checkpoint.json'
             prior = json.loads(path.read_text()) if path.exists() else {'contract': contract, 'items': []}
             done = validate_checkpoint(prior, contract)
+            resumed_rows = len(done)
             expected = {(j['split'], j['row']['id']) for j in jobs}
             if not set(done) <= expected:
                 raise ValueError('Checkpoint contains unexpected IDs.')
@@ -159,19 +179,14 @@ def main():
                     generated = model.generate(**batch, do_sample=False,
                         max_new_tokens=args.max_new_tokens, use_audio_in_video=False)
                 tokens = generated[:, batch['input_ids'].shape[1]:]
-                if tokens.shape[1] >= args.max_new_tokens:
-                    atomic_json(args.work / 'failure-diagnostic.json', {'split':split, 'id':row['id'],
-                        'mode':mode, 'new_tokens':tokens.shape[1],
-                        'decoded_output':processor.batch_decode(tokens, skip_special_tokens=False)[0]})
-                    raise ValueError(f'Token limit reached: {split}/{row["id"]}')
-                prediction = processor.batch_decode(tokens, skip_special_tokens=True,
-                    clean_up_tokenization_spaces=False)[0].strip()
-                if not prediction or len(prediction) > 4000:
-                    raise ValueError(f'Empty/oversized prediction: {split}/{row["id"]}')
+                decoded = processor.batch_decode(tokens, skip_special_tokens=True,
+                    clean_up_tokenization_spaces=False)[0]
+                prediction, flags = generated_prediction(decoded, tokens[0].tolist(),
+                    args.max_new_tokens, model.generation_config.eos_token_id)
                 record = {'split': split, 'id': row['id'], 'prediction': prediction,
                           'audio_sha256': audio_hash, 'draft_sha256': draft_hash,
                           'elapsed_seconds': time.monotonic() - started,
-                          'new_tokens': tokens.shape[1]}
+                          'new_tokens': tokens.shape[1], **flags}
                 prior['items'].append(record)
                 done[key] = record
                 atomic_json(path, prior)
@@ -187,7 +202,15 @@ def main():
                     writer.writerow(['id', 'prediction'])
                     writer.writerows((j['row']['id'], done[(split, j['row']['id'])]['prediction'])
                                      for j in jobs if j['split'] == split)
-            atomic_json(args.work / mode / 'run.json', contract | {'rows': len(done), 'finished_at': utc()})
+            diagnostics = {}
+            for split in args.splits:
+                rows = [r for (s, _), r in done.items() if s == split]
+                diagnostics[split] = {'utterances': len(rows),
+                    'at_token_limit': sum(r['new_tokens'] >= args.max_new_tokens for r in rows),
+                    'empty_outputs': sum(not r['prediction'] for r in rows)}
+            atomic_json(args.work / mode / 'run.json', contract | {'rows': len(done),
+                'finished_at': utc(), 'execution': execution, 'resumed_rows': resumed_rows,
+                'output_diagnostics_by_split': diagnostics})
         status.update(state='completed', finished_at=utc())
         atomic_json(args.work / 'status.json', status)
     except Exception as exc:

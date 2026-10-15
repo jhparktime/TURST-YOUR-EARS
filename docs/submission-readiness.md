@@ -33,7 +33,7 @@ GitHub Pages와 수업 HTML에 넣지 않는다. Test 집계 성능과 조건별
 1. 대표 이름·학번을 확인하고 정식 파일명을 확정한다. 학번을 추정해 쓰지 않는다.
 2. Qwen Text-only·Audio+draft·Audio-only 전체 추론과 지표를 완료한 뒤 표를 갱신한다.
 3. 완료: 참가자 train/eval ZIP과 SHA256을 [새 release](https://github.com/jhparktime/TURST-YOUR-EARS/releases/tag/dataset-ko-merged-v1)로 공개했다. 운영자 ZIP은 비공개다.
-4. Push와 Pages 배포 CI 완료. 실제 공개 사이트의 공개 eval 채점 확인을 진행한다.
+4. 완료: Push와 Pages 배포 CI가 통과했고, 실제 공개 사이트에서 409행 Copy 제출의 채점과 한/영 전환을 확인했다.
 5. 최신 공개 자료로 HTML을 다시 생성해 단일 파일에서 채점·한/영 전환을 확인한다.
 
 독립 청취 미검수와 합성 명사 치환의 한계는 공개 자료에 명시한다. 현재 결과만으로

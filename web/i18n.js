@@ -93,7 +93,7 @@
     text070: "Does the system preserve a correct transcript?",
     text071: "Replace one span with a similar incorrect expression",
     text072: "Does the system restore that span accurately?",
-    text073: "Replace 2–4 nonadjacent spans",
+    text073: "Replace two nonadjacent spans",
     text074:
       "Does the system correct several errors while preserving the rest?",
     text075:

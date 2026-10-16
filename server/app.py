@@ -9,7 +9,8 @@ from pathlib import Path
 from fastapi import FastAPI, File, Header, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from .scoring import VERSION, parse_submission, score, validate_manifest
+from .scoring import parse_submission
+from .protocols import for_manifest
 from .database import connect, initialize
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -29,12 +30,15 @@ def create_app(data_dir=None, reference_path=None, demo=None):
     ref_path = Path(reference_path) if reference_path else ROOT / "examples/demo-references.json"
     manifest = json.loads(ref_path.read_text())
     try:
-        refs = validate_manifest(manifest)
+        scorer = for_manifest(manifest)
+        refs = scorer.validate_manifest(manifest)
     except ValueError as exc:
         raise RuntimeError(str(exc)) from exc
     # Content hash prevents ranking scores produced by different reference versions together.
     reference_version = hashlib.sha256(ref_path.read_bytes()).hexdigest()
-    dataset = ("sandbox:" if demo else "evaluation:") + VERSION + ':' + reference_version
+    version = scorer.VERSION
+    primary_metric = getattr(scorer, 'PRIMARY_METRIC', 'macro_cer')
+    dataset = ("sandbox:" if demo else "evaluation:") + version + ':' + reference_version
     db_path = data_dir / "scores.sqlite3"
     initialize(db_path)
     if demo:
@@ -62,7 +66,7 @@ def create_app(data_dir=None, reference_path=None, demo=None):
     @app.get("/api/health")
     def health():
         return {"mode": "sandbox" if demo else "evaluation", "dataset": manifest["name"],
-                "dataset_version": reference_version[:12], "scorer": VERSION, "primary_metric": "macro_cer",
+                "dataset_version": reference_version[:12], "scorer": version, "primary_metric": primary_metric,
                 "daily_limit": daily_limit, "samples": len(refs),
                 "submission_open": os.getenv("SUBMISSIONS_OPEN", "1") == "1"}
 
@@ -74,15 +78,15 @@ def create_app(data_dir=None, reference_path=None, demo=None):
         for row in rows:
             result = json.loads(row["result"])
             item = {"team": row["name"], "created": row["created"], "submission_id": row["id"], **result}
-            if row["team_id"] not in best or result["macro_cer"] < best[row["team_id"]]["macro_cer"]:
+            if row["team_id"] not in best or result[primary_metric] < best[row["team_id"]][primary_metric]:
                 best[row["team_id"]] = item
-        entries = sorted(best.values(), key=lambda r: (r["macro_cer"], r["created"]))
+        entries = sorted(best.values(), key=lambda r: (r[primary_metric], r["created"]))
         rank, previous = 0, None
         for position, entry in enumerate(entries, 1):
-            if entry['macro_cer'] != previous:
+            if entry[primary_metric] != previous:
                 rank = position
             entry['rank'] = rank
-            previous = entry['macro_cer']
+            previous = entry[primary_metric]
         return {"mode": "sandbox" if demo else "evaluation", "entries": entries}
 
     @app.get("/api/submissions")
@@ -117,7 +121,7 @@ def create_app(data_dir=None, reference_path=None, demo=None):
             if used >= daily_limit:
                 raise HTTPException(429, "Daily submission limit reached. It resets at 00:00 UTC.")
             try:
-                result = score(predictions, refs)
+                result = scorer.score(predictions, refs)
             except ValueError as exc:
                 raise HTTPException(422, str(exc)) from exc
             identifier = str(uuid.uuid4())

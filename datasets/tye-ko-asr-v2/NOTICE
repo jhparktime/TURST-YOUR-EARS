@@ -1,0 +1,8 @@
+Zeroth-Korean (OpenSLR SLR40), Lucas Jo (Atlas Guide) & Wonkyum Lee (Gridspace).
+CC BY 4.0: https://creativecommons.org/licenses/by/4.0/
+Original: https://www.openslr.org/40/
+Mirror: https://huggingface.co/datasets/kresnik/zeroth_korean/tree/1fe937899f828af822293d05e086200946088bdf
+Changes: lossless FLAC decoding to mono 16 kHz PCM16 WAV; identical PCM samples; NFC-only reference text; new speaker/sentence splits; sparse synthetic draft substitutions.
+Upstream authors do not endorse this derivative. Independent listening has not been performed.
+
+V2: actual ASR drafts and independently versioned alignment-based metrics.

@@ -1,0 +1,152 @@
+{
+  "name": "tye-ko-asr-v2",
+  "protocol": "ko-correction-v2",
+  "primary_metric": "micro_cer",
+  "status": "candidate_pending_independent_listening",
+  "human_listening_review": "not_performed",
+  "source": "kresnik/zeroth_korean",
+  "source_revision": "1fe937899f828af822293d05e086200946088bdf",
+  "license": "CC-BY-4.0",
+  "assignment_plan_sha256": "a7dbd2d68fc8560a9b9ebaa2cd69d4e8860f3f481d310fe36a045a2ce694b330",
+  "selection_used_asr_scores": false,
+  "source_models": {
+    "whisper-turbo": {
+      "model": "mlx-community/whisper-large-v3-turbo",
+      "revision": "a4aaeec0636e6fef84abdcbe3544cb2bf7e9f6fb",
+      "language": "ko",
+      "temperature": 0,
+      "previous_context": false
+    },
+    "qwen-omni": {
+      "model": "Qwen/Qwen2.5-Omni-3B",
+      "revision": "f75b40e3da2003cdd6e1829b1f420ca70797c34e",
+      "mode": "audio-only",
+      "seed": 0,
+      "max_new_tokens": 512,
+      "do_sample": false,
+      "reference_access": false
+    }
+  },
+  "splits": {
+    "train": {
+      "visibility": "public",
+      "utterances": 472,
+      "duration_seconds": 4395.970812500002,
+      "speakers": 63,
+      "sources": {
+        "whisper-turbo": 236,
+        "qwen-omni": 236
+      },
+      "conditions": {
+        "clean": 165,
+        "substitution": 162,
+        "deletion": 8,
+        "insertion": 5,
+        "mixed": 132
+      },
+      "draft_micro_cer": 8.833411105926272,
+      "draft_macro_utterance_cer": 10.326476854621006,
+      "draft_errors": {
+        "errors": 1893,
+        "draft_errors": 1893,
+        "characters": 21430,
+        "substitutions": 947,
+        "deletions": 348,
+        "insertions": 598,
+        "draft_substitutions": 947,
+        "draft_deletions": 348,
+        "draft_insertions": 598
+      },
+      "diagnostics": {
+        "empty_drafts": 0,
+        "length_limited_drafts": 1,
+        "numeric_notation_review_flags": 122
+      },
+      "inputs_sha256": "c6e9a7af5f7aa1a3740dac377d7e0a02575ba7f7dfc88fbbc3bf7c2ee1594cca",
+      "references_sha256": "4f2560d32200bb9aea14a999c05733a7ac52f4edd722dea27ec21dd7e7759e90"
+    },
+    "eval": {
+      "visibility": "public",
+      "utterances": 409,
+      "duration_seconds": 3600.034812499997,
+      "speakers": 20,
+      "sources": {
+        "qwen-omni": 204,
+        "whisper-turbo": 205
+      },
+      "conditions": {
+        "clean": 131,
+        "substitution": 122,
+        "deletion": 6,
+        "insertion": 4,
+        "mixed": 146
+      },
+      "draft_micro_cer": 11.766335975170426,
+      "draft_macro_utterance_cer": 12.705294527000069,
+      "draft_errors": {
+        "errors": 2123,
+        "draft_errors": 2123,
+        "characters": 18043,
+        "substitutions": 1094,
+        "deletions": 265,
+        "insertions": 764,
+        "draft_substitutions": 1094,
+        "draft_deletions": 265,
+        "draft_insertions": 764
+      },
+      "diagnostics": {
+        "empty_drafts": 0,
+        "length_limited_drafts": 1,
+        "numeric_notation_review_flags": 116
+      },
+      "inputs_sha256": "667c5a2dd3b080f4d55316f17354e3b55c08ac5bae9fa757047ac9f508030e42",
+      "references_sha256": "5cb529513c4835efa37494be8aed3b907e6514626268daef810b0e38eab2e4b9"
+    },
+    "test": {
+      "visibility": "private",
+      "utterances": 1750,
+      "duration_seconds": 14399.816749999993,
+      "speakers": 32,
+      "sources": {
+        "whisper-turbo": 875,
+        "qwen-omni": 875
+      },
+      "conditions": {
+        "clean": 626,
+        "substitution": 570,
+        "deletion": 38,
+        "insertion": 23,
+        "mixed": 493
+      },
+      "draft_micro_cer": 7.861965087818392,
+      "draft_macro_utterance_cer": 7.845283789868601,
+      "draft_errors": {
+        "errors": 5846,
+        "draft_errors": 5846,
+        "characters": 74358,
+        "substitutions": 3701,
+        "deletions": 1254,
+        "insertions": 891,
+        "draft_substitutions": 3701,
+        "draft_deletions": 1254,
+        "draft_insertions": 891
+      },
+      "diagnostics": {
+        "empty_drafts": 0,
+        "length_limited_drafts": 0,
+        "numeric_notation_review_flags": 364
+      },
+      "inputs_sha256": "276fc942f9f9d73dc2491edd73f46af8c9ebd64809e22041796a0da7c6ec3f81",
+      "references_sha256": "94f18788b263c07c8a76671ae8460bca2629ea650a9e444a6cb32a851242d6bb"
+    }
+  },
+  "reference_policy": "Unchanged upstream NFC reference; no manual listening completed.",
+  "draft_policy": "Actual fixed audio-only output, NFC only; one draft per recording; no filtering by errors.",
+  "limitations": [
+    "Public read speech; not spontaneous conversation.",
+    "V1 test aggregate scores were known during design; not a new fully blind source holdout.",
+    "Drafters are also measured as audio-only baselines; source-stratified self-generator effects must be shown.",
+    "No independent listening; numeric spelling and source transcription may affect CER.",
+    "Real ASR errors do not by themselves establish novelty or acoustic necessity."
+  ]
+}

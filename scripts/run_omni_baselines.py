@@ -42,7 +42,7 @@ def load_jobs(public, private, splits, limit):
     jobs = []
     manifests = {}
     for split in splits:
-        path = (public if split == 'eval' else private) / split / 'inputs.json'
+        path = (private if split == 'test' else public) / split / 'inputs.json'
         rows = load_inputs(path)
         manifests[split] = sha(path)
         for row in rows[:limit] if limit else rows:
@@ -97,7 +97,7 @@ def main():
     p.add_argument('--model-cache', type=Path, required=True)
     p.add_argument('--work', type=Path, required=True)
     p.add_argument('--modes', nargs='+', choices=tuple(PROMPTS), default=list(PROMPTS))
-    p.add_argument('--splits', nargs='+', choices=('eval', 'test'), default=['eval', 'test'])
+    p.add_argument('--splits', nargs='+', choices=('train', 'eval', 'test'), default=['eval', 'test'])
     p.add_argument('--device', choices=('mps', 'cpu'), default='mps')
     p.add_argument('--max-new-tokens', type=int, default=512)
     p.add_argument('--limit', type=int, help='Technical smoke test only; never an official full score.')

@@ -151,7 +151,7 @@
       "preserved_total","clean_change_rate","clean_changed","clean_total"]) result[key] = aggregate[key];
     return result;
   }
-  const api = {VERSION, normalize, distance, alignment, parseCSV, score};
+  const api = {VERSION, normalize, words, distance, alignment, parseCSV, score};
   if (typeof module !== "undefined") module.exports = api;
   else globalThis.TYEScorer = api;
 })();

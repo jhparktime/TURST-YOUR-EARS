@@ -1,0 +1,12 @@
+{
+  "dataset": "tye-ko-asr-v2",
+  "recorded_before_v2_test_analysis": true,
+  "suite_started_at": "2026-10-16T01:11:03.425275+00:00",
+  "frozen_design_sha256": "ecbcba339b84affda13a625b4612c53f7446e441c393170c0609c4e6826e588e",
+  "assignment_plan_sha256": "a7dbd2d68fc8560a9b9ebaa2cd69d4e8860f3f481d310fe36a045a2ce694b330",
+  "current_document_changes": "Status, measured construction summary and public reproduction commands appended; rules unchanged.",
+  "snapshot_note": "Exact frozen text restored from the current document by removing only later publication additions; SHA-256 exactly matches the hash recorded at suite start.",
+  "fully_blind_new_holdout": false,
+  "v1_test_aggregates_previously_seen": true,
+  "private_row_export": false
+}

@@ -23,6 +23,15 @@ def test_only_requested_manifests_are_opened(tmp_path):
     assert len(jobs) == 1 and set(hashes) == {'eval'}
 
 
+def test_real_asr_train_jobs_allow_empty_draft_without_private_access(tmp_path):
+    folder = tmp_path / 'train'
+    folder.mkdir()
+    (folder / 'inputs.json').write_text(json.dumps({'protocol':'ko-correction-v2','items':[
+        {'id':'empty-asr','audio':'a.wav','draft':''}]}))
+    jobs, hashes = load_jobs(tmp_path,tmp_path/'nonexistent-private',['train'],None)
+    assert jobs[0]['row']['draft'] == '' and set(hashes) == {'train'}
+
+
 def test_resume_rejects_changed_contract_or_duplicate_records():
     contract = {'mode': 'text-only', 'input_sha256': 'first'}
     with pytest.raises(ValueError, match='differ'):

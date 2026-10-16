@@ -2,7 +2,8 @@
 import argparse
 import json
 from pathlib import Path
-from server.scoring import parse_submission, score, validate_manifest
+from server.scoring import parse_submission
+from server.protocols import for_manifest
 
 
 def main():
@@ -12,8 +13,10 @@ def main():
     parser.add_argument('--output', type=Path)
     args = parser.parse_args()
     try:
-        refs = validate_manifest(json.loads(args.references.read_text(encoding='utf-8')))
-        result = score(parse_submission(args.predictions.read_bytes()), refs)
+        manifest = json.loads(args.references.read_text(encoding='utf-8'))
+        scorer = for_manifest(manifest)
+        refs = scorer.validate_manifest(manifest)
+        result = scorer.score(parse_submission(args.predictions.read_bytes()), refs)
     except (ValueError, OSError) as exc:
         parser.error(str(exc))
     rendered = json.dumps(result, ensure_ascii=False, indent=2) + '\n'

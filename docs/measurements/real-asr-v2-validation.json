@@ -1,0 +1,71 @@
+{
+  "dataset": "tye-ko-asr-v2",
+  "protocol": "ko-correction-v2",
+  "state": "integrity_verified_listening_pending",
+  "active_recordings": 2631,
+  "source_recordings_dropped": 0,
+  "splits": {
+    "train": {
+      "utterances": 472,
+      "duration_seconds": 4395.970812500002,
+      "sources": {
+        "whisper-turbo": 236,
+        "qwen-omni": 236
+      },
+      "conditions": {
+        "clean": 165,
+        "substitution": 162,
+        "deletion": 8,
+        "insertion": 5,
+        "mixed": 132
+      },
+      "draft_micro_cer": 8.833411105926272,
+      "copy_invariants": "passed",
+      "gold_invariants": "passed"
+    },
+    "eval": {
+      "utterances": 409,
+      "duration_seconds": 3600.034812499997,
+      "sources": {
+        "qwen-omni": 204,
+        "whisper-turbo": 205
+      },
+      "conditions": {
+        "clean": 131,
+        "substitution": 122,
+        "deletion": 6,
+        "insertion": 4,
+        "mixed": 146
+      },
+      "draft_micro_cer": 11.766335975170426,
+      "copy_invariants": "passed",
+      "gold_invariants": "passed"
+    },
+    "test": {
+      "utterances": 1750,
+      "duration_seconds": 14399.816749999993,
+      "sources": {
+        "whisper-turbo": 875,
+        "qwen-omni": 875
+      },
+      "conditions": {
+        "clean": 626,
+        "substitution": 570,
+        "deletion": 38,
+        "insertion": 23,
+        "mixed": 493
+      },
+      "draft_micro_cer": 7.861965087818392,
+      "copy_invariants": "passed",
+      "gold_invariants": "passed"
+    }
+  },
+  "cross_split_speaker_session_exact_text_audio_disjoint": true,
+  "near_text_check": "Inherited unchanged references and split from frozen merged-v1; not a new independent near-text audit.",
+  "drafts_match_actual_audio_only_outputs": true,
+  "upstream_reference_text_unchanged": true,
+  "human_listening_review": "not_performed",
+  "source_metadata_sha256": "5a521faf229377e67ba5f9546f0428cf3aff1a53db937b9dfed553015f55b32a",
+  "metadata_sha256": "65dd5085b3ed1ac13cebfeb16686bc497f5ee739aa4b21bee2aa31024ee67b74",
+  "validator_source_sha256": "c216731fbbfe69c2914514e575c57125a8057dae411103b67b3d9e1f373271f1"
+}

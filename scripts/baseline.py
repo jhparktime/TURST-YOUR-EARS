@@ -16,7 +16,8 @@ PROMPTS = {
 
 
 def load_inputs(path):
-    rows = json.loads(path.read_text(encoding='utf-8'))['items']
+    manifest = json.loads(path.read_text(encoding='utf-8'))
+    rows = manifest['items']
     if not isinstance(rows, list) or not rows:
         raise ValueError('Public input manifest must contain items.')
     seen = set()
@@ -27,7 +28,7 @@ def load_inputs(path):
         if not isinstance(ident, str) or not ident or ident != ident.strip() or ident in seen:
             raise ValueError('Input IDs must be unique nonempty strings.')
         seen.add(ident)
-        if not isinstance(row['draft'], str) or not row['draft'].strip():
+        if not isinstance(row['draft'], str) or (not row['draft'].strip() and manifest.get('protocol') != 'ko-correction-v2'):
             raise ValueError('Each row requires a nonempty draft.')
     return rows
 

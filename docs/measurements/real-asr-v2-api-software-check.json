@@ -1,0 +1,37 @@
+{
+  "dataset": "tye-ko-asr-v2",
+  "scope": "local_full_test_api_software_verification_not_remote_deployment",
+  "health": {
+    "mode": "evaluation",
+    "dataset": "tye-ko-asr-v2-test",
+    "dataset_version": "94f18788b263",
+    "scorer": "ko-correction-v2",
+    "primary_metric": "micro_cer",
+    "daily_limit": 5,
+    "samples": 1750,
+    "submission_open": false
+  },
+  "files": [
+    {
+      "file": "copy-draft.csv",
+      "utterances": 1750,
+      "micro_cer": 7.861965087818392,
+      "entire_result_equals_python": true,
+      "duplicate_reuses_submission": true
+    },
+    {
+      "file": "whisper-audio-only.csv",
+      "utterances": 1750,
+      "micro_cer": 5.3417251674332284,
+      "entire_result_equals_python": true,
+      "duplicate_reuses_submission": true
+    }
+  ],
+  "rows_per_submission": 1750,
+  "persistent_restart_and_primary_micro_ranking": true,
+  "closed_submission_gate_verified": true,
+  "unauthenticated_history_rejected": true,
+  "private_file_routes_404": true,
+  "exact_origin_cors_verified": true,
+  "remote_scoring_verified": false
+}

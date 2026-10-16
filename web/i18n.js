@@ -1,6 +1,7 @@
 // Translations are trusted, repository-owned markup. API values never enter this map.
 (() => {
   const english = {
+    realAsrV2Notice: 'A <a href="v2.html">v2 candidate dataset and web evaluator</a> using actual ASR errors are available. Independent listening review and additional correction experiments are pending. This page records synthetic-error v1.',
     publicEvalHeading: "Public eval · Score in your browser",
     publicEvalNote: "The 409-utterance, one-hour public eval split of merged-v1. Score without a server or team key; your CSV is not uploaded. These are development scores using public references, separate from official private-test submissions and rankings.",
     publicEvalFile: "Public eval prediction CSV · id,prediction · Maximum 2 MiB",

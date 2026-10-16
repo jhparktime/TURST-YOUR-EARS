@@ -1,0 +1,30 @@
+{
+  "scope": "local_preflight_configuration_not_remote_deployment",
+  "health": {
+    "mode": "evaluation",
+    "dataset": "tye-ko-asr-v2-test",
+    "dataset_version": "94f18788b263",
+    "scorer": "ko-correction-v2",
+    "primary_metric": "micro_cer",
+    "daily_limit": 5,
+    "samples": 1750,
+    "submission_open": false
+  },
+  "origins": [
+    {
+      "origin": "https://jhparktime.github.io",
+      "allowed": true,
+      "status": 200
+    },
+    {
+      "origin": "https://lsh-ajou.github.io",
+      "allowed": true,
+      "status": 200
+    },
+    {
+      "origin": "https://example.org",
+      "allowed": false,
+      "status": 400
+    }
+  ]
+}

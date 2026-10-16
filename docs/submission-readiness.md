@@ -1,54 +1,53 @@
-# 제출 준비 점검표
+# 제출 준비 점검표 — 실제 ASR v2
 
 수업 기준: [Speech Recognition Challenge 2026](https://github.com/LSH-Ajou/Speech-Recognition-Challenge-2026).
-수업 저장소에는 `submission/Team_<대표이름>_<학번>.html` 한 개만 추가한다.
-샘플 페이지를 복제하지 않고 자체 워크샵 사이트를 하나의 HTML로 묶는다.
+수업 저장소에는 `submission/Team_<대표이름>_<학번>.html` 한 개를 추가한다.
+샘플을 복제하지 않고 자체 워크샵 사이트와 공개 평가기를 한 HTML에 묶는다.
 
-| 필수 항목 | 현재 산출물 | 확인 |
+현재 제출 후보는 **tye-ko-asr-v2 / ko-correction-v2**다. 데이터는 구축했지만
+독립 청취 검수와 추가 교정 모델 추론, 비공개 서버 연결은 아직 완료되지 않았다.
+
+| 필수 항목 | 현재 산출물 | 확인 상태 |
 |---|---|---|
-| 메인화면 index.html | `web/index.html` | 자체 워크샵 디자인, 여섯 페이지와 한/영 전환 |
-| Challenge 설명·프로젝트 | Challenge·연구 발표 페이지, README | 음성+초안→전체 전사 교정으로 통일 |
-| Leaderboard·벤치마크 비교 | `web/data/baselines.json`, `docs/baseline-results.md` | Copy·Whisper와 Qwen 세 입력 조건의 eval/test 측정 10건 완료 |
-| 개인 GitHub | https://github.com/jhparktime/TURST-YOUR-EARS | 페이지 내 링크 |
-| Baseline 코드 | `scripts/baseline.py`, `scripts/run_omni_baselines.py` | 입력 분리·프롬프트·고정 버전·중단 재개 |
-| Evaluation 데이터 | `datasets/tye-ko-merged-v1/`, 참가자 ZIP | 공개 eval 409개·1시간 포함; 음성 ZIP 새 release 공개 완료 |
-| 평가 방법·코드 | `server/scoring.py`, `web/scorer.js` | 동일 ko-correction-v1, 브라우저/Python 공개 eval 점수 일치 |
-| 웹 안에서 평가 | 결과 제출의 공개 eval 채점 | 브라우저 실제 409행 Copy 채점 및 영어 전환 검증 |
-| 단일 HTML | `scripts/build_course_submission.py` | 전체 10건 내장, 실제 409행 채점·한/영 전환·지표 JSON 다운로드 검증; 정식 학번 파일명은 대기 |
+| 메인·Challenge 설명 | `web/v2.html`, `docs/real-asr-v2.md` | 실제 음성+ASR 초안→전체 전사 교정, 한/영 전환 |
+| Leaderboard | `web/data-v2/baselines.json`, `docs/real-asr-v2-results.md` | Copy·Whisper·Qwen Audio-only의 Eval/Test 6건 완료; Text-only·Audio+draft 4건 추론 중 |
+| 개인 GitHub | https://github.com/jhparktime/TURST-YOUR-EARS | 사이트에 연결 |
+| Baseline 코드 | `scripts/baseline.py`, `scripts/run_omni_baselines.py` | 고정 모델 버전·입력 조건·프롬프트 및 중단 재개 |
+| Evaluation 데이터 | `datasets/tye-ko-asr-v2/`, 참가자 ZIP | 공개 Eval 409개·1시간의 음성·초안·정답 포함 |
+| 평가 방법·코드 | `server/scoring_v2.py`, `web/scorer-v2.js` | 주 지표 Micro CER, 슬롯 복원·훼손·삽입 지표 |
+| 웹 내 평가 | `v2.html#submit` | 실제 공개 Eval 409행 채점·전체 JSON 내려받기·Python 결과 일치 확인 |
+| 단일 HTML | `scripts/build_course_submission_v2.py` | 6건 포함 미리보기 동작 확인; 추가 4건 완료 후 최종본 재생성 필요 |
 
-## 버전과 공개 범위
+## 데이터와 공개 범위
 
-현재 데이터는 `tye-ko-merged-v1`, 평가 규격은 `ko-correction-v1`이다.
-공개 train 472개·약 1시간 13분, 공개 eval 409개·1시간, 비공개 test 1,750개·4시간이다.
-전체 4,081개는 운영자 원본 풀에 보존하며, 예비 1,450개를 학습에 쓰지 않는다.
-새 train 일부가 이전 test에 속했으므로 새 자료를 공개하면 이전 test는 종료한다.
+Train 472개·약 1시간 13분, 공개 Eval 409개·1시간, 비공개 Test 1,750개·4시간이다.
+기존 녹음을 유지하고 실제 Whisper·Qwen 음성 단독 출력으로 초안을 교체했다.
+생성기 배정은 v2 Test 오류 분석 전에 고정했다. 점수가 높은 오류만 골라 남기지 않았다.
+원래 녹음 풀의 선택 제약과 기존 v1 Test 집계를 본 이력은
+[데이터 정의](real-asr-v2.md)에 기록한다. 독립 청취 검수는 현재 0건이다.
 
-단일 제출 HTML은 공개 eval 정답만 내장한다. 비공개 test의 개별 정답·예측·음성·원천 대응표는
-GitHub Pages와 수업 HTML에 넣지 않는다. Test 집계 성능과 조건별 분자·분모는 공개할 수 있다.
-실제 비공개 test 제출은 별도 API를 연결해야 하며, 연결 전에는 해당 제출을 비활성화한다.
-공개 eval 개발 점수는 공식 참가 팀 순위가 아니다.
+[참가자 ZIP 프리릴리스](https://github.com/jhparktime/TURST-YOUR-EARS/releases/tag/dataset-ko-asr-v2)는
+Train/Eval만 포함한다. Test 정답·개별 예측·원천 대응표·검수표는 비공개 보관한다.
+Test 입력 ZIP에도 정답·조건 라벨·검수표를 넣지 않는다. 단일 HTML에는 공개 Eval 정답만 내장한다.
+공개 Eval 점수는 개발용이며 공식 참가 팀의 비공개 Test 순위와 구분한다.
 
-## 최종 확정 전 남은 항목
+## 완료된 검증과 남은 작업
 
-1. 대표 학번을 확인하고 정식 파일명을 확정한다. 대표 이름은 박재현으로 준비하며, 학번은 추정해 쓰지 않는다.
-2. 비공개 Test 채점 서버는 아직 미연결이다. [무료 배포 안내](free-evaluation-hosting.md)에 따라 계정·Secret File·DB를 연결하고 원격 채점과 재시작 후 보존을 확인한다.
-3. 준비한 개인 포크의 `submission/`에 정식 파일 하나만 추가하고, 원본 수업 저장소에 제출할 PR의 변경 범위를 확인한다. 현재 제출 브랜치·수업 PR은 만들지 않았다.
+- 2,631개 음성 전체의 복호화·원천 바이트·정답 보존·생성기 배정·실제 출력 대응을 검사했다.
+  화자·세션·동일 문장·동일 음성의 split 간 겹침을 확인했다. 음성을 사람이 검수한 결과는 아니다.
+- GitHub Pages와 단일 HTML에서 실제 409행 CSV를 채점하고 한/영 전환 및 JSON 내려받기를 확인했다.
+  모든 공개 지표가 Python과 일치했다. 서버 없는 공개 채점은 사용 가능하다.
+- 로컬 비공개 API에서 실제 Test 1,750행의 Copy·Whisper 채점과 재시작 후 결과 보존을 확인했다.
+  [검증 기록](measurements/real-asr-v2-api-software-check.json)은 원격 배포 완료를 뜻하지 않는다.
+- Text-only·Audio+draft의 Eval/Test 전체 추론을 완료한 뒤 결과를 검증하고, 웹과 단일 HTML을 다시 묶는다.
+- 독립 청취 검수에서 원천 전사 오류·숫자 표기 차이·불명료 발화를 확인하고 처리 내역을 남긴다.
+- [무료 배포 안내](free-evaluation-hosting.md)에 따라 비공개 API·DB를 연결한다.
+  자체 Pages와 수업 Pages 두 출처의 접속·채점·기록 보존을 원격 검증하기 전에는 접수를 닫아 둔다.
+- 실제 대표 이름·학번을 확인한 뒤 정식 파일명을 정한다. 준비한 개인 포크의 `submission/`에
+  한 파일만 추가하고 변경 범위를 확인한다. 현재 수업 제출 브랜치·PR은 만들지 않았다.
 
-## 완료한 준비와 확인 범위
+## 보존한 v1 결과
 
-- 참가자 train/eval ZIP과 SHA256을 [새 release](https://github.com/jhparktime/TURST-YOUR-EARS/releases/tag/dataset-ko-merged-v1)로 공개했다. 운영자 ZIP과 Test 입력 묶음은 비공개 보관 중이다.
-- Pages의 공개 eval에서 실제 409행 Copy CSV 채점과 한/영 전환을 확인했다. 이 검증은 비공개 Test 서버의 배포 완료를 뜻하지 않는다.
-- Copy·Whisper와 Qwen Text-only·Audio-only·Audio+draft 각각의 eval/test 결과 10건을 모두 측정했다. [완료된 세 입력 비교 증빙](measurements/qwen-audio-only-completed.json)에서 Qwen 6,477개 예측의 입력·출력과 지표 일치를 확인했다. Qwen 세 모드 모두 Test에서 생성 한도 도달 1건씩, Audio-only는 eval에서도 1건이 있었으며 실제 출력 그대로 포함했다. 빈 출력은 없었다.
-- 최종 단일 HTML에서 공개 409행 Copy 예측을 실제 채점했다. 한/영 지표 표시, 전체 10건 벤치마크, JSON 내려받기를 확인했고 내려받은 모든 지표가 Python 결과와 정확히 일치했다. 비공개 Test ID 1,750개는 HTML에 포함되지 않았다.
-- [공개 개발셋 난이도 진단](measurements/selective-public-eval/README.md)의 전체 후보와 예측을 공개하고 연구 발표 페이지에 반영했다. 이 필터의 비공개 Test 성능은 측정하지 않았다.
-- 개인 포크 [jhparktime/Speech-Recognition-Challenge-2026](https://github.com/jhparktime/Speech-Recognition-Challenge-2026)을 준비했다. 원본 샘플 대신 자체 사이트를 묶는 방식이며 대표 학번은 아직 확인되지 않았다.
-
-독립 청취 미검수와 합성 명사 치환의 한계는 공개 자료에 명시한다. 같은 Qwen의 입력 결합은
-각 입력만 쓴 경우보다 CER가 낮았지만 Copy보다 높았다. 이를 실제 ASR 오류 분포나 다른
-모델에 대한 일반화로 해석하지 않는다.
-수업 PR의 실제 제출은 최종 파일명과 내용을 확인한 뒤 진행한다.
-
-자동 검사는 Python 평가·브라우저 채점·언어 전환·DB 보존을 포함한다. 실행 내역은
-[GitHub Actions](https://github.com/jhparktime/TURST-YOUR-EARS/actions)에서 확인한다.
-로컬 API에서는 새 test 전체의 Copy·Whisper 실제 예측 제출, 재시작 후 순위 보존,
-비공개 경로 404를 확인했다. 원격 비공개 서버에서의 검증은 아직이다.
+`web/index.html`, `web/data/`, `docs/baseline-results.md`와 기존 v1 release는 과거 합성 명사 치환 실험이다.
+v1은 10건 측정이 완료됐지만 새 실제 ASR v2 실험의 완료 상태를 대신하지 않는다.
+v1의 조건 평균 Macro CER와 v2의 발화 평균 Macro CER는 정의가 다르므로 같은 순위에 섞지 않는다.

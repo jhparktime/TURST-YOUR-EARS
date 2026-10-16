@@ -6,7 +6,7 @@
 
 [웹사이트](https://jhparktime.github.io/TURST-YOUR-EARS/) · [베이스라인](scripts/baseline.py) · [채점 코드](server/scoring.py)
 
-**현재 데이터:** [통합 데이터 merged v1](datasets/tye-ko-merged-v1/README.md)을 구성했습니다. 기존 5시간 자료와 추가 train/eval 자료 4,081개·약 9시간 42분을 모두 보존하고, **train 472개·약 1시간 13분 / 공개 eval 409개·1시간 / 비공개 test 1,750개·4시간**으로 다시 분할했습니다. 나머지 1,450개는 중복·평가 화자·목표 시간 초과 사유와 함께 운영자 예비 풀에 보관합니다. 전체 4,081개 음성 복호화와 분할·채점 검증을 통과했고, 새 eval/test 2,159개에서 Copy와 Whisper 평가를 완료했습니다. Qwen Text-only와 Audio+draft도 각각 eval/test 2,159개 전체 평가를 완료했고, 같은 모델 Audio-only의 공개 eval도 완료했습니다. Audio-only의 test 추론은 진행 중입니다. 독립 청취 검수는 아직입니다. [통합·재현·추론 안내](docs/merged-dataset.md)를 확인하세요. 새 train에 이전 test 일부가 포함되므로 새 학습 정답 공개 시 이전 test는 종료된 버전으로 보관합니다.
+**현재 데이터:** [통합 데이터 merged v1](datasets/tye-ko-merged-v1/README.md)을 구성했습니다. 기존 5시간 자료와 추가 train/eval 자료 4,081개·약 9시간 42분을 모두 보존하고, **train 472개·약 1시간 13분 / 공개 eval 409개·1시간 / 비공개 test 1,750개·4시간**으로 다시 분할했습니다. 나머지 1,450개는 중복·평가 화자·목표 시간 초과 사유와 함께 운영자 예비 풀에 보관합니다. 전체 4,081개 음성 복호화와 분할·채점 검증을 통과했고, 새 eval/test 2,159개에서 Copy와 Whisper 평가를 완료했습니다. Qwen Text-only·Audio-only·Audio+draft도 각각 eval/test 2,159개 전체 평가를 완료했습니다. 다섯 방법의 split별 측정 10건을 모두 제공합니다. 독립 청취 검수는 아직입니다. [통합·재현·추론 안내](docs/merged-dataset.md)를 확인하세요. 새 train에 이전 test 일부가 포함되므로 새 학습 정답 공개 시 이전 test는 종료된 버전으로 보관합니다.
 
 ## 과제 정의
 
@@ -66,7 +66,7 @@ CI는 임시 PostgreSQL로 재시작 후 결과 보존도 확인합니다. 로�
 | Whisper large-v3-turbo | 음성 | eval/test 2,159개 완료 |
 | Qwen2.5-Omni-3B · Text-only | 초안 | eval/test 2,159개 완료 |
 | Qwen2.5-Omni-3B · Audio+draft | 음성 + 초안 | eval/test 2,159개 완료 |
-| Qwen2.5-Omni-3B · Audio-only | 음성 | 공개 eval 409개 완료; test 추론 진행 중 |
+| Qwen2.5-Omni-3B · Audio-only | 음성 | eval/test 2,159개 완료 |
 
 [전체 지표](docs/baseline-results.md)와 [분자·분모 및 조건별 결과 JSON](web/data/baselines.json)을 제공합니다.
 [합성 오류의 난이도 점검](docs/difficulty-audit.md)과 [공개 eval의 선택적 교정 진단](docs/measurements/selective-public-eval/README.md)도 제공합니다. 후자는 생성 규칙을 아는 단순 필터의 개발용 분석이며 비공개 Test 결과나 독창성의 증거가 아닙니다.
@@ -82,7 +82,11 @@ Audio+draft 4.3833%로 낮아졌지만, Copy 2.7211%보다 높습니다. 오류 
 생성 한도 도달 출력 1개를 포함한 실제 결과를 보관했습니다. 공개 eval에서 같은 모델 Audio-only의 Macro CER는 13.9612%로 Audio+draft 4.7073%보다 높습니다.
 따라서 이 모델·공개 개발셋에서는 초안 제공도 도움이 됐지만, Copy 2.6263%보다 좋지는 않습니다.
 [Audio-only 공개 eval 실행 증빙](docs/measurements/qwen-audio-only-eval.json)에 생성 한도 도달 출력
-1개를 포함한 전체 결과를 보관했습니다. Audio-only의 Test 비교는 아직 미완료입니다.
+1개를 포함한 전체 결과를 보관했습니다. Test에서도 Audio-only 10.4046%보다 Audio+draft 4.3833%의 CER가 낮았지만, Copy 2.7211%보다 높았습니다.
+[완료된 세 입력 비교와 전체 검증 증빙](docs/measurements/qwen-audio-only-completed.json)에는 세 모드
+6,477개 예측의 입력·출력 일치 확인과 생성 한도 진단을 포함합니다. Qwen 세 모드는 각각 Test에서
+1개가 생성 한도에 도달했고, Audio-only는 eval에서도 1개가 도달했습니다. 모두 실제 출력 그대로
+채점했으며 빈 출력은 없었습니다.
 
 Apple Silicon 로컬 실행은 음성 이해 인코더를 유지한 Thinker를 사용합니다.
 음성 출력 가중치는 불러오지 않습니다. 모델 스냅샷은

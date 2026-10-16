@@ -812,15 +812,99 @@
         "utterances": 409
       },
       "score_file_sha256": "b58a64377ad9160184325decaa8fe945cc1921686feb780efb7c7ce698780bd7"
-    }
-  ],
-  "pending": [
+    },
     {
       "baseline": "Qwen2.5-Omni-3B · audio-only",
       "split": "test",
-      "state": "not_completed"
+      "metrics": {
+        "scorer": "ko-correction-v1",
+        "primary_metric": "macro_cer",
+        "macro_cer": 10.40458271318145,
+        "draft_macro_cer": 2.7210911671097837,
+        "cer_improvement_pp": -7.683491546071666,
+        "micro_cer": 10.402377686328304,
+        "micro_wer": 27.866297869024894,
+        "worst_cer": 12.142943964993314,
+        "restoration_rate": 91.89034837235866,
+        "restored": 1609,
+        "edit_total": 1751,
+        "harmful_edit_rate": 9.026178602206745,
+        "harmed": 6389,
+        "preserved_total": 70783,
+        "clean_change_rate": 68.09605488850772,
+        "clean_changed": 397,
+        "clean_total": 583,
+        "conditions": {
+          "clean": {
+            "errors": 2238,
+            "draft_errors": 0,
+            "characters": 24725,
+            "word_errors": 2224,
+            "words": 8546,
+            "utterances": 583,
+            "restored": 0,
+            "edit_total": 0,
+            "harmed": 2160,
+            "preserved_total": 24725,
+            "clean_changed": 397,
+            "clean_total": 583,
+            "cer": 9.051567239635997,
+            "draft_cer": 0.0,
+            "cer_improvement_pp": -9.051567239635997,
+            "wer": 26.02387081675638,
+            "restoration_rate": null,
+            "harmful_edit_rate": 8.736097067745197,
+            "clean_change_rate": 68.09605488850772
+          },
+          "single": {
+            "errors": 2500,
+            "draft_errors": 665,
+            "characters": 24952,
+            "word_errors": 2321,
+            "words": 8599,
+            "utterances": 583,
+            "restored": 540,
+            "edit_total": 583,
+            "harmed": 2092,
+            "preserved_total": 23762,
+            "clean_changed": 0,
+            "clean_total": 0,
+            "cer": 10.019236934915037,
+            "draft_cer": 2.6651170246873996,
+            "cer_improvement_pp": -7.354119910227637,
+            "wer": 26.991510640772184,
+            "restoration_rate": 92.62435677530017,
+            "harmful_edit_rate": 8.803972729568217,
+            "clean_change_rate": null
+          },
+          "multiple": {
+            "errors": 2997,
+            "draft_errors": 1357,
+            "characters": 24681,
+            "word_errors": 2608,
+            "words": 8524,
+            "utterances": 584,
+            "restored": 1069,
+            "edit_total": 1168,
+            "harmed": 2137,
+            "preserved_total": 22296,
+            "clean_changed": 0,
+            "clean_total": 0,
+            "cer": 12.142943964993314,
+            "draft_cer": 5.4981564766419515,
+            "cer_improvement_pp": -6.644787488351364,
+            "wer": 30.59596433599249,
+            "restoration_rate": 91.52397260273973,
+            "harmful_edit_rate": 9.584678866164335,
+            "clean_change_rate": null
+          }
+        },
+        "utterances": 1750
+      },
+      "score_file_sha256": "2ac73e2e3f08dbe6d9a404a3a5aa63ed5873996410933b1811955d60382b6fb9"
     }
   ],
+  "pending": [],
   "limitations": [
     "Independent listening pending.",
     "Public-source pretraining/search contamination remains.",

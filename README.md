@@ -4,11 +4,59 @@
 
 음성을 근거로 초안의 오류를 복원하면서 원래 맞던 부분을 보존하는 **Audio-grounded Transcript Correction** 챌린지입니다. 음성과 원천 정답 전사는 바꾸지 않습니다.
 
-**v2 구축 중:** 단순 명사 치환의 한계를 보완하기 위해 실제 Whisper·Qwen 음성인식 출력을 초안으로 사용하는 새 데이터를 준비하고 있습니다. Eval 1시간·Test 4시간을 유지하며, 누락·삽입을 지원하는 별도 평가 규격을 적용합니다. [v2 데이터·평가·검수 규칙](docs/real-asr-v2.md)을 확인하세요. 아래 웹사이트·데이터·완료 지표는 현재 공개된 **합성 오류 v1**의 기록입니다. v2 교정 베이스라인은 새 초안으로 다시 실행해야 하며, 두 버전의 점수를 섞지 않습니다.
+**현재 제출 후보: 실제 ASR v2.** Whisper·Qwen의 실제 음성인식 출력을 초안으로 사용합니다.
+Train 472개·약 1시간 13분 / 공개 Eval 409개·1시간 / 비공개 Test 1,750개·4시간입니다.
+주 지표는 **Micro CER**이며 누락·삽입을 포함한 오류 복원과 정상 구간 보존을 함께 평가합니다.
+데이터 구축·자동 무결성 검사·웹 공개 채점은 완료했습니다. 독립 청취 검수는 아직입니다.
+Copy·Whisper·Qwen Audio-only의 Eval/Test 측정 6건을 공개했고,
+Text-only·Audio+draft의 새 초안 추론은 진행 중입니다. 미완료 점수는 표시하지 않습니다.
 
-[웹사이트](https://jhparktime.github.io/TURST-YOUR-EARS/) · [베이스라인](scripts/baseline.py) · [채점 코드](server/scoring.py)
+[v2 웹사이트](https://jhparktime.github.io/TURST-YOUR-EARS/v2.html) ·
+[참가자 데이터 프리릴리스](https://github.com/jhparktime/TURST-YOUR-EARS/releases/tag/dataset-ko-asr-v2) ·
+[평가 규격과 한계](docs/real-asr-v2.md) · [현재 측정 결과](docs/real-asr-v2-results.md) ·
+[제출 준비 상태](docs/submission-readiness.md)
 
-**현재 데이터:** [통합 데이터 merged v1](datasets/tye-ko-merged-v1/README.md)을 구성했습니다. 기존 5시간 자료와 추가 train/eval 자료 4,081개·약 9시간 42분을 모두 보존하고, **train 472개·약 1시간 13분 / 공개 eval 409개·1시간 / 비공개 test 1,750개·4시간**으로 다시 분할했습니다. 나머지 1,450개는 중복·평가 화자·목표 시간 초과 사유와 함께 운영자 예비 풀에 보관합니다. 전체 4,081개 음성 복호화와 분할·채점 검증을 통과했고, 새 eval/test 2,159개에서 Copy와 Whisper 평가를 완료했습니다. Qwen Text-only·Audio-only·Audio+draft도 각각 eval/test 2,159개 전체 평가를 완료했습니다. 다섯 방법의 split별 측정 10건을 모두 제공합니다. 독립 청취 검수는 아직입니다. [통합·재현·추론 안내](docs/merged-dataset.md)를 확인하세요. 새 train에 이전 test 일부가 포함되므로 새 학습 정답 공개 시 이전 test는 종료된 버전으로 보관합니다.
+## v2 공개 Eval 재현
+
+참가자 ZIP의 압축을 푼 뒤 아래 경로를 실제 위치로 바꿉니다.
+Copy와 채점에는 모델 라이브러리나 GPU가 필요하지 않습니다.
+
+```sh
+pip install -r requirements.txt
+python -m scripts.baseline --mode copy --inputs /data/tye-v2/eval/inputs.json --output /tmp/v2-copy.csv
+python -m scripts.evaluate --references /data/tye-v2/eval/references.json --predictions /tmp/v2-copy.csv
+```
+
+결과는 `ko-correction-v2`, `primary_metric: micro_cer`, Micro CER **11.766335975170426%**입니다.
+같은 CSV를 v2 사이트에 업로드하면 브라우저 안에서 채점됩니다. 비공개 Test 채점 API는 아직 연결하지 않았습니다.
+Test 정답과 운영자 자료는 공개 저장소에 포함하지 않습니다.
+
+측정용 Qwen 실행기는 [scripts/run_omni_baselines.py](scripts/run_omni_baselines.py)입니다.
+고정된 Thinker 가중치·BF16·MPS·512토큰·greedy 설정으로 실제 측정을 수행하며 중단 시 같은 설정으로 재개합니다.
+[모델 버전 및 초안 생성 규칙](docs/real-asr-v2.md)을 확인하고, 모델 실행 의존성은
+`requirements-omni.txt`를 설치합니다. 공개 Eval만 재현하는 예는 다음과 같습니다.
+
+```sh
+python -m scripts.run_omni_baselines \
+  --public /data/tye-v2 --private /data/unused-private \
+  --model-cache /path/to/fixed-qwen-snapshot --work /data/v2-public-inference \
+  --modes text-only audio-draft --splits eval --max-new-tokens 512
+```
+
+출력은 작업 폴더의 `eval/text-only.csv`, `eval/audio-draft.csv`에 생성됩니다.
+각 CSV를 같은 공개 Eval 정답으로 채점합니다. `--splits eval` 실행은 비공개 자료를 읽지 않습니다.
+간단한 단일 모드 `scripts.baseline`의 모델 실행은 자동 장치·dtype를 쓰는 편의 기능이므로,
+공식 수치를 재현하려면 위의 고정 설정 실행기를 사용합니다.
+빈 출력이나 고정 토큰 한도 도달 출력은 바꾸거나 재시도하지 않고 실제 결과 그대로 채점합니다.
+
+## 보존한 합성 오류 v1 기록
+
+아래는 `tye-ko-merged-v1 / ko-correction-v1`의 기존 설명입니다.
+v1과 v2의 초안 및 Macro CER 정의가 다르므로 결과를 같은 순위에 섞지 않습니다.
+
+[v1 웹사이트](https://jhparktime.github.io/TURST-YOUR-EARS/) · [간단 실행 코드](scripts/baseline.py) · [v1 채점 코드](server/scoring.py)
+
+**v1 데이터 기록:** [통합 데이터 merged v1](datasets/tye-ko-merged-v1/README.md)을 구성했습니다. 기존 5시간 자료와 추가 train/eval 자료 4,081개·약 9시간 42분을 모두 보존하고, **train 472개·약 1시간 13분 / 공개 eval 409개·1시간 / 비공개 test 1,750개·4시간**으로 다시 분할했습니다. 나머지 1,450개는 중복·평가 화자·목표 시간 초과 사유와 함께 운영자 예비 풀에 보관합니다. 전체 4,081개 음성 복호화와 분할·채점 검증을 통과했고, 새 eval/test 2,159개에서 Copy와 Whisper 평가를 완료했습니다. Qwen Text-only·Audio-only·Audio+draft도 각각 eval/test 2,159개 전체 평가를 완료했습니다. 다섯 방법의 split별 측정 10건을 모두 제공합니다. 독립 청취 검수는 아직입니다. [통합·재현·추론 안내](docs/merged-dataset.md)를 확인하세요. 새 train에 이전 test 일부가 포함되므로 새 학습 정답 공개 시 이전 test는 종료된 버전으로 보관합니다.
 
 ## 과제 정의
 

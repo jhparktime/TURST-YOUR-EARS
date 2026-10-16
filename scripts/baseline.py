@@ -51,7 +51,7 @@ def messages_for(row, mode, root):
             {'role':'user', 'content':content}]
 
 
-def model_predictions(rows, args):
+def model_predictions(rows, args, diagnostics=None):
     # Optional model libraries are deliberately absent from the web server image.
     import torch
     from transformers import Qwen2_5OmniForConditionalGeneration, Qwen2_5OmniProcessor
@@ -76,10 +76,15 @@ def model_predictions(rows, args):
                 thinker_do_sample=False, thinker_max_new_tokens=args.max_new_tokens)
         # Decode new tokens only: the input draft must never be copied via prompt echo.
         new_tokens = generated[:, inputs['input_ids'].shape[1]:]
-        if new_tokens.shape[1] >= args.max_new_tokens:
-            raise ValueError(f'Output token limit reached for {row["id"]}; rerun with a larger limit.')
-        outputs.append(processor.batch_decode(new_tokens, skip_special_tokens=True,
-                       clean_up_tokenization_spaces=False)[0].strip())
+        prediction = processor.batch_decode(new_tokens, skip_special_tokens=True,
+                       clean_up_tokenization_spaces=False)[0].strip()
+        # Fixed-budget truncation and empty output are model outcomes. Keep
+        # them for scoring instead of retrying or substituting the draft.
+        outputs.append(prediction)
+        if diagnostics is not None:
+            diagnostics.append({'id': row['id'], 'new_tokens': new_tokens.shape[1],
+                'at_token_limit': new_tokens.shape[1] >= args.max_new_tokens,
+                'empty_output': not prediction})
     return outputs
 
 
@@ -95,6 +100,7 @@ def main():
     args = parser.parse_args()
     try:
         rows = load_inputs(args.inputs)
+        output_diagnostics = []
         if args.mode == 'copy':
             outputs = [r['draft'] for r in rows]
         else:
@@ -105,7 +111,7 @@ def main():
             # Fail before loading model weights when audio is missing.
             for row in rows:
                 messages_for(row, args.mode, args.inputs.parent)
-            outputs = model_predictions(rows, args)
+            outputs = model_predictions(rows, args, diagnostics=output_diagnostics)
         if any(len(text) > 4000 for text in outputs):
             raise ValueError('A prediction exceeds the scorer limit; inspect the model output.')
         with args.output.open('w', encoding='utf-8', newline='') as f:
@@ -118,6 +124,8 @@ def main():
                     'inputs_sha256':hashlib.sha256(args.inputs.read_bytes()).hexdigest(),
                     'predictions_sha256':hashlib.sha256(args.output.read_bytes()).hexdigest(),
                     'prompt':PROMPTS.get(args.mode), 'system':SYSTEM,
+                    'output_policy':'copy_draft' if args.mode == 'copy' else 'score_actual_output_including_empty_and_fixed_token_limit',
+                    'output_diagnostics':output_diagnostics,
                     'packages':{d.metadata['Name']:d.version for d in importlib.metadata.distributions()}}
         args.output.with_suffix('.run.json').write_text(json.dumps(metadata,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     except (ValueError, KeyError, OSError, ImportError) as exc:

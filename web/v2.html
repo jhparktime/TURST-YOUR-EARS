@@ -6,13 +6,26 @@ body{margin:28px auto;padding:0 20px;max-width:1080px;color:#202020;background:w
 </style></head><body>
 <div class="language"><button id="language" type="button" aria-label="Switch language">English</button></div>
 <header><h1>Trust Your Ears</h1><p data-t="subtitle">Korean Audio-grounded Transcript Correction Challenge</p><p class="small" data-t="version">실제 ASR 오류 · v2 미검수 후보 데이터</p></header>
-<div class="layout"><nav aria-label="Sections"><a href="#overview" data-t="overview">Challenge</a><a href="#data" data-t="data">Dataset</a><a href="#evaluation" data-t="evaluation">Evaluation</a><a href="#baselines" data-t="baselines">Benchmarks</a><a href="#submit" data-t="submit">웹 채점</a><a href="#official" data-t="official">Private Test</a><a href="index.html" data-t="archive">합성 오류 v1</a><a href="https://github.com/jhparktime/TURST-YOUR-EARS">GitHub</a></nav>
+<div class="layout"><nav aria-label="Sections"><a href="#overview" data-t="overview">Challenge</a><a href="#pipeline" data-t="pipelineNav">Pipeline</a><a href="#method" data-t="methodNav">Method</a><a href="#data" data-t="data">Dataset</a><a href="#evaluation" data-t="evaluation">Evaluation</a><a href="#baselines" data-t="baselines">Benchmarks</a><a href="#submit" data-t="submit">웹 채점</a><a href="#official" data-t="official">Private Test</a><a href="#references" data-t="referencesNav">References</a><a href="index.html" data-t="archive">합성 오류 v1</a><a href="https://github.com/jhparktime/TURST-YOUR-EARS">GitHub</a></nav>
 <main><section id="overview"><h2 data-t="overviewTitle">Challenge overview</h2>
 <p data-t="task">한국어 음성과 실제 음성인식기가 생성한 초안을 받아, 실제 발화에 맞게 교정한 전체 전사문을 제출합니다. 오류를 고치면서 원래 맞는 부분을 보존하는 것이 목표입니다.</p>
 <p class="notice" data-t="candidate">이 페이지는 v2 후보 버전입니다. 자동 무결성 검사는 완료했지만 독립 청취 검수는 아직입니다. 데이터 난도나 음성의 필요성을 검증한 완성 벤치마크로 소개하지 않습니다.</p>
 <p data-t="research">연구 질문: 음성을 근거로 수정할 부분을 선택하면, 실제 한국어 ASR 오류를 줄이면서 불필요한 교정을 억제할 수 있을까요?</p>
 <p><a href="stress.html" data-t="stressLink">공개 Eval 음질 손상 보조 트랙</a><br><span class="small" data-t="stressDescription">같은 409개 발화의 초안은 유지하고 음질을 바꿔 입력 결합과 불필요한 교정을 비교합니다. 공개 개발 실험이며 비공개 Test는 변경하지 않습니다. 모델별 완료 상태와 조건별 결과는 보조 트랙 페이지에 표시합니다.</span></p>
 <p><a href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/docs/real-asr-v2.md" data-t="spec">데이터 생성·평가·검수 규격</a> · <a href="https://github.com/jhparktime/TURST-YOUR-EARS/tree/main/scripts" data-t="code">베이스라인·재현 코드</a></p></section>
+<section id="pipeline"><h2 data-t="pipelineTitle">Pipeline</h2>
+<ol><li data-t="pipelineSource">원본 한국어 음성과 전사를 확보하고 화자·세션·동일 문장·음성의 분할 간 겹침을 검사합니다.</li><li data-t="pipelineDraft">Whisper와 Qwen이 음성만 듣고 초안을 만듭니다. 각 발화의 생성기는 정답이나 오류율을 보지 않는 고정 규칙으로 배정합니다.</li><li data-t="pipelineCorrection">참가 모델은 음성과 초안을 받아 교정한 전체 전사문을 출력합니다. 정답 전사는 모델 입력에 넣지 않습니다.</li><li data-t="pipelineScore">공개 Eval에서 개발한 뒤 비공개 Test로 평가합니다. 동일한 평가 코드로 문자 오류와 정상 부분 훼손을 함께 집계합니다.</li></ol></section>
+<section id="method"><h2 data-t="methodTitle">Baseline &amp; Method</h2>
+<p data-t="methodIntro">초안 복사와 음성 재전사를 기준점으로 두고, 같은 Qwen 모델에 제공하는 입력을 바꿔 초안 결합의 효과를 비교합니다. 현재 베이스라인은 추가 학습 없이 실행합니다.</p>
+<div class="table-wrap"><table><thead><tr><th>Baseline</th><th data-t="methodInput">모델이 받는 입력</th><th data-t="methodRole">비교 목적</th></tr></thead><tbody>
+<tr><td>Copy draft</td><td data-t="inputDraft">전사 초안</td><td data-t="roleCopy">아무것도 수정하지 않는 기준점</td></tr>
+<tr><td>Whisper audio-only</td><td data-t="inputAudio">음성</td><td data-t="roleWhisper">large-v3-turbo로 다시 전사</td></tr>
+<tr><td>Qwen audio-only</td><td data-t="inputAudio">음성</td><td data-t="roleAudio">초안 없이 같은 Qwen으로 전사</td></tr>
+<tr><td>Qwen text-only</td><td data-t="inputDraft">전사 초안</td><td data-t="roleText">음성 없이 초안만 교정</td></tr>
+<tr><td>Qwen audio+draft</td><td data-t="inputBoth">음성 + 전사 초안</td><td data-t="roleBoth">실제 발화와 다른 부분을 교정</td></tr>
+</tbody></table></div>
+<p class="small" data-t="methodSettings">Qwen2.5-Omni-3B의 세 조건은 같은 체크포인트를 사용하며 greedy 생성·seed 0·최대 새 토큰 512개로 고정합니다. 빈 출력과 길이 제한에 도달한 출력도 그대로 평가합니다. 모델 버전과 전체 프롬프트는 재현 코드에 기록합니다.</p>
+<p><a href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/scripts/baseline.py" data-t="methodPrompts">입력 구성·프롬프트</a> · <a href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/scripts/run_omni_baselines.py" data-t="methodRunner">Qwen 추론 코드</a></p></section>
 <section id="data"><h2 data-t="dataTitle">Dataset</h2><p data-t="dataText">원본 녹음과 전사를 유지하고 Whisper large-v3-turbo와 Qwen2.5-Omni-3B의 실제 음성 단독 출력을 초안으로 사용합니다. 생성기를 고정 규칙으로 절반씩 배정하며, 인식 오류가 많은 녹음만 골라 넣지 않습니다.</p>
 <div class="table-wrap"><table><thead><tr><th>Split</th><th data-t="samples">녹음 수</th><th data-t="duration">재생 시간</th><th data-t="access">정답 공개</th><th class="num">Draft Micro CER</th></tr></thead><tbody id="dataRows"></tbody></table></div>
 <p data-t="dataSplit">학습·평가 간 화자, 세션, 동일 전사와 음성이 겹치지 않도록 기존 분할을 유지했습니다. 원천은 Zeroth Korean 공개 읽기 음성(CC-BY-4.0)이며, 자발적 대화 음성이나 새 녹음 자료는 아닙니다.</p>
@@ -34,6 +47,9 @@ body{margin:28px auto;padding:0 20px;max-width:1080px;color:#202020;background:w
 <section id="official"><h2 data-t="privateTitle">Private Test — 공식 제출</h2><p id="privateStatus" class="notice" role="status" data-t="privateClosed">비공개 Test 채점 서비스 연결을 준비하고 있습니다. 현재 공식 접수와 참가자 순위는 열리지 않았습니다.</p>
 <form id="privateForm"><label><span data-t="keyLabel">팀 키</span> <input type="password" id="teamKey" autocomplete="off" disabled></label><label><span data-t="privateCsv">Test 예측 CSV</span> <input type="file" id="privateFile" accept=".csv,text/csv" disabled></label><button id="privateSubmit" disabled data-t="privateButton">공식 제출</button></form><output id="privateResult" role="status"></output>
 <div class="table-wrap"><table><thead><tr><th data-t="rank">순위</th><th data-t="team">팀</th><th class="num">Micro CER ↓</th></tr></thead><tbody id="officialRows"></tbody></table></div></section>
+<section id="references"><h2 data-t="referencesTitle">References</h2>
+<p data-t="referencesIntro">원천 데이터와 모델, 관련 ASR 오류 교정 연구입니다. 음성과 초안을 결합하는 입력 형식 자체는 기존 연구에서도 다룹니다.</p>
+<ol><li><a href="https://huggingface.co/datasets/kresnik/zeroth_korean">Zeroth Korean</a><span data-t="referenceData"> — 원천 한국어 낭독 음성, CC BY 4.0</span></li><li><a href="https://huggingface.co/Qwen/Qwen2.5-Omni-3B">Qwen2.5-Omni-3B</a><span data-t="referenceModel"> — 음성·텍스트 입력 비교 모델</span></li><li><a href="https://aclanthology.org/2025.emnlp-industry.110/">ASR-EC Benchmark</a><span data-t="referencePaper"> — EMNLP 2025 Industry Track, 중국어 ASR 오류 교정 벤치마크</span></li></ol></section>
 <footer><p>Trust Your Ears · <a href="https://github.com/jhparktime">jhparktime</a> · <a href="https://github.com/jhparktime/TURST-YOUR-EARS">Project repository</a><br><span data-t="footer">음성인식 교과목 Challenge 프로젝트.</span></p></footer>
 </main></div>
 <script src="config-v2.js"></script><script src="scorer.js"></script><script src="scorer-v2.js"></script><script src="v2-app.js"></script>

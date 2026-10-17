@@ -1,0 +1,33 @@
+{
+  "verified_at": "2026-10-17T18:46:39.393998+00:00",
+  "kind": "software_check_not_model_or_human_validation",
+  "artifact": "single_html_course_candidate",
+  "artifact_sha256": "ee6861bcce5106e8664edfbf7a070a4bff45b583fb928972c845b965e19cfa04",
+  "protocol": "ko-correction-v2",
+  "eval_rows": 409,
+  "checks": {
+    "pipeline_and_method_available_in_page": true,
+    "baseline_input_table_available": true,
+    "references_available": true,
+    "new_sections_english_verified": true,
+    "copy_scores_equal_complete_python_json": true,
+    "choosing_new_csv_clears_previous_scores": true,
+    "choosing_new_csv_disables_previous_download": true,
+    "wrong_dataset_csv_rejected": true,
+    "failed_submission_leaves_no_old_scores": true,
+    "failed_submission_leaves_download_disabled": true,
+    "valid_submission_recovers_after_rejection": true
+  },
+  "before_fix_reproduction": {
+    "wrong_dataset_rejected": true,
+    "old_scores_visible": true,
+    "old_download_enabled": true
+  },
+  "browser_export_sha256": "4289b3fbc3028c929134a057243b76282d3257cf5c7a62a2e0d2712c3351c380",
+  "python_export_sha256": "4305eeaa322d55e2b253633ea2b49f5191db01cb12d0f506274b393de2168277",
+  "source_files_sha256": {
+    "web/v2.html": "16ccad8393b60a64755e3f95f9033996c71fa637924f6c4a5cf9dd2353853b96",
+    "web/v2-app.js": "fb100b0e95ae10d11ce65a36c9a2d938307fa98f7d3bdbef2f9b2b72f0979f77"
+  },
+  "private_test_used": false
+}

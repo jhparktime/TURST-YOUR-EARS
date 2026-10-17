@@ -65,6 +65,9 @@ Test 입력 ZIP에도 정답·조건 라벨·검수표를 넣지 않는다. 단�
 배포된 페이지에서도 1,227행을 채점하고 전체 JSON이 Python과 일치함을 확인했다.
 다른 분할 CSV의 ID 불일치 차단과 정상 CSV로의 복구도 확인했다. 이는 소프트웨어 동작 검증이다.
 [원격 검증 기록](measurements/public-eval-stress/live-software-check.json)에 CI·릴리스의 확인값을 남겼다.
+Copy 외에도 실제 Whisper 예측 1,227행을 배포된 웹에서 채점했다. 세 조건과 초안 정오답별
+9개 집단의 전체 JSON이 Python과 일치했다. [비복사 예측 검증 기록](measurements/public-eval-stress/live-whisper-software-check.json)은
+웹 평가기의 동작 검증이며 보조 트랙 전체 모델 비교의 완료를 뜻하지 않는다.
 새 공개 저장소 사본과 릴리스 ZIP만으로 1,227행 Copy·채점도 재현했다. 외부 패키지 없이 전체 JSON이
 웹에서 내려받은 결과와 일치했다. [참가자 재현 기록](measurements/public-eval-stress/participant-reproduction.json)을 남긴다.
 현재 세 조건의 Copy 측정만 완료했으며, 다른 모델 12건은 대기 중이다.

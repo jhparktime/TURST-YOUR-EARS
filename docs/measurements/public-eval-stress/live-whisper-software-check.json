@@ -1,0 +1,21 @@
+{
+  "verified_at": "2026-10-17T20:42:33.680981+00:00",
+  "kind": "live_browser_python_parity_with_actual_noncopy_model_predictions",
+  "url": "https://jhparktime.github.io/TURST-YOUR-EARS/stress.html",
+  "deployed_source_commit": "c05e60797a6c6717ed39329dc1e8c0f3050de3e0",
+  "predictions": "Whisper audio-only; original outputs reused after hash verification; 818 degraded outputs newly inferred",
+  "rows": 1227,
+  "unique_recordings": 409,
+  "conditions": 3,
+  "groups_per_condition": 3,
+  "complete_export_equals_python": true,
+  "predictions_sha256": "841857e201b86ed335aefaa3e5f7c3c656a89aad34c3fb6478f40343330990f1",
+  "export_sha256": "bdf1f5ff62f234b442175eafebafa3a07550c1e0ae100f8d121ffbd1e072c0ff",
+  "original_micro_cer": 6.185224186665189,
+  "gaussian_5db_micro_cer": 21.4044227678324,
+  "packet_loss_20_micro_cer": 5.5367732638696445,
+  "full_suite_complete": false,
+  "audio_draft_still_running": true,
+  "private_test_used": false,
+  "independent_human_listening_count": 0
+}

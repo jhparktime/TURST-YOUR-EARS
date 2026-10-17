@@ -1,0 +1,56 @@
+{
+  "verified_at": "2026-10-17T21:15:30.520689+00:00",
+  "dataset": "tye-public-eval-stress-v1",
+  "protocol": "ko-correction-v2",
+  "measurements": 15,
+  "pending": 0,
+  "unique_recordings": 409,
+  "derived_audio_rows": 1227,
+  "comparison_sha256": "b29784cb0b319b5d41a24b3afbef578da508c6ebd8617aedb1edef821586026f",
+  "public_export_matches_verified_comparison": true,
+  "all_five_full_prediction_csvs_match_condition_aggregates": true,
+  "saved_output_diagnostics_recounted": true,
+  "new_model_verification": {
+    "Qwen audio-only": {
+      "checkpoint_sha256": "3db624c8b1dab160b34f0210623567d3cb679e2472c69d6b4385fd3ba8e77fc8",
+      "run_sha256": "d2d7c1fbfd2c88372c68bee64ada9e608c05b84c08d5a129b3fba86d0b466f95",
+      "predictions_sha256": "9246a46607d4ac4a8beb7a074f46120b559019ee17fdb4b30673130441f8285a",
+      "rows": 818,
+      "output_diagnostics": {
+        "utterances": 818,
+        "at_token_limit": 8,
+        "empty_outputs": 0
+      }
+    },
+    "Qwen audio+draft": {
+      "checkpoint_sha256": "69d9bf63bbdacdc2adff758ec84f64f96cb6ea4600a56f02d3993966a494304b",
+      "run_sha256": "e02d7db99bb5daf86bba3617bb18204897254d273997fb0c5db76f61006f0895",
+      "predictions_sha256": "3735a5b295ea65d9b2e218633a1bc9bf5c4eec9f451420685d1f2139e6251608",
+      "rows": 818,
+      "output_diagnostics": {
+        "utterances": 818,
+        "at_token_limit": 3,
+        "empty_outputs": 0
+      }
+    },
+    "Whisper audio-only": {
+      "checkpoint_sha256": "4495a512cb843ecd32a22a18eb893a79678ab29b43c56ebce36fc09c601167c4",
+      "run_sha256": "254b5bbc411c964fe0c1bfda7af932a050f9e742625b44c30f875e331f764ee6",
+      "predictions_sha256": "f37e83ee5be39c5b3615720dd7beff36d3b806de7b90682b728dd0714ef10666",
+      "rows": 818
+    }
+  },
+  "qwen_audio_only_minus_audio_draft_cer_pp": {
+    "original": 0.40458903729978424,
+    "gaussian_5db": 29.35764562434185,
+    "packet_loss_20": 11.223189048384416
+  },
+  "qwen_extra_draft_benefit_vs_original_pp": {
+    "gaussian_5db": 28.953056587042063,
+    "packet_loss_20": 10.818600011084632
+  },
+  "private_test_ids_in_export": 0,
+  "private_test_used": false,
+  "independent_human_listening_count": 0,
+  "status": "measured_public_development_candidate"
+}

@@ -1,0 +1,40 @@
+{
+  "verified_at": "2026-10-17T18:36:43.259859+00:00",
+  "kind": "software_check_not_model_or_human_validation",
+  "deployed_url": "https://jhparktime.github.io/TURST-YOUR-EARS/stress.html",
+  "deployed_source_commit": "6d3710729fbd4f27dd4512c2ee89ed004d33c947",
+  "ci": {
+    "run": 39055396141,
+    "conclusion": "success",
+    "python_tests_passed": 128,
+    "language_tests_passed": 5
+  },
+  "public_probe": {
+    "unique_recordings": 409,
+    "views_scored": 1227,
+    "conditions": 3,
+    "prediction": "Copy draft"
+  },
+  "full_export_matches_python": true,
+  "python_export_sha256": "3b2dd0a63f9371050d1d9eb7179f06f32845e61b2374bc647b9f36d680e68bd8",
+  "browser_export_sha256": "01ee90b722758fd717a5d2f77f289bbd4cab4aae925437a01eabbabf718fb383",
+  "english_toggle_preserves_results": true,
+  "condition_switch_verified": "packet_loss_20",
+  "wrong_v2_409_row_csv_rejected": "Submission IDs must exactly match this evaluation set (no missing or extra IDs).",
+  "after_invalid_upload_valid_grading_recovered": true,
+  "private_test_used": false,
+  "independent_human_listening_count": 0,
+  "completed_model_condition_measurements": 3,
+  "pending_model_condition_measurements": 12,
+  "release": {
+    "url": "https://github.com/jhparktime/TURST-YOUR-EARS/releases/tag/dataset-public-eval-stress-v1",
+    "prerelease": true,
+    "source_commit": "6d3710729fbd4f27dd4512c2ee89ed004d33c947",
+    "zip_size": 251155522,
+    "github_asset_digest": "sha256:cf629a0e64657abfc1f206b6864b83852f92de51ea30789acbe6cc2bdb28e2f9",
+    "asset_names": [
+      "tye-public-eval-stress-v1-candidate.zip",
+      "tye-public-eval-stress-v1-candidate.zip.sha256"
+    ]
+  }
+}

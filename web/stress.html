@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Trust Your Ears — Public Eval Stress Probe</title>
+<style>
+body{margin:28px auto;padding:0 20px;max-width:1040px;color:#202020;background:white;font:17px/1.65 Georgia,"Times New Roman",serif}a{color:#16446f}header{text-align:center;border-bottom:2px solid #294963;padding-bottom:18px}h1{font-size:32px;font-weight:normal;margin-bottom:0}h2{font-size:24px;color:#253f53;border-bottom:1px solid #aaa;margin-top:30px}.language{text-align:right}.language button{background:white;color:#16446f;border:1px solid #aaa}button,input,select{font:15px sans-serif}button{padding:5px 12px;margin:6px 8px 6px 0}.notice{border-left:3px solid #8b6d37;background:#fbf9f2;padding:8px 13px}.small{font-size:14px;color:#555}.wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:15px;margin:15px 0}th,td{border-bottom:1px solid #bbb;text-align:left;padding:7px 9px}th{border-top:1px solid #555;background:#f3f3f3}td:not(:first-child){font-variant-numeric:tabular-nums}label{display:block;margin:12px 0}output{display:block;white-space:pre-wrap}footer{margin:35px 0 20px;border-top:1px solid #aaa;padding-top:12px}@media(max-width:650px){body{padding:0 14px}h1{font-size:27px}table{font-size:13px}}
+</style></head><body>
+<div class="language"><button id="language" type="button">English</button></div>
+<header><h1>Trust Your Ears</h1><p data-t="subtitle">공개 Eval 음질 손상 보조 트랙</p><a href="v2.html" data-t="back">실제 ASR v2로 돌아가기</a></header>
+<main><section><h2 data-t="questionTitle">연구 질문</h2><p data-t="question">음질이 달라질 때 음성과 초안을 함께 쓰는 모델이 음성만 쓰는 모델보다 유리해질까요? 원래 맞는 초안을 불필요하게 바꾸는 비율도 함께 비교합니다.</p>
+<p class="notice" data-t="scope">공개 Eval에서 진행하는 개발 실험입니다. 비공개 Test와 공식 순위는 바꾸지 않습니다. 독립 청취 검수는 아직입니다. 모델별 완료 상태는 아래 기준점 표에 표시합니다.</p>
+<p data-t="pairing">서로 다른 원본 녹음은 409개·1시간입니다. 각 발화의 초안과 정답을 유지한 채 원본·합성 잡음 5 dB·20 ms 패킷 20% 손실의 세 버전, 총 1,227개를 만듭니다. 각 조건에 원래 맞는 초안 131개와 오류 초안 278개가 그대로 들어갑니다.</p>
+<p class="small" data-t="limitation">초안은 손상 전 원본 음성에서 생성됐습니다. 따라서 초안이 손상 음성보다 더 많은 정보를 가질 수 있습니다. 같은 손상 음성에서 초안을 생성하는 일반적인 noisy ASR 후처리와 구분합니다. 합성 잡음은 실제 현장 소음의 대표 표본이 아니며, 모든 손상 구간이 귀로 복원 가능한지도 아직 검수하지 않았습니다.</p>
+<p><a href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/docs/public-eval-stress-probe.md" data-t="spec">구성·해석 규칙</a> · <a href="https://github.com/jhparktime/TURST-YOUR-EARS/releases/tag/dataset-public-eval-stress-v1" data-t="download">후보 음성·초안·정답 다운로드</a> · <a href="data-stress/eval-copy.csv" download data-t="copy">1,227행 Copy CSV</a></p></section>
+<section><h2 data-t="benchmarks">조건별 기준점</h2><p id="benchmarkStatus" role="status"></p><label><span data-t="condition">음질 조건</span> <select id="condition"><option value="original">Original</option><option value="gaussian_5db">Gaussian noise · 5 dB</option><option value="packet_loss_20">Packet loss · 20%</option></select></label>
+<div class="wrap"><table><thead><tr><th>Baseline</th><th>Micro CER ↓</th><th data-t="repair">슬롯 복원률 ↑</th><th data-t="harm">정상 문자 훼손률 ↓</th><th>Clean change ↓</th></tr></thead><tbody id="baselineRows"></tbody></table></div>
+<p class="small" data-t="reuse">Copy와 Text-only는 초안이 같으므로 세 조건에서 같은 예측을 사용합니다. 원본 음성 결과는 입력 해시와 완료 기록을 확인한 경우에만 재사용합니다. 손상 음성은 새로 추론합니다.</p></section>
+<section><h2 data-t="gradeTitle">웹에서 공개 보조 트랙 채점</h2><p data-t="gradeText">모든 변형의 ID를 한 번씩 포함하는 UTF-8 CSV(id,prediction) 1,227행을 선택하세요. CSV는 브라우저 안에서만 처리합니다. 조건별 점수를 제공하며 공식 Test 순위에는 등록하지 않습니다.</p>
+<label><span data-t="csv">예측 CSV · 최대 2 MiB</span> <input id="file" type="file" accept=".csv,text/csv"></label><button id="grade" disabled data-t="grade">보조 트랙 채점</button><button id="save" disabled data-t="save">전체 JSON 저장</button><output id="status" role="status"></output>
+<div id="result" hidden><div class="wrap"><table><thead><tr><th data-t="condition">음질 조건</th><th>Micro CER ↓</th><th data-t="repair">슬롯 복원률 ↑</th><th data-t="harm">정상 문자 훼손률 ↓</th><th>Clean change ↓</th></tr></thead><tbody id="resultRows"></tbody></table></div><p class="small" data-t="export">전체 JSON에는 원래 맞은 초안과 틀린 초안을 나눈 결과도 포함됩니다.</p></div></section></main>
+<footer><a href="https://github.com/jhparktime/TURST-YOUR-EARS">Project repository</a> · <span data-t="footer">공개 개발용 실험 · 409개 원본의 반복 측정</span></footer>
+<script src="stress-app.js"></script></body></html>

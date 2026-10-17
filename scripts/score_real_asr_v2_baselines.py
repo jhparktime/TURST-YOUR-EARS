@@ -83,6 +83,17 @@ def build(public, private, work):
         'limitations':['Source-stratified self-generator overlap must be reported.',
             'No independent listening; source transcript/numeric notation may affect scores.',
             'New real-ASR drafts are not evidence that audio is necessary on every example.']}
+    # A public-only follow-up can verify unchanged Eval outputs without opening
+    # the private Test checkpoint or reference file again.
+    public_predictions = {label:public/'eval'/file for label,file in [
+        ('Copy draft','copy-draft.csv'),('Whisper audio-only','whisper-audio-only.csv'),
+        ('Qwen audio-only','qwen-audio-only.csv')]}
+    public_predictions.update({label:omni/'eval'/f'{mode}.csv' for mode,label in [
+        ('text-only','Qwen text-only'),('audio-draft','Qwen audio+draft')]})
+    result['public_eval_reuse'] = {
+        'inputs_sha256':digest(public/'eval/inputs.json'),
+        'references_sha256':digest(public/'eval/references.json'),
+        'predictions_sha256':{label:digest(path) for label,path in public_predictions.items()}}
     write_json(work / 'comparison.json',result)
     print(json.dumps({'measurements':len(entries),'pending':0,'dataset':result['dataset']}))
 

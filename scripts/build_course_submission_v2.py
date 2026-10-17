@@ -35,6 +35,7 @@ def build(output):
     html=html.replace('href="data-v2/eval-copy.csv"','href="data:text/csv;base64,'+assets['copy_csv']+'"')
     for name,url in [('data-v2/baselines.json','https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/web/data-v2/baselines.json'),
                      ('scorer-v2.js','https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/web/scorer-v2.js'),
+                     ('stress.html','https://jhparktime.github.io/TURST-YOUR-EARS/stress.html'),
                      ('index.html','https://jhparktime.github.io/TURST-YOUR-EARS/')]:
         html=html.replace('href="'+name+'"','href="'+url+'"')
     output.parent.mkdir(parents=True,exist_ok=True)

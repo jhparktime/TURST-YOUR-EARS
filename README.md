@@ -8,13 +8,18 @@
 Train 472개·약 1시간 13분 / 공개 Eval 409개·1시간 / 비공개 Test 1,750개·4시간입니다.
 주 지표는 **Micro CER**이며 누락·삽입을 포함한 오류 복원과 정상 구간 보존을 함께 평가합니다.
 데이터 구축·자동 무결성 검사·웹 공개 채점은 완료했습니다. 독립 청취 검수는 아직입니다.
-Copy·Whisper·Qwen Audio-only의 Eval/Test 측정 6건을 공개했고,
-Text-only·Audio+draft의 새 초안 추론은 진행 중입니다. 미완료 점수는 표시하지 않습니다.
+Copy·Whisper·Qwen Audio-only·Qwen Text-only의 Eval/Test 측정 8건을 공개했고,
+Audio+draft의 새 초안 추론은 진행 중입니다. 미완료 점수는 표시하지 않습니다.
 
 [v2 웹사이트](https://jhparktime.github.io/TURST-YOUR-EARS/v2.html) ·
 [참가자 데이터 프리릴리스](https://github.com/jhparktime/TURST-YOUR-EARS/releases/tag/dataset-ko-asr-v2) ·
 [평가 규격과 한계](docs/real-asr-v2.md) · [현재 측정 결과](docs/real-asr-v2-results.md) ·
 [제출 준비 상태](docs/submission-readiness.md)
+
+**공개 Eval 보조 트랙:** 같은 409개 녹음에 원본·합성 잡음 5 dB·패킷 손실 20%를 적용한
+[음질 손상 실험](docs/public-eval-stress-probe.md)을 추가합니다. 변형은 1,227개이며 서로 다른 녹음은 1시간입니다.
+초안은 손상 전 음성에서 생성됐다는 정보 비대칭을 명시합니다. 손상 음성의 모델 비교는 아직이며,
+기존 v2 전체 추론 이후에 순차 실행합니다. 비공개 Test와 공식 순위는 변경하지 않습니다.
 
 ## v2 공개 Eval 재현
 

@@ -10,13 +10,13 @@
 | 필수 항목 | 현재 산출물 | 확인 상태 |
 |---|---|---|
 | 메인·Challenge 설명 | `web/v2.html`, `docs/real-asr-v2.md` | 실제 음성+ASR 초안→전체 전사 교정, 한/영 전환 |
-| Leaderboard | `web/data-v2/baselines.json`, `docs/real-asr-v2-results.md` | Copy·Whisper·Qwen Audio-only의 Eval/Test 6건 완료; Text-only·Audio+draft 4건 추론 중 |
+| Leaderboard | `web/data-v2/baselines.json`, `docs/real-asr-v2-results.md` | Copy·Whisper·Qwen Audio-only·Text-only의 Eval/Test 8건 완료; Audio+draft 2건 추론 중 |
 | 개인 GitHub | https://github.com/jhparktime/TURST-YOUR-EARS | 사이트에 연결 |
 | Baseline 코드 | `scripts/baseline.py`, `scripts/run_omni_baselines.py` | 고정 모델 버전·입력 조건·프롬프트 및 중단 재개 |
 | Evaluation 데이터 | `datasets/tye-ko-asr-v2/`, 참가자 ZIP | 공개 Eval 409개·1시간의 음성·초안·정답 포함 |
 | 평가 방법·코드 | `server/scoring_v2.py`, `web/scorer-v2.js` | 주 지표 Micro CER, 슬롯 복원·훼손·삽입 지표 |
 | 웹 내 평가 | `v2.html#submit` | 실제 공개 Eval 409행 채점·전체 JSON 내려받기·Python 결과 일치 확인 |
-| 단일 HTML | `scripts/build_course_submission_v2.py` | 6건 포함 미리보기 동작 확인; 추가 4건 완료 후 최종본 재생성 필요 |
+| 단일 HTML | `scripts/build_course_submission_v2.py` | 8건 포함 후보 재생성; Audio+draft 완료 후 최종본 재생성 필요 |
 
 ## 데이터와 공개 범위
 
@@ -39,12 +39,24 @@ Test 입력 ZIP에도 정답·조건 라벨·검수표를 넣지 않는다. 단�
   모든 공개 지표가 Python과 일치했다. 서버 없는 공개 채점은 사용 가능하다.
 - 로컬 비공개 API에서 실제 Test 1,750행의 Copy·Whisper 채점과 재시작 후 결과 보존을 확인했다.
   [검증 기록](measurements/real-asr-v2-api-software-check.json)은 원격 배포 완료를 뜻하지 않는다.
-- Text-only·Audio+draft의 Eval/Test 전체 추론을 완료한 뒤 결과를 검증하고, 웹과 단일 HTML을 다시 묶는다.
+- Text-only의 Eval/Test 2,159개 추론과 지표 검증을 완료했다. Test Micro CER는 15.0300%, 정상 문자 훼손률은 6.3715%다.
+  Audio+draft의 Eval/Test 전체 추론을 완료한 뒤 결과를 검증하고, 웹과 단일 HTML을 다시 묶는다.
 - 독립 청취 검수에서 원천 전사 오류·숫자 표기 차이·불명료 발화를 확인하고 처리 내역을 남긴다.
 - [무료 배포 안내](free-evaluation-hosting.md)에 따라 비공개 API·DB를 연결한다.
   자체 Pages와 수업 Pages 두 출처의 접속·채점·기록 보존을 원격 검증하기 전에는 접수를 닫아 둔다.
 - 실제 대표 이름·학번을 확인한 뒤 정식 파일명을 정한다. 준비한 개인 포크의 `submission/`에
   한 파일만 추가하고 변경 범위를 확인한다. 현재 수업 제출 브랜치·PR은 만들지 않았다.
+
+## 추가한 공개 Eval 보조 트랙
+
+공개 Eval 409개·1시간에서 원본·합성 잡음 5 dB·20 ms 패킷 20% 손실의 1,227개 변형을 만들었다.
+같은 원본의 초안·정답을 유지하고 모든 음성의 손상·길이·원본 보존을 자동 검증했다.
+[보조 트랙](https://jhparktime.github.io/TURST-YOUR-EARS/stress.html)에서 전체 CSV를 채점하고
+음질 조건별·원래 초안의 정오답별 결과를 내려받는다. Python과 브라우저의 전체 지표가 일치한다.
+현재 세 조건의 Copy 측정만 완료했으며, 다른 모델 12건은 대기 중이다.
+기존 v2 전체 추론 후 순차 실행한다. 새 공개 개발 실험으로서 기존 비공개 Test·공식 순위와 구분한다.
+초안은 손상 전 원본 음성에서 생성됐다는 정보 비대칭과 청취 미검수를 명시한다.
+[구성·해석 규격](public-eval-stress-probe.md)에 따라 결과를 확인한 뒤 연구 결론을 작성한다.
 
 ## 보존한 v1 결과
 

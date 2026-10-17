@@ -1,0 +1,26 @@
+{
+  "name": "tye-public-eval-stress-v1",
+  "scope": "public_eval_only",
+  "unique_recordings": 409,
+  "source_inputs_sha256": "667c5a2dd3b080f4d55316f17354e3b55c08ac5bae9fa757047ac9f508030e42",
+  "source_references_sha256": "5cb529513c4835efa37494be8aed3b907e6514626268daef810b0e38eab2e4b9",
+  "source_metadata_sha256": "65dd5085b3ed1ac13cebfeb16686bc497f5ee739aa4b21bee2aa31024ee67b74",
+  "conditions": [
+    "original",
+    "gaussian_5db",
+    "packet_loss_20"
+  ],
+  "protocol": "ko-correction-v2",
+  "primary_metric": "micro_cer",
+  "noise_snr_db": 5.0,
+  "packet_milliseconds": 20,
+  "packet_loss_fraction": 0.2,
+  "seed_rule": "SHA256(tye-public-eval-stress-v1:condition:base_id) first 8 bytes big endian; NumPy PCG64",
+  "specification_sha256": "1c8520bdd3f3492a79c5e847237f4123661afd000295e27f92ab54d47c7a5851",
+  "builder_sha256": "b2a5960d8757cb8f90e27201d6c33d05e6eeeb9425b1768b002f93210df0b7a0",
+  "numpy": "2.5.4",
+  "soundfile": "0.13.1",
+  "selection_used_model_scores": false,
+  "private_test_used": false,
+  "prior_original_v2_aggregate_scores_seen": true
+}

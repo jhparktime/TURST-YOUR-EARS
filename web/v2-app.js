@@ -7,6 +7,8 @@
     overviewTitle:'Challenge overview',task:'Given Korean speech and a draft produced by a real speech recognizer, return a complete transcript matching the utterance. Correct recognition errors while preserving text that was already right.',
     candidate:'This is a v2 candidate. Automated integrity checks passed; independent listening review has not been performed. Benchmark difficulty and the necessity of audio have not been established.',
     research:'Research question: can audio-grounded decisions reduce real Korean ASR errors while avoiding unnecessary corrections?',
+    stressLink:'Public Eval audio stress probe',
+    stressDescription:'We keep the drafts of the same 409 recordings and vary audio quality to compare input combination and unnecessary edits. This is public development; the private Test is unchanged. The probe page reports model completion status and results by audio condition.',
     spec:'Dataset, evaluation and listening-review specification',code:'Baseline and reproduction code',dataTitle:'Dataset',
     dataText:'Original recordings and source transcripts are retained. Drafts are actual audio-only outputs from Whisper large-v3-turbo and Qwen2.5-Omni-3B, assigned in equal proportions by a fixed rule. Recordings are not selected for high recognition error.',
     samples:'Recordings',duration:'Audio duration',access:'Reference access',

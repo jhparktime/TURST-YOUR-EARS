@@ -1,0 +1,30 @@
+{
+  "dataset": "tye-public-eval-stress-v1",
+  "file": "tye-public-eval-stress-v1-candidate.zip",
+  "bytes": 251155522,
+  "sha256": "cf629a0e64657abfc1f206b6864b83852f92de51ea30789acbe6cc2bdb28e2f9",
+  "archive_members": 1237,
+  "unique_recordings": 409,
+  "derived_audio_rows": 1227,
+  "private_test_used": false,
+  "explicit_allowlist_verified": true,
+  "all_archive_member_hashes_verified": true,
+  "validation": {
+    "dataset": "tye-public-eval-stress-v1",
+    "scope": "all_public_eval_pairs_and_waveforms",
+    "unique_recordings": 409,
+    "derived_audio_rows": 1227,
+    "new_audio_rows": 818,
+    "all_drafts_and_references_unchanged": true,
+    "all_original_wav_bytes_unchanged": true,
+    "all_packet_masks_and_preserved_samples_verified": true,
+    "effective_snr_db_min": 4.999925608474945,
+    "effective_snr_db_max": 5.000068543246807,
+    "metadata_sha256": "3a59116fb7b99cab7e9e394559f38a6aa0d01f647984a851dea66da142d688e6",
+    "plan_sha256": "362142712b86e568c3e31b30164075c0867a189c42f7106f8657a624c44d5f53",
+    "private_test_used": false,
+    "human_listening_review": "not_performed",
+    "model_difficulty_established": false
+  },
+  "state": "public_development_candidate_not_listening_reviewed_not_model_evaluated"
+}

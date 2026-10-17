@@ -73,17 +73,27 @@ Copy와 Text-only는 초안이 같으므로 음질 조건 간 예측이 같아�
 
 [보조 트랙 웹 채점](https://jhparktime.github.io/TURST-YOUR-EARS/stress.html)에서
 전체 1,227행 CSV를 채점하고 조건별·초안 정오답별 전체 JSON을 내려받을 수 있다.
-음성·초안·정답은 별도 공개 개발 후보 release로 제공하며 Test 자료를 포함하지 않는다.
+음성·초안·정답은 [공개 개발 후보 ZIP](https://github.com/jhparktime/TURST-YOUR-EARS/releases/tag/dataset-public-eval-stress-v1)으로 제공하며 Test 자료를 포함하지 않는다.
+ZIP을 풀고 저장소 루트에서 다음 두 명령을 실행한다. Copy와 채점에는 Python 표준 라이브러리만
+필요하며 추가 패키지나 GPU를 사용하지 않는다. 경로는 실제 압축 해제 위치로 바꾼다.
+
+```sh
+python -m scripts.baseline --mode copy --inputs /data/public-stress/eval/inputs.json --output /tmp/stress-copy.csv
+python -m scripts.evaluate_public_stress --probe /data/public-stress --predictions /tmp/stress-copy.csv
+```
+
+공개 저장소의 새 사본과 릴리스 ZIP으로 위 과정을 재현했다. 외부 패키지를 비활성화해도
+세 조건·아홉 집단의 전체 JSON이 실제 웹 채점 결과와 같았다. 1,227개 음성의 체크섬·PCM 헤더와
+ZIP 전체 CRC도 확인했다. [참가자 재현 기록](measurements/public-eval-stress/participant-reproduction.json)을 남긴다.
+
+동일한 손상 음성을 직접 생성·검증하려면 원본 v2 공개 자료와 생성용 패키지가 추가로 필요하다.
 
 ```sh
 pip install -r requirements-stress.txt
 python -m scripts.build_public_eval_stress --public /data/tye-v2-public --output /data/public-stress
 python -m scripts.validate_public_eval_stress --public /data/tye-v2-public --probe /data/public-stress --output /data/public-stress/validation.json
-python -m scripts.baseline --mode copy --inputs /data/public-stress/eval/inputs.json --output /tmp/stress-copy.csv
-python -m scripts.evaluate_public_stress --probe /data/public-stress --predictions /tmp/stress-copy.csv
 ```
 
-이미 만들어진 후보 ZIP을 사용하면 앞의 생성·검증 단계를 생략하고 채점을 재현할 수 있다.
 Copy의 세 조건 CER는 모두 11.766335975170426%다. 음성은 모델에 입력하지 않으므로 같은 초안의 점수는 같다.
 이 동일성은 채점 검산이며 손상 음성의 난도를 측정한 결과가 아니다.
 

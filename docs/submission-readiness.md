@@ -62,6 +62,8 @@ Test 입력 ZIP에도 정답·조건 라벨·검수표를 넣지 않는다. 단�
 배포된 페이지에서도 1,227행을 채점하고 전체 JSON이 Python과 일치함을 확인했다.
 다른 분할 CSV의 ID 불일치 차단과 정상 CSV로의 복구도 확인했다. 이는 소프트웨어 동작 검증이다.
 [원격 검증 기록](measurements/public-eval-stress/live-software-check.json)에 CI·릴리스의 확인값을 남겼다.
+새 공개 저장소 사본과 릴리스 ZIP만으로 1,227행 Copy·채점도 재현했다. 외부 패키지 없이 전체 JSON이
+웹에서 내려받은 결과와 일치했다. [참가자 재현 기록](measurements/public-eval-stress/participant-reproduction.json)을 남긴다.
 현재 세 조건의 Copy 측정만 완료했으며, 다른 모델 12건은 대기 중이다.
 기존 v2 전체 추론 후 순차 실행한다. 새 공개 개발 실험으로서 기존 비공개 Test·공식 순위와 구분한다.
 초안은 손상 전 원본 음성에서 생성됐다는 정보 비대칭과 청취 미검수를 명시한다.

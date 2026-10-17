@@ -1,0 +1,43 @@
+{
+  "verified_at": "2026-10-17T19:06:32.780700+00:00",
+  "kind": "participant_reproduction_software_check_not_model_or_human_validation",
+  "source": "fresh_clone_of_public_repository",
+  "source_commit": "af031859e80612a18df062affff9dbe984140c5e",
+  "released_zip": {
+    "release": "https://github.com/jhparktime/TURST-YOUR-EARS/releases/tag/dataset-public-eval-stress-v1",
+    "asset": "tye-public-eval-stress-v1-candidate.zip",
+    "sha256": "cf629a0e64657abfc1f206b6864b83852f92de51ea30789acbe6cc2bdb28e2f9",
+    "github_asset_digest_verified": true,
+    "all_member_crc_checks_passed": true,
+    "members": 1237
+  },
+  "public_data": {
+    "unique_recordings": 409,
+    "derived_audio_rows": 1227,
+    "audio_hashes_and_pcm_headers_verified": 1227,
+    "metadata_manifest_hashes_verified": true,
+    "private_test_present": false
+  },
+  "execution": {
+    "site_packages_disabled_with_python_S": true,
+    "third_party_packages_installed": false,
+    "model_loaded": false,
+    "commands": [
+      "python -S -m scripts.baseline --mode copy --inputs <unpacked-data>/eval/inputs.json --output <work>/copy.csv",
+      "python -S -m scripts.evaluate_public_stress --probe <unpacked-data> --predictions <work>/copy.csv > <work>/scores.json"
+    ]
+  },
+  "result": {
+    "protocol": "ko-correction-v2",
+    "conditions": 3,
+    "groups_per_condition": 3,
+    "micro_cer_each_condition": 11.766335975170426,
+    "complete_json_equals_python_reference_result": true,
+    "complete_json_equals_export_from_live_website": true,
+    "copy_predictions_equal_all_1227_drafts": true,
+    "predictions_sha256": "a30780390c7fa2454c7e8e7364099a266002b029eb1b14d50c8a570f7ba553b9",
+    "scores_sha256": "3b2dd0a63f9371050d1d9eb7179f06f32845e61b2374bc647b9f36d680e68bd8"
+  },
+  "private_test_read": false,
+  "independent_listening_performed": false
+}

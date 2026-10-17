@@ -5,18 +5,19 @@
 샘플을 복제하지 않고 자체 워크샵 사이트와 공개 평가기를 한 HTML에 묶는다.
 
 현재 제출 후보는 **tye-ko-asr-v2 / ko-correction-v2**다. 데이터는 구축했지만
-독립 청취 검수와 추가 교정 모델 추론, 비공개 서버 연결은 아직 완료되지 않았다.
+본 실험 다섯 방법의 Eval/Test 측정 10건은 완료했다. 독립 청취 검수와 보조 트랙 모델 비교,
+비공개 서버 연결은 아직 완료되지 않았다.
 
 | 필수 항목 | 현재 산출물 | 확인 상태 |
 |---|---|---|
 | 메인·Challenge 설명 | `web/v2.html`, `docs/real-asr-v2.md` | 실제 음성+ASR 초안→전체 전사 교정, 한/영 전환 |
-| Leaderboard | `web/data-v2/baselines.json`, `docs/real-asr-v2-results.md` | Copy·Whisper·Qwen Audio-only·Text-only의 Eval/Test 8건 완료; Audio+draft 2건 추론 중 |
+| Leaderboard | `web/data-v2/baselines.json`, `docs/real-asr-v2-results.md` | Copy·Whisper·Qwen Audio-only·Text-only·Audio+draft의 Eval/Test 10건 완료 |
 | 개인 GitHub | https://github.com/jhparktime/TURST-YOUR-EARS | 사이트에 연결 |
 | Baseline 코드 | `scripts/baseline.py`, `scripts/run_omni_baselines.py` | 고정 모델 버전·입력 조건·프롬프트 및 중단 재개 |
 | Evaluation 데이터 | `datasets/tye-ko-asr-v2/`, 참가자 ZIP | 공개 Eval 409개·1시간의 음성·초안·정답 포함 |
 | 평가 방법·코드 | `server/scoring_v2.py`, `web/scorer-v2.js` | 주 지표 Micro CER, 슬롯 복원·훼손·삽입 지표 |
 | 웹 내 평가 | `v2.html#submit` | 실제 공개 Eval 409행 채점·전체 JSON 내려받기·Python 결과 일치 확인 |
-| 단일 HTML | `scripts/build_course_submission_v2.py` | 8건 포함 후보 재생성; Audio+draft 완료 후 최종본 재생성 필요 |
+| 단일 HTML | `scripts/build_course_submission_v2.py` | 측정 10건 내장; 실제 409행 채점·전체 JSON 일치·한/영 및 분할 전환 확인 |
 
 ## 데이터와 공개 범위
 
@@ -44,14 +45,16 @@ Test 입력 ZIP에도 정답·조건 라벨·검수표를 넣지 않는다. 단�
   공개 881개 음성의 체크섬과 ZIP 전체 CRC도 확인했다. [참가자 재현 기록](measurements/real-asr-v2-participant-reproduction.json)을 남긴다.
 - 로컬 비공개 API에서 실제 Test 1,750행의 Copy·Whisper 채점과 재시작 후 결과 보존을 확인했다.
   [검증 기록](measurements/real-asr-v2-api-software-check.json)은 원격 배포 완료를 뜻하지 않는다.
-- Text-only의 Eval/Test 2,159개 추론과 지표 검증을 완료했다. Test Micro CER는 15.0300%, 정상 문자 훼손률은 6.3715%다.
-  Audio+draft의 Eval/Test 전체 추론을 완료한 뒤 결과를 검증하고, 웹과 단일 HTML을 다시 묶는다.
+- Text-only와 Audio+draft 모두 Eval/Test 2,159개 추론과 입력·실제 출력 대응 검증을 완료했다.
+  Audio+draft의 Test Micro CER는 9.5645%, 정상 문자 훼손률은 1.4668%다. 전체 지표와 생성기별 결과를 공개한다.
+  한도 도달 출력도 그대로 평가했으며, 데이터 자체의 청취 검수 완료를 뜻하지 않는다.
+  [전체 모델 검증 기록](measurements/real-asr-v2-all-models.json)에 모델 완료 해시와 갱신된 제출 HTML의 확인값을 남긴다.
 - 독립 청취 검수에서 원천 전사 오류·숫자 표기 차이·불명료 발화를 확인하고 처리 내역을 남긴다.
 - [무료 배포 안내](free-evaluation-hosting.md)에 따라 비공개 API·DB를 연결한다.
   자체 Pages와 수업 Pages 두 출처의 접속·채점·기록 보존을 원격 검증하기 전에는 접수를 닫아 둔다.
 - 대표 정보로 `Team_박재현_202220741.html` 후보를 만들었다. 수업 원본 main 기준 로컬 브랜치에는
   이 HTML 한 파일만 추가했으며, 409행 채점·전체 JSON 일치·언어와 분할 전환을 실제 파일에서 확인했다.
-  현재 후보에는 완료 8건·미완료 2건을 표시하며 수업 PR은 아직 생성하지 않았다.
+  본 실험 10건을 반영하고 실제 파일에서 전체 Copy 지표가 Python과 같음을 재확인했다. 수업 PR은 아직 생성하지 않았다.
 
 ## 추가한 공개 Eval 보조 트랙
 
@@ -65,7 +68,7 @@ Test 입력 ZIP에도 정답·조건 라벨·검수표를 넣지 않는다. 단�
 새 공개 저장소 사본과 릴리스 ZIP만으로 1,227행 Copy·채점도 재현했다. 외부 패키지 없이 전체 JSON이
 웹에서 내려받은 결과와 일치했다. [참가자 재현 기록](measurements/public-eval-stress/participant-reproduction.json)을 남긴다.
 현재 세 조건의 Copy 측정만 완료했으며, 다른 모델 12건은 대기 중이다.
-기존 v2 전체 추론 후 순차 실행한다. 새 공개 개발 실험으로서 기존 비공개 Test·공식 순위와 구분한다.
+기존 v2 전체 추론 후 손상 음성의 순차 추론을 시작했다. 새 공개 개발 실험으로서 기존 비공개 Test·공식 순위와 구분한다.
 초안은 손상 전 원본 음성에서 생성됐다는 정보 비대칭과 청취 미검수를 명시한다.
 [구성·해석 규격](public-eval-stress-probe.md)에 따라 결과를 확인한 뒤 연구 결론을 작성한다.
 

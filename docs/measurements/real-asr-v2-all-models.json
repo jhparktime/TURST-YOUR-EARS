@@ -1,0 +1,60 @@
+{
+  "verified_at": "2026-10-17T19:28:36.836496+00:00",
+  "dataset": "tye-ko-asr-v2",
+  "protocol": "ko-correction-v2",
+  "primary_metric": "micro_cer",
+  "complete_measurements": 10,
+  "pending_main_measurements": 0,
+  "full_aggregate_metrics_match_verified_comparison": true,
+  "aggregate_sha256": "f6670a87117b932fe5409d8d901a35c57a21e871ea10c10d23c2f251c7e6e2da",
+  "models": {
+    "text-only": {
+      "rows": 2159,
+      "checkpoint_sha256": "ec57b3160f95e2515d86d12e32dde632014a9fa49e812042ca582984710ab6e0",
+      "run_sha256": "883a56ed831ac63e175ce3b723bd2d8c21a6fafa9db0b582a00d3fb8387b597e",
+      "output_diagnostics_by_split": {
+        "eval": {
+          "utterances": 409,
+          "at_token_limit": 1,
+          "empty_outputs": 0
+        },
+        "test": {
+          "utterances": 1750,
+          "at_token_limit": 1,
+          "empty_outputs": 0
+        }
+      }
+    },
+    "audio-draft": {
+      "rows": 2159,
+      "checkpoint_sha256": "eabf39b3f565fa0a0d7ae060b61031d753d3d78dd2b9277d579b5863b1416224",
+      "run_sha256": "afd98e61799e82acf1518f3cf813a682dee38f76d4edf8745176425bc9df561f",
+      "output_diagnostics_by_split": {
+        "eval": {
+          "utterances": 409,
+          "at_token_limit": 1,
+          "empty_outputs": 0
+        },
+        "test": {
+          "utterances": 1750,
+          "at_token_limit": 0,
+          "empty_outputs": 0
+        }
+      }
+    }
+  },
+  "submission_html": {
+    "filename": "Team_박재현_202220741.html",
+    "bytes": 499605,
+    "sha256": "a2449f72f158cbdcfc97748e967cfa59e23c5ae7af8958b1bc52fb56a367e497",
+    "private_test_ids_embedded": 0,
+    "external_script_dependencies": 0,
+    "browser_public_eval_rows_scored": 409,
+    "full_export_equals_python": true,
+    "test_benchmarks_all_five_methods_visible": true,
+    "english_and_korean_complete_count_verified": true
+  },
+  "independent_human_listening_count": 0,
+  "stress_model_comparison": "in_progress",
+  "private_test_remote_api_deployed": false
+}

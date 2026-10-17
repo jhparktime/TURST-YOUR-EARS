@@ -24,10 +24,10 @@ Audio+draft의 새 초안 추론은 진행 중입니다. 미완료 점수는 표
 ## v2 공개 Eval 재현
 
 참가자 ZIP의 압축을 푼 뒤 아래 경로를 실제 위치로 바꿉니다.
-Copy와 채점에는 모델 라이브러리나 GPU가 필요하지 않습니다.
+Python 3.12 이상에서 저장소 루트를 작업 폴더로 사용합니다. Copy와 채점은 표준 라이브러리만
+사용하므로 추가 패키지나 GPU가 필요하지 않습니다. `requirements.txt`는 채점 서버 실행용입니다.
 
 ```sh
-pip install -r requirements.txt
 python -m scripts.baseline --mode copy --inputs /data/tye-v2/eval/inputs.json --output /tmp/v2-copy.csv
 python -m scripts.evaluate --references /data/tye-v2/eval/references.json --predictions /tmp/v2-copy.csv
 ```
@@ -35,6 +35,8 @@ python -m scripts.evaluate --references /data/tye-v2/eval/references.json --pred
 결과는 `ko-correction-v2`, `primary_metric: micro_cer`, Micro CER **11.766335975170426%**입니다.
 같은 CSV를 v2 사이트에 업로드하면 브라우저 안에서 채점됩니다. 비공개 Test 채점 API는 아직 연결하지 않았습니다.
 Test 정답과 운영자 자료는 공개 저장소에 포함하지 않습니다.
+새 공개 저장소 사본과 릴리스 ZIP에서 외부 패키지를 비활성화한 상태로 재현했고, 전체 지표 JSON이 배포 기준값과 일치했습니다.
+[참가자 환경 검증 기록](docs/measurements/real-asr-v2-participant-reproduction.json)을 제공합니다.
 
 측정용 Qwen 실행기는 [scripts/run_omni_baselines.py](scripts/run_omni_baselines.py)입니다.
 고정된 Thinker 가중치·BF16·MPS·512토큰·greedy 설정으로 실제 측정을 수행하며 중단 시 같은 설정으로 재개합니다.

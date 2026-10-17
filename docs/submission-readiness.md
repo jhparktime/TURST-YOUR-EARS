@@ -40,6 +40,8 @@ Test 입력 ZIP에도 정답·조건 라벨·검수표를 넣지 않는다. 단�
 - 단일 HTML 안에 Pipeline·Baseline & Method·References를 보완하고 모델별 입력 조건을 표로 설명했다.
   새 CSV를 선택하거나 채점에 실패하면 이전 점수·내려받기를 지우도록 수정했다. 정상 채점→잘못된 분할 거부→재채점과
   전체 JSON 일치를 [브라우저 검증 기록](measurements/real-asr-v2-course-ui-check.json)에 남겼다.
+- 새 공개 저장소 사본과 릴리스 ZIP만으로 Copy·평가를 재현했다. 외부 패키지를 비활성화해도 전체 JSON이 배포 기준값과 같았다.
+  공개 881개 음성의 체크섬과 ZIP 전체 CRC도 확인했다. [참가자 재현 기록](measurements/real-asr-v2-participant-reproduction.json)을 남긴다.
 - 로컬 비공개 API에서 실제 Test 1,750행의 Copy·Whisper 채점과 재시작 후 결과 보존을 확인했다.
   [검증 기록](measurements/real-asr-v2-api-software-check.json)은 원격 배포 완료를 뜻하지 않는다.
 - Text-only의 Eval/Test 2,159개 추론과 지표 검증을 완료했다. Test Micro CER는 15.0300%, 정상 문자 훼손률은 6.3715%다.

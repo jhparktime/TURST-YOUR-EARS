@@ -1,0 +1,43 @@
+{
+  "verified_at": "2026-10-17T18:59:58.917123+00:00",
+  "kind": "participant_reproduction_software_check_not_model_or_human_validation",
+  "source": "fresh_clone_of_public_repository",
+  "source_commit": "af031859e80612a18df062affff9dbe984140c5e",
+  "released_zip": {
+    "release": "https://github.com/jhparktime/TURST-YOUR-EARS/releases/tag/dataset-ko-asr-v2",
+    "asset": "tye-ko-asr-v2-participant.zip",
+    "sha256": "331ceb4d511fba639347606b6933b84067205df1e00a0c1ad66f8afc08258d15",
+    "github_asset_digest_verified": true,
+    "all_member_crc_checks_passed": true,
+    "members": 898
+  },
+  "public_data": {
+    "train_rows": 472,
+    "eval_rows": 409,
+    "audio_hashes_verified": 881,
+    "private_test_present": false
+  },
+  "execution": {
+    "site_packages_disabled_with_python_S": true,
+    "third_party_packages_installed": false,
+    "model_loaded": false,
+    "commands": [
+      "python -S -m scripts.baseline --mode copy --inputs <unpacked-data>/eval/inputs.json --output <work>/copy.csv",
+      "python -S -m scripts.evaluate --references <unpacked-data>/eval/references.json --predictions <work>/copy.csv --output <work>/scores.json"
+    ]
+  },
+  "result": {
+    "protocol": "ko-correction-v2",
+    "primary_metric": "micro_cer",
+    "micro_cer": 11.766335975170426,
+    "complete_json_equals_released_expected": true,
+    "complete_json_equals_web_reference_result": true,
+    "predictions_sha256": "6f43ae0a3bd608d8b53ffbaecad91bcacebcadc6f7e046a1eff33ab95b606966",
+    "scores_sha256": "4305eeaa322d55e2b253633ea2b49f5191db01cb12d0f506274b393de2168277",
+    "predictions_byte_identical_to_published_site_sample": false,
+    "predictions_equal_published_site_sample_after_csv_parsing": true,
+    "byte_difference_is_only_CRLF_vs_LF": true
+  },
+  "private_test_read": false,
+  "independent_listening_performed": false
+}

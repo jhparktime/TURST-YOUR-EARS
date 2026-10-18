@@ -1,0 +1,853 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Trust Your Ears: 음성을 근거로 틀린 전사 초안만 고치는 한국어 전사 교정 챌린지. 데이터, 평가 규칙, 웹 제출과 리더보드."
+    />
+    <meta name="theme-color" content="#702c35" />
+    <title>Trust Your Ears · 한국어 전사 교정 챌린지</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="style.css?v=20261018-archive-v1" />
+    <script src="config.js?v=20261018-archive-v1" defer></script>
+    <script src="i18n.js?v=20261018-archive-v1" defer></script>
+    <script src="app.js?v=20261018-archive-v1" defer></script>
+    <script src="public-eval.js?v=20261018-archive-v1" defer></script>
+  </head>
+  <body>
+    <a class="skip" href="#main" data-i18n="text001">본문으로 건너뛰기</a>
+    <header>
+      <div class="masthead-line">
+        <a
+          href="#home"
+          class="brand"
+          aria-label="Trust Your Ears 홈"
+          data-i18n-attr="aria-label"
+          >Trust Your Ears <span>2026</span></a
+        >
+        <div class="header-tools">
+          <div
+            class="language-switch"
+            role="group"
+            aria-label="언어 선택"
+            data-i18n-attr="aria-label"
+          >
+            <button
+              type="button"
+              data-language="ko"
+              lang="ko"
+              aria-pressed="true"
+            >
+              한국어</button
+            ><span aria-hidden="true"> / </span
+            ><button
+              type="button"
+              data-language="en"
+              lang="en"
+              aria-pressed="false"
+            >
+              English
+            </button>
+          </div>
+          <span class="course-label" data-i18n="text002"
+            >음성인식 프로젝트</span
+          >
+        </div>
+      </div>
+      <p class="workshop-title">Korean Audio-grounded Transcript Correction</p>
+    </header>
+    <p class="note" data-i18n="realAsrV2Notice">실제 ASR 오류를 사용하는 <a href="index.html">v2 후보 데이터와 웹 채점</a>을 준비했습니다. 본 실험 10건과 보조 트랙 15건의 측정을 완료했습니다. 독립 청취 검수와 비공개 Test 서버 연결은 아직입니다. 이 페이지는 합성 오류 v1의 기록입니다.</p>
+    <div class="site-layout">
+      <aside class="sidebar" aria-label="메뉴" data-i18n-attr="aria-label">
+        <nav aria-label="주 메뉴" data-i18n-attr="aria-label">
+          <a href="#home" data-i18n="text003">개요</a>
+          <a href="#challenge" data-i18n="text004">챌린지</a>
+          <a href="#data" data-i18n="text005">데이터와 평가</a>
+          <a href="#leaderboard" data-i18n="text006">리더보드</a>
+          <a href="#submit" data-i18n="text007">결과 제출</a>
+          <a href="#workshop" data-i18n="text008">연구 발표</a>
+        </nav>
+        <div class="sidebar-section">
+          <p data-i18n="text009">코드와 자료</p>
+          <a
+            href="https://github.com/jhparktime/TURST-YOUR-EARS"
+            target="_blank"
+            rel="noopener"
+            data-i18n="text010"
+            >프로젝트 저장소</a
+          >
+          <a
+            href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/scripts/baseline.py"
+            target="_blank"
+            rel="noopener"
+            data-i18n="text011"
+            >베이스라인</a
+          >
+          <a
+            href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/server/scoring.py"
+            target="_blank"
+            rel="noopener"
+            data-i18n="text012"
+            >평가 코드</a
+          >
+        </div>
+      </aside>
+      <main id="main" tabindex="-1">
+        <section class="page" data-page="home">
+          <h1 data-i18n="text013">한국어 전사 초안의 오류 교정</h1>
+          <p class="intro" data-i18n="text014">음성을 듣고 전사 초안의 틀린 표현을 고치는 과제입니다. 현재 데이터는 발음이 가까운 명사를 일부 치환한 합성 초안을 제공하며, 수정할 필요가 없는 문장도 포함합니다.</p>
+          <p data-i18n="text015">
+            평가에서는 <strong>오류를 복원하는 능력</strong>과
+            <strong>맞는 구간을 보존하는 능력</strong>을 함께 봅니다. 초안을
+            그대로 복사하거나 문장 전체를 다시 작성하는 방법과 비교해, 음성이
+            교정에 어떤 도움이 되는지 확인합니다.
+          </p>
+
+          <figure class="transcript-figure">
+            <div class="figure-reference">
+              <span class="row-label" data-i18n="text016">예시 발화</span>
+              <p lang="ko">
+                회의는 <strong>수요일</strong> 오후 <strong>세 시</strong>에
+                시작합니다.
+              </p>
+            </div>
+            <div class="draft-row">
+              <span class="row-label" data-i18n="text019">무오류 초안</span>
+              <p lang="ko">회의는 수요일 오후 세 시에 시작합니다.</p>
+              <span class="edit-comment" data-i18n="text020">유지</span>
+            </div>
+            <div class="draft-row">
+              <span class="row-label" data-i18n="text021">오류 1곳</span>
+              <p lang="ko">
+                회의는 <span class="injected">목요일</span> 오후 세 시에
+                시작합니다.
+              </p>
+              <span class="edit-comment" data-i18n="text023">요일 교정</span>
+            </div>
+            <div class="draft-row">
+              <span class="row-label" data-i18n="text024">오류 2곳</span>
+              <p lang="ko">
+                회의는 <span class="injected">목요일</span> 오후
+                <span class="injected">네 시</span>에 시작합니다.
+              </p>
+              <span class="edit-comment" data-i18n="text027"
+                >요일·시간 교정</span
+              >
+            </div>
+            <figcaption data-i18n="text028">
+              그림 1. 같은 발화에 대한 초안 조건. 밑줄은 주입한 오류를
+              표시합니다. 실제 참가자에게는 오류 위치를 알려주지 않습니다.
+              설명용 문장이며 음성·모델 결과는 아닙니다.
+            </figcaption>
+          </figure>
+
+          <h2 data-i18n="text029">평가 구성</h2>
+          <p data-i18n="text030">한국어 음성·전사 자료에서 원천 정답은 유지하고 초안만 변형합니다. 원본 발화당 초안 하나를 제공하며, 청취 검수 상태는 데이터 카드에 따로 기록합니다.</p>
+          <dl class="overview-spec">
+            <dt data-i18n="text031">입력</dt>
+            <dd data-i18n="text032">한국어 음성 파일과 전사 초안</dd>
+            <dt data-i18n="text033">제출</dt>
+            <dd data-i18n="text034">
+              교정된 전체 전사문 · <code>id,prediction</code> CSV
+            </dd>
+            <dt data-i18n="text035">순위 지표</dt>
+            <dd data-i18n="text036">
+              무오류·단일 오류·다중 오류 조건의 Macro CER
+            </dd>
+            <dt data-i18n="text037">보조 지표</dt>
+            <dd data-i18n="text038">
+              초안 대비 개선폭, 오류 복원률, 정상 구간 훼손률
+            </dd>
+          </dl>
+          <p class="section-links" data-i18n="text039">
+            <a href="#challenge">과제와 베이스라인</a> /
+            <a href="#data">데이터·평가 규격</a> /
+            <a href="#submit">제출 방법</a>
+          </p>
+
+          <h2 data-i18n="text040">공개 자료</h2>
+          <ul class="resource-list">
+            <li data-i18n="text041">
+              <a
+                href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/scripts/baseline.py"
+                target="_blank"
+                rel="noopener"
+                >베이스라인 실행 코드</a
+              >
+              : 초안 복사, 음성만, 초안만, 음성+초안 비교
+            </li>
+            <li data-i18n="text042">
+              <a
+                href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/server/scoring.py"
+                target="_blank"
+                rel="noopener"
+                >한국어 평가 코드</a
+              >
+              : 웹 채점과 로컬 평가에서 공통 사용
+            </li>
+            <li data-i18n="text043">
+              <a href="assets/sample-submission.csv" download>제출 형식 예시</a>
+              : 음성 없는 6행의 프로그램 검증 자료
+            </li>
+          </ul>
+          <p class="release-note" data-i18n="text044">통합 데이터 merged-v1: train 472개·약 1시간 13분, 공개 eval 409개·1시간, 비공개 test 1,750개·4시간입니다. Copy·Whisper·Qwen Text-only·Audio-only·Audio+draft의 eval/test 평가 10건을 모두 완료했습니다. 독립 청취 검수와 비공개 채점 서버 연결은 아직입니다.</p>
+        </section>
+
+        <section class="page" data-page="challenge" hidden>
+          <h1 class="page-title" data-i18n="text045">챌린지</h1>
+          <p class="intro" data-i18n="text046">
+            Trust Your Ears는 한국어 음성과 오류가 있을 수 있는 전사 초안을
+            입력받아, 실제 발화에 맞는 전체 전사문을 출력하는 챌린지입니다.
+            음성·텍스트를 함께 사용하는 전사 교정 과제입니다.
+          </p>
+          <div class="split">
+            <article class="panel">
+              <h2 data-i18n="text047">참가 과제</h2>
+              <dl>
+                <dt data-i18n="text048">입력</dt>
+                <dd data-i18n="text049">한국어 음성 구간 + 전사 초안</dd>
+                <dt data-i18n="text050">출력</dt>
+                <dd data-i18n="text051">교정된 전체 전사문 한 개</dd>
+                <dt data-i18n="text052">숨겨진 정보</dt>
+                <dd data-i18n="text053">오류 유무·위치·개수와 정답 전사</dd>
+                <dt data-i18n="text054">순위</dt>
+                <dd data-i18n="text055">
+                  세 조건을 동일 비중으로 평균한 Macro CER ↓
+                </dd>
+              </dl>
+              <p class="fine" data-i18n="text056">
+                초안이 모두 맞을 수도 있습니다. 음성에 없는 설명, 요약, 문장
+                다듬기는 출력에 포함하지 않습니다.
+              </p>
+            </article>
+            <article class="panel">
+              <h2 data-i18n="text057">제안 방법: 수정 전 음향 검증</h2>
+              <p data-i18n="text058">
+                초안과 독립적으로 얻은 음성 전사를 비교하고, 실제 발화의 근거가
+                충분한 수정만 반영하는 선택적 교정을 연구합니다.
+              </p>
+              <ol class="steps">
+                <li data-i18n="text059">초안을 보지 않고 음성을 전사합니다.</li>
+                <li data-i18n="text060">
+                  초안과 음성 전사가 다른 구간을 찾습니다.
+                </li>
+                <li data-i18n="text061">
+                  차이가 나는 표현의 음향적 근거를 확인합니다.
+                </li>
+                <li data-i18n="text062">
+                  개발셋에서 정한 기준에 따라 수정하거나 유지합니다.
+                </li>
+              </ol>
+              <p class="fine" data-i18n="text063">
+                제안 방법입니다. 음향 검증 모듈과 효과 검증은 후속 실험이며,
+                현재 베이스라인 구현과 구분합니다.
+              </p>
+            </article>
+          </div>
+          <h2 class="spaced" data-i18n="text064">세 가지 평가 조건</h2>
+          <div
+            class="table-wrap"
+            tabindex="0"
+            role="region"
+            aria-label="평가 조건 표"
+            data-i18n-attr="aria-label"
+          >
+            <table>
+              <caption data-i18n="text065">
+                ko-correction-v1 · 조건은 참가자 입력에 노출하지 않습니다.
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col" data-i18n="text066">조건</th>
+                  <th scope="col" data-i18n="text067">초안 생성</th>
+                  <th scope="col" data-i18n="text068">평가 질문</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Clean</td>
+                  <td data-i18n="text069">원천 전사를 그대로 사용</td>
+                  <td data-i18n="text070">맞는 전사를 보존하는가?</td>
+                </tr>
+                <tr>
+                  <td>Single</td>
+                  <td data-i18n="text071">한 구간을 유사한 오답으로 치환</td>
+                  <td data-i18n="text072">그 오류를 정확히 복원하는가?</td>
+                </tr>
+                <tr>
+                  <td>Multiple</td>
+                  <td data-i18n="text073">떨어진 두 구간 치환</td>
+                  <td data-i18n="text074">
+                    여러 오류를 고치며 나머지를 지키는가?
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="note" data-i18n="text075">현재 버전은 원본 음성과 합성 명사 치환 오류를 사용합니다. 공백·문장부호만 바꾸는 조작은 오류로 세지 않습니다. 일부 동음어를 자동 제외했지만, 모든 치환의 청각적 구분 가능성은 독립 청취로 확인해야 합니다.</p>
+          <h2 class="spaced" data-i18n="text076">네 가지 베이스라인</h2>
+          <div
+            class="table-wrap"
+            tabindex="0"
+            role="region"
+            aria-label="베이스라인 비교 표"
+            data-i18n-attr="aria-label"
+          >
+            <table>
+              <caption data-i18n="text077">Copy·Whisper와 같은 Qwen 모델의 세 입력 조건에 대한 eval/test 실측 결과 10건을 리더보드 페이지에서 확인할 수 있습니다.</caption>
+              <thead>
+                <tr>
+                  <th scope="col" data-i18n="text078">방법</th>
+                  <th scope="col" data-i18n="text079">보는 입력</th>
+                  <th scope="col" data-i18n="text080">비교 목적</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Copy draft</td>
+                  <td data-i18n="text081">초안</td>
+                  <td data-i18n="text082">아무것도 고치지 않은 기준점</td>
+                </tr>
+                <tr>
+                  <td>Audio only</td>
+                  <td data-i18n="text083">음성</td>
+                  <td data-i18n="text084">초안 없이 다시 전사한 결과</td>
+                </tr>
+                <tr>
+                  <td>Text only</td>
+                  <td data-i18n="text085">초안</td>
+                  <td data-i18n="text086">음성 없이도 교정 가능한 오류인지</td>
+                </tr>
+                <tr>
+                  <td>Audio + draft</td>
+                  <td data-i18n="text087">음성 + 초안</td>
+                  <td data-i18n="text088">음성을 제공했을 때의 추가 이득</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p data-i18n="text089">Copy·Whisper audio-only와 같은 Qwen2.5-Omni 체크포인트의 Text-only·Audio-only·Audio+draft eval/test 평가를 모두 완료했습니다. Whisper와 Qwen의 차이를 입력 방식만의 효과로 해석하지 않습니다.</p>
+          <div class="references">
+            <a
+              href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/scripts/baseline.py"
+              target="_blank"
+              rel="noopener"
+              data-i18n="text090"
+              >베이스라인 실행 코드 <span>↗</span></a
+            ><a
+              href="https://github.com/jhparktime/TURST-YOUR-EARS#베이스라인"
+              target="_blank"
+              rel="noopener"
+              data-i18n="text091"
+              >실행 방법과 재현 정보 <span>↗</span></a
+            >
+          </div>
+          <h2 class="spaced" data-i18n="text092">연구의 초점</h2>
+          <p data-i18n="text093">
+            음성·텍스트 충돌 자체를 새로운 발견으로 주장하지 않습니다. 이
+            프로젝트는 한국어의 드문 치환 오류를 복원하는 능력과 맞는 표현을
+            보존하는 능력을 함께 비교합니다. 인위적 오류에서의 성능이 실제 ASR
+            오류에도 이어지는지는 별도 평가가 필요합니다.
+          </p>
+          <div class="references">
+            <a
+              href="https://aclanthology.org/2025.emnlp-main.246/"
+              target="_blank"
+              rel="noopener"
+              data-i18n="text094"
+              >When Audio and Text Disagree · 관련 연구 <span>↗</span></a
+            ><a
+              href="https://huggingface.co/Qwen/Qwen2.5-Omni-3B"
+              target="_blank"
+              rel="noopener"
+              data-i18n="text095"
+              >Qwen2.5-Omni · 모델 및 이용 조건 <span>↗</span></a
+            >
+          </div>
+        </section>
+
+        <section class="page" data-page="data" hidden>
+          <h1 class="page-title" data-i18n="text096">데이터와 평가</h1>
+          <p class="intro" data-i18n="text097">전체 원본 4,081개·약 9시간 42분을 통합하고, 독립 분할에 2,631개를 배정했습니다. 공개 train 약 1시간 13분, 공개 eval 1시간, 비공개 test 4시간입니다. 원본 음성과 정답을 유지하고 초안에만 오류를 합성했습니다.</p>
+          <h2 data-i18n="datasetHeading">한국어 전사 교정 · merged-v1</h2>
+          <p data-i18n="datasetDetails">Train은 472개·화자 63명, eval은 409개·20명, test는 1,750개·32명입니다. Clean / Single / Multiple 수량은 각각 train 157 / 150 / 165, eval 137 / 136 / 136, test 583 / 583 / 584개입니다. 화자·세션·동일/근접 문장·PCM 중복을 분리했습니다. 예비 1,450개는 운영자만 보관하며 학습에 사용하지 않습니다.</p>
+          <p class="section-links" data-i18n="datasetLinks"><a href="https://github.com/jhparktime/TURST-YOUR-EARS/tree/main/datasets/tye-ko-merged-v1" target="_blank" rel="noopener">공개 입력·정답과 데이터 카드</a> / <a href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/scripts/merge_correction_datasets.py" target="_blank" rel="noopener">통합·분할 코드</a> / <a href="data/eval-copy.csv" download>공개 eval Copy CSV</a></p>
+          <p class="section-links" data-i18n="datasetDownloads"><a href="https://github.com/jhparktime/TURST-YOUR-EARS/releases/download/dataset-ko-merged-v1/tye-ko-merged-v1-participant.zip">Train·eval 음성·초안·정답 ZIP</a> / <a href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/datasets/tye-ko-merged-v1/validation-report.json" target="_blank" rel="noopener">검증 보고서</a> / <a href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/datasets/tye-ko-merged-v1/public-release-lock.json" target="_blank" rel="noopener">공개 파일 해시</a></p>
+          <p class="note" data-i18n="datasetLimits">원천은 CC BY 4.0의 Zeroth-Korean입니다. 정답에는 NFC만 적용했습니다. Whisper 블라인드 추론은 완료했으나 독립 청취 검수는 아직입니다. 합성 치환은 실제 ASR 오류 분포가 아니며 텍스트 단서만으로 풀릴 가능성이 있습니다. 공개 원문 조회·사전학습 오염 가능성도 남습니다. 새 train 공개와 함께 이전 test 버전은 종료하며 점수를 혼합하지 않습니다.</p>
+          <div class="split">
+            <article class="panel">
+              <h2 data-i18n="text098">제출 파일</h2>
+              <p data-i18n="text099">
+                UTF-8 CSV의 열은 <code>id,prediction</code>입니다. 모든 평가
+                ID를 한 번씩 포함하고 교정된 전체 전사문을 적습니다.
+              </p>
+              <pre lang="ko">
+id,prediction
+toy-001,김민서가 네오젠 실적을 발표합니다.
+toy-002,박지훈이 한빛전자 회의를 진행합니다.</pre
+              >
+              <a
+                class="button"
+                href="assets/sample-submission.csv"
+                download
+                data-i18n="text100"
+                >예시 CSV 다운로드</a
+              >
+              <p class="fine" data-i18n="text101">
+                6행 전체 파일 · Copy draft 결과입니다.<br />오류 초안을 그대로
+                제출해 채점 동작을 확인합니다.
+              </p>
+            </article>
+            <article class="panel">
+              <h2 data-i18n="text102">데이터 구축 절차</h2>
+              <ol class="steps">
+                <li data-i18n="text103">
+                  이용 조건을 확인한 음성·전사에서 발화를 선택합니다.
+                </li>
+                <li data-i18n="text104">원천 전사는 유지하고 실제 명사 후보로 초안 오류를 합성합니다. 독립 청취 검수는 아직 수행하지 않았습니다.</li>
+                <li data-i18n="text105">화자·세션·문장을 분리하고 이전 공개 문장과 유사한 후보를 test에서 제외합니다.</li>
+                <li data-i18n="text106">
+                  정답은 유지하고, 치환 위치와 바꾼 표현을 기록합니다.
+                </li>
+                <li data-i18n="text107">
+                  공개 입력과 비공개 정답을 분리해 전달합니다.
+                </li>
+              </ol>
+              <p class="fine" data-i18n="text108">평가 2,159개 발화에 대한 Whisper 음성 전사를 완료했습니다. 자동 파일·분할 검증과 모델 추론은 사람의 독립 청취 검수를 대체하지 않습니다.</p>
+            </article>
+          </div>
+          <p class="note" data-i18n="text109">
+            공개 평가 입력에는 원본 음성당 초안 하나만 제공합니다. 동일 음성의
+            무오류·오류 변형을 함께 공개하면 서로 대조해 정답을 유추할 수
+            있습니다. 공개 코퍼스 재사용에 따른 원문 검색·사전학습 오염 가능성은
+            별도로 기록합니다.
+          </p>
+          <h2 class="spaced" data-i18n="text110">한국어 평가 규격</h2>
+          <div class="metric-box">
+            <div>
+              <p class="fine" data-i18n="text111">
+                평가 버전: ko-correction-v1
+              </p>
+              <h3>Macro CER ↓</h3>
+              <p data-i18n="text112">
+                한글 음절 단위 문자 오류율입니다. 각 조건 안에서 오류 수와 정답
+                문자 수를 합산한 CER을 구하고, Clean·Single·Multiple을 각각 1/3
+                비중으로 평균합니다. 무오류 초안도 메인 순위에 포함됩니다.
+              </p>
+            </div>
+            <code>CER = 100 × (S + D + I) / N</code>
+          </div>
+          <div
+            class="table-wrap"
+            tabindex="0"
+            role="region"
+            aria-label="평가 지표 표"
+            data-i18n-attr="aria-label"
+          >
+            <table>
+              <caption data-i18n="text113">
+                순위는 Macro CER · 나머지 지표는 교정 행동을 설명합니다.
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col" data-i18n="text114">지표</th>
+                  <th scope="col" data-i18n="text115">정의</th>
+                  <th scope="col" data-i18n="text116">좋은 방향</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Macro CER</td>
+                  <td data-i18n="text117">세 조건 CER의 동일 비중 평균</td>
+                  <td data-i18n="text118">낮을수록</td>
+                </tr>
+                <tr>
+                  <td data-i18n="text119">초안 대비 개선폭</td>
+                  <td data-i18n="text120">
+                    초안 Macro CER − 출력 Macro CER, %p
+                  </td>
+                  <td data-i18n="text121">높을수록 · 음수는 악화</td>
+                </tr>
+                <tr>
+                  <td data-i18n="text122">오류 구간 복원률</td>
+                  <td data-i18n="text123">
+                    주입 구간 전체를 정답으로 복원한 수 / 주입 구간 수
+                  </td>
+                  <td data-i18n="text124">높을수록</td>
+                </tr>
+                <tr>
+                  <td data-i18n="text125">정상 구간 훼손률</td>
+                  <td data-i18n="text126">
+                    주입 구간 밖에서 훼손된 정답 문자 수 / 해당 문자 수
+                  </td>
+                  <td data-i18n="text127">낮을수록</td>
+                </tr>
+                <tr>
+                  <td data-i18n="text128">무오류 초안 변경률</td>
+                  <td data-i18n="text129">
+                    정규화 후 출력이 달라진 Clean 발화 수 / Clean 발화 수
+                  </td>
+                  <td data-i18n="text130">낮을수록</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="fine" data-i18n="text131">
+            보조 지표는 해당 구간·문자·발화 수를 전체 조건에서 합산합니다.
+            분모가 0이면 N/A입니다. 최악 조건 CER, Micro CER, 띄어쓰기에 민감한
+            어절 WER도 제공합니다.
+          </p>
+          <div class="split spaced">
+            <article class="panel">
+              <h3 data-i18n="text132">띄어쓰기는 제외</h3>
+              <div class="text-comparison">
+                <span data-i18n="text133">정답</span>
+                <p lang="ko">오늘 회의를 시작합니다.</p>
+                <span data-i18n="text134">출력</span>
+                <p lang="ko">오늘회의를 시작합니다.</p>
+              </div>
+              <p data-i18n="text135">
+                <strong>CER 0%</strong> · 공백과 문장 끝 마침표 차이는
+                무시합니다.
+              </p>
+            </article>
+            <article class="panel">
+              <h3 data-i18n="text136">그대로 내면 개선 0</h3>
+              <div class="text-comparison">
+                <span data-i18n="text137">초안</span>
+                <p lang="ko">김민<mark class="wrong">수</mark>가 발표합니다.</p>
+                <span data-i18n="text138">출력</span>
+                <p lang="ko">김민<mark class="wrong">수</mark>가 발표합니다.</p>
+              </div>
+              <p data-i18n="text139">
+                <strong>개선폭 0%p · 복원률 0%</strong> · 원래 맞던 부분의
+                훼손은 없습니다.
+              </p>
+            </article>
+          </div>
+          <div class="faq spaced">
+            <details open>
+              <summary data-i18n="text140">
+                한국어 표기는 어디까지 정규화하나요?
+              </summary>
+              <p data-i18n="text141">
+                NFC 정규화, 영문 소문자화, 공백 제거를 적용합니다. 지정된
+                문장부호와 숫자 사이가 아닌 마침표를 제외합니다.
+                소수점·부호·퍼센트 기호, 조사와 어미는 유지합니다. 숫자
+                읽기·동의어·발음 유사성을 자동으로 정답 처리하지 않습니다. 3시와
+                세 시, AI와 에이아이는 다르게 채점하므로 정답 표기 규칙을 데이터
+                공개 전에 확정해야 합니다. 오류율은 100%를 넘을 수 있습니다.
+              </p>
+            </details>
+            <details>
+              <summary data-i18n="text142">
+                교정 위치는 어떻게 비교하나요?
+              </summary>
+              <p data-i18n="text143">
+                정답과 출력을 최소 편집거리로 정렬합니다. 주입 구간의 정렬된
+                출력 전체가 정답과 같아야 복원으로 셉니다. 동일 비용이면
+                대각선·삭제·삽입 순으로 결정합니다. 삽입은 왼쪽 문자에 붙이고
+                문장 맨 앞 삽입은 첫 문자에 붙입니다. 데이터를 등록할 때
+                정답→초안 정렬이 치환 주석과 일치하는지도 확인합니다. 반복
+                표현이나 출력의 경계 삽입에서는 정렬 선택의 영향을 받는
+                진단값입니다. 최종 전사의 오류는 CER로 함께 확인합니다.
+              </p>
+            </details>
+            <details>
+              <summary data-i18n="text144">
+                정상 구간 훼손률의 분모는 무엇인가요?
+              </summary>
+              <p data-i18n="text145">
+                주입 구간 밖의 정답 문자 수입니다. 각 문자에 대응하는 출력이 그
+                문자와 다르면 훼손으로 셉니다. 치환·삭제와 해당 위치에 붙는
+                삽입을 포함합니다. 주입 구간 안의 원래 같던 글자는 이 분모에서
+                제외합니다. 주입 구간은 단어 또는 의미 있는 표현 단위로 일관되게
+                지정해야 합니다.
+              </p>
+            </details>
+            <details>
+              <summary data-i18n="text146">
+                점수가 좋으면 음성을 잘 활용했다는 뜻인가요?
+              </summary>
+              <p data-i18n="text147">
+                점수만으로는 알 수 없습니다. 초안만 보는 모델도 문법이나
+                상식으로 오답을 고칠 수 있습니다. 같은 모델의 Text only와 Audio
+                + draft를 비교하고, 실제 ASR 초안으로 만든 별도 검증셋에서
+                재확인할 계획입니다. 음성 청취 검수와 실제 모델 실험은 코드
+                테스트로 대체하지 않습니다.
+              </p>
+            </details>
+            <details>
+              <summary data-i18n="text148">
+                동점과 제출 횟수는 어떻게 처리하나요?
+              </summary>
+              <p data-i18n="text149">
+                팀별 최저 Macro CER을 반올림 전 값으로 정렬하며 정확한 동점은
+                공동 순위입니다. 기본 한도는 UTC 하루 5회이며 한국 시간 오전
+                9시에 초기화됩니다. 무효 파일은 차감하지 않습니다. 같은 예측은
+                기존 결과를 반환합니다. 실제 한도는 서버 표시를 따릅니다.
+              </p>
+            </details>
+          </div>
+          <div class="references spaced">
+            <a
+              href="https://github.com/jhparktime/TURST-YOUR-EARS#데이터-계약"
+              target="_blank"
+              rel="noopener"
+              data-i18n="text150"
+              >공개 입력·비공개 정답 형식과 데이터 검수 규칙 <span>↗</span></a
+            ><a
+              href="https://github.com/jhparktime/TURST-YOUR-EARS/blob/main/server/scoring.py"
+              target="_blank"
+              rel="noopener"
+              data-i18n="text151"
+              >웹·로컬 공통 채점 코드 <span>↗</span></a
+            >
+          </div>
+        </section>
+
+        <section class="page" data-page="submit" hidden>
+          <h1 class="page-title" data-i18n="text152">결과 제출</h1>
+          <p class="intro" data-i18n="text153">모델은 참가자의 환경에서 실행합니다. 공개 eval은 이 페이지에서 바로 채점하고, 비공개 test는 운영자 서버에 제출합니다.</p>
+          <h2 data-i18n="publicEvalHeading">공개 eval · 브라우저에서 채점</h2>
+          <p data-i18n="publicEvalNote">merged-v1의 409개·1시간 공개 eval입니다. 서버나 팀 키 없이 채점하며 CSV는 외부로 전송하지 않습니다. 공개 정답을 사용하는 개발 점수로, 비공개 test의 공식 제출·순위와 구분합니다.</p>
+          <form id="public-eval-form" class="panel">
+            <label for="public-eval-file" data-i18n="publicEvalFile">공개 eval 예측 CSV · id,prediction · 최대 2 MiB</label>
+            <input id="public-eval-file" type="file" accept=".csv,text/csv" required />
+            <div class="form-actions">
+              <button id="public-eval-score" type="submit" class="button" data-i18n="publicEvalButton">공개 eval 채점</button>
+              <a href="data/eval-copy.csv" download data-i18n="publicEvalCopy">409행 Copy 기준점 CSV</a>
+            </div>
+          </form>
+          <div id="public-eval-result" class="panel result-panel" aria-live="polite"></div>
+          <h2 class="spaced" data-i18n="privateTestHeading">비공개 test · 운영자 서버 제출</h2>
+          <div id="connection" class="status" role="status">
+            채점 서비스에 연결하고 있습니다…
+          </div>
+          <button
+            type="button"
+            class="text-button reconnect"
+            id="reconnect"
+            data-i18n="text154"
+          >
+            채점 서비스 다시 연결 ↻
+          </button>
+          <div class="submit-grid">
+            <form id="submission-form" class="panel">
+              <div class="numbered-title">
+                <span>01</span>
+                <h2 data-i18n="text155">전사 파일 제출</h2>
+              </div>
+              <label for="team-key" data-i18n="text156">팀 키</label
+              ><input
+                id="team-key"
+                type="password"
+                autocomplete="off"
+                placeholder="운영자가 발급한 팀 키"
+                data-i18n-attr="placeholder"
+                required
+                maxlength="200"
+              />
+              <p class="field-help" data-i18n="text157">
+                현재 화면에서만 사용합니다. URL이나 브라우저 저장소에 보관하지
+                않습니다.
+              </p>
+              <div id="demo-key" hidden>
+                <button
+                  type="button"
+                  class="text-button"
+                  id="use-demo-key"
+                  data-i18n="text158"
+                >
+                  공개 샌드박스 키 사용
+                </button>
+              </div>
+              <label for="prediction-file" data-i18n="text159">예측 파일</label>
+              <div class="upload-area">
+                <span data-i18n="text160"
+                  >UTF-8 · id,prediction · 최대 2 MiB</span
+                ><input
+                  id="prediction-file"
+                  type="file"
+                  accept=".csv,text/csv"
+                  aria-describedby="file-selection"
+                  required
+                /><span
+                  id="file-selection"
+                  class="file-selection"
+                  aria-live="polite"
+                  >선택된 파일 없음</span
+                >
+              </div>
+              <div class="form-actions">
+                <button
+                  id="submit-button"
+                  class="button"
+                  type="submit"
+                  disabled
+                >
+                  제출 및 채점</button
+                ><a
+                  href="assets/sample-submission.csv"
+                  download
+                  data-i18n="text161"
+                  >예시 CSV</a
+                >
+              </div>
+              <p id="form-message" role="status" class="form-message"></p>
+            </form>
+            <aside>
+              <div class="panel result-panel" id="result" aria-live="polite">
+                <div class="numbered-title">
+                  <h2 data-i18n="text162">평가 결과</h2>
+                </div>
+                <div id="result-empty">
+                  <div class="result-placeholder">—<span>MACRO CER</span></div>
+                  <p data-i18n="text163">
+                    채점 후 초안 조건별 CER, 개선폭, 복원·훼손 지표가
+                    표시됩니다.
+                  </p>
+                </div>
+                <div id="result-content" hidden></div>
+              </div>
+              <div class="small-note">
+                <strong data-i18n="text164">비공개 test 정답은 서버에서 관리합니다</strong>
+                <p data-i18n="text165">공개 eval 정답은 브라우저 채점을 위해 포함됩니다. 비공개 test 정답은 웹페이지·공개 저장소·제출 HTML에 포함하지 않습니다.</p>
+              </div>
+            </aside>
+          </div>
+          <div class="section-heading compact">
+            <h2 data-i18n="text166">최근 제출 기록</h2>
+            <button class="text-button" id="load-history" data-i18n="text167">
+              팀 키로 기록 불러오기 ↻
+            </button>
+          </div>
+          <div
+            id="history"
+            class="table-wrap"
+            tabindex="0"
+            role="region"
+            aria-label="제출 기록 표"
+            data-i18n-attr="aria-label"
+          >
+            <p class="empty">
+              팀 키를 입력하면 제출 기록을 확인할 수 있습니다.
+            </p>
+          </div>
+        </section>
+
+        <section class="page" data-page="leaderboard" hidden>
+          <div class="section-heading compact">
+            <h1 class="page-title" data-i18n="text168">리더보드</h1>
+            <button
+              class="button outline small"
+              id="refresh-leaderboard"
+              data-i18n="text169"
+            >
+              새로고침 ↻
+            </button>
+          </div>
+          <p class="intro" data-i18n="text170">
+            팀별 최고 제출물을 Macro CER 오름차순으로 정렬합니다. 초안 대비
+            개선폭과 오류 복원·정상 구간 훼손을 함께 보고, 정확한 동점은 공동
+            순위로 표시합니다.
+          </p>
+          <h2 data-i18n="baselineResultsHeading">베이스라인 벤치마크</h2>
+          <p data-i18n="baselineResultsNote">현재 데이터 버전은 tye-ko-merged-v1입니다. Eval은 공개 개발셋, test는 운영자 비공개 평가셋입니다. 아래 표는 고정 모델의 실측값이며 참가 팀 순위와 구분합니다.</p>
+          <div id="baseline-results" aria-live="polite"></div>
+          <h2 class="spaced" data-i18n="teamLeaderboardHeading">참가 팀 리더보드</h2>
+          <div id="leaderboard-mode" class="status" role="status">
+            평가 상태 확인 중…
+          </div>
+          <div
+            id="leaderboard"
+            class="table-wrap"
+            tabindex="0"
+            role="region"
+            aria-label="리더보드 표"
+            data-i18n-attr="aria-label"
+          >
+            <p class="empty">결과를 불러오고 있습니다…</p>
+          </div>
+          <p class="fine" data-i18n="text171">
+            낮을수록 좋은 지표는 ↓, 높을수록 좋은 지표는 ↑로 표시합니다. N/A는
+            해당 지표의 분모가 0이라는 뜻입니다. 샌드박스 점수는 모델 성능이나
+            공식 대회 결과가 아닙니다.
+          </p>
+        </section>
+
+        <section class="page" data-page="workshop" hidden>
+          <h1 class="page-title" data-i18n="text172">연구 발표</h1>
+          <p class="intro" data-i18n="text173">
+            한국어 전사 교정, 평가 데이터 설계, 음향 검증을 함께 논의하는 연구
+            발표를 준비합니다.
+          </p>
+          <h2 data-i18n="diagnosticHeading">예비 실험 · 합성 오류의 난이도</h2>
+          <p data-i18n="diagnosticMethod">공개 eval 409개에서 기존 Whisper 출력과 초안을 비교해, 길이가 같고 자모 차이가 작은 한글 단어만 수정했습니다. 수정 한도 5개를 비교한 개발 실험입니다.</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th data-i18n="diagnosticMethodColumn">방법</th><th>Macro CER ↓</th><th data-i18n="diagnosticRestoreColumn">오류 복원률 ↑</th><th data-i18n="diagnosticDamageColumn">정상 구간 훼손률 ↓</th></tr></thead>
+              <tbody>
+                <tr><td data-i18n="diagnosticCopy">초안 복사</td><td>2.63%</td><td>0.00%</td><td>0.00%</td></tr>
+                <tr><td data-i18n="diagnosticWhisper">Whisper 전체 재전사</td><td>6.19%</td><td>96.57%</td><td>6.34%</td></tr>
+                <tr><td data-i18n="diagnosticFilter">Whisper + 단순 수정 필터 (2/2)</td><td>1.71%</td><td>70.10%</td><td>1.00%</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p data-i18n="diagnosticInterpretation">2/2는 최대 음절 변화 2개·자모 편집 거리 2를 뜻하며, 공개 eval에서 CER가 가장 낮은 조합입니다. 이 필터도 정상 문장 137개 중 42개(30.66%)를 바꿨습니다. 생성 규칙을 아는 간단한 필터가 유리하다는 결과로, 비공개 test 성능이나 새로운 방법의 독창성을 입증하지 않습니다.</p>
+          <p data-i18n="diagnosticNext">현재 자료는 통제된 합성 오류의 파일럿입니다. 후속 검증에는 실제 ASR 오류와 문맥상 자연스러운 혼동, 독립 청취 검수가 필요합니다. 이 실험은 아래 토론 주제인 음향 검증 모듈의 구현·검증 결과와 구분합니다.</p>
+          <p><a href="https://github.com/jhparktime/TURST-YOUR-EARS/tree/main/docs/measurements/selective-public-eval" target="_blank" rel="noopener" data-i18n="diagnosticLink">전체 5개 조합·공개 예측·재현 코드</a></p>
+          <div class="split">
+            <article class="panel">
+              <h2 data-i18n="text174">발표와 토론 주제</h2>
+              <ul class="plain-list">
+                <li data-i18n="text175">
+                  틀린 전사 초안의 선택적 교정과 과잉 수정
+                </li>
+                <li data-i18n="text176">한국어 고유명사·조사·영문 혼용 평가</li>
+                <li data-i18n="text177">
+                  텍스트만으로 교정 가능한 오류와 음성이 필요한 오류
+                </li>
+                <li data-i18n="text178">수정 전 음향 검증과 신뢰도 추정</li>
+                <li data-i18n="text179">데이터 누출과 재현 가능한 리더보드</li>
+              </ul>
+            </article>
+            <article class="panel">
+              <h2 data-i18n="text180">일정 및 운영</h2>
+              <dl>
+                <dt data-i18n="text181">데이터 공개</dt>
+                <dd data-i18n="text182"><a href="https://github.com/jhparktime/TURST-YOUR-EARS/releases/tag/dataset-ko-merged-v1" target="_blank" rel="noopener">merged-v1 · Train/Eval 공개</a></dd>
+                <dt data-i18n="text183">제출 마감</dt>
+                <dd data-i18n="text184">확정 후 공지</dd>
+                <dt data-i18n="text185">최종 발표</dt>
+                <dd data-i18n="text186">확정 후 공지</dd>
+                <dt data-i18n="text187">운영진·연락처</dt>
+                <dd data-i18n="text188">공식 평가 시작 전 공지</dd>
+              </dl>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+    <footer>
+      <span data-i18n="text189"
+        >Trust Your Ears · 2026 음성인식 수업 프로젝트</span
+      >
+      <a
+        href="https://github.com/jhparktime/TURST-YOUR-EARS"
+        target="_blank"
+        rel="noopener"
+        >GitHub</a
+      >
+    </footer>
+    <noscript
+      ><p class="note">
+        페이지 이동과 제출 기능을 사용하려면 JavaScript를 켜 주세요. 평가 규칙은
+        <a href="https://github.com/jhparktime/TURST-YOUR-EARS">저장소 README</a
+        >에서도 확인할 수 있습니다.
+      </p></noscript
+    >
+  </body>
+</html>

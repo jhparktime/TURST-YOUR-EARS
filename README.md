@@ -12,7 +12,7 @@ Copy·Whisper·Qwen Audio-only·Text-only·Audio+draft의 Eval/Test 측정 10건
 Test Micro CER는 Audio+draft 9.56%, 같은 Qwen의 Audio-only 10.40%, Text-only 15.03%입니다.
 Audio+draft는 초안 복사 7.86%와 Whisper 5.34%보다 높아, 결합만으로 전체 교정 품질이 개선되지는 않았습니다.
 
-[v2 웹사이트](https://jhparktime.github.io/TURST-YOUR-EARS/v2.html) ·
+[챌린지 웹사이트](https://jhparktime.github.io/TURST-YOUR-EARS/) ·
 [참가자 데이터 프리릴리스](https://github.com/jhparktime/TURST-YOUR-EARS/releases/tag/dataset-ko-asr-v2) ·
 [평가 규격과 한계](docs/real-asr-v2.md) · [현재 측정 결과](docs/real-asr-v2-results.md) ·
 [제출 준비 상태](docs/submission-readiness.md)
@@ -88,6 +88,6 @@ CI는 임시 PostgreSQL로 재시작 후 결과 보존도 확인합니다. 로�
 
 합성 명사 치환을 사용한 `tye-ko-merged-v1 / ko-correction-v1`과 현재 실제 ASR v2는 별도 버전입니다. v1의 조건별 CER 평균과 v2의 발화별 Macro CER 정의도 다르므로 점수를 같은 순위에 섞지 않습니다. 기존 원본·실험·평가 코드는 재현용으로 유지합니다.
 
-- [합성 오류 v1 웹사이트](https://jhparktime.github.io/TURST-YOUR-EARS/) · [데이터 통합·분할](docs/merged-dataset.md) · [베이스라인 결과](docs/baseline-results.md)
+- [합성 오류 v1 웹사이트](https://jhparktime.github.io/TURST-YOUR-EARS/archive-v1.html) · [데이터 통합·분할](docs/merged-dataset.md) · [베이스라인 결과](docs/baseline-results.md)
 - [v1 난이도 점검](docs/difficulty-audit.md) · [공개 Eval 선택적 교정 진단](docs/measurements/selective-public-eval/README.md) · [v1 평가기](server/scoring.py)
 - [이전 5시간 데이터](docs/five-hour-dataset.md) · [Zeroth pilot160 변환](docs/pilot160-import.md) · [FLEURS 파일럿](datasets/tye-ko-v2/README.md)

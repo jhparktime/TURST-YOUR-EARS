@@ -18,7 +18,7 @@ def safe_json(value):
 
 def build(output):
     web = ROOT / 'web'
-    html = (web / 'index.html').read_text()
+    html = (web / 'archive-v1.html').read_text()
     css = (web / 'style.css').read_text()
     html = re.sub(r'<link rel="stylesheet"[^>]+>', lambda _: '<style>' + css + '</style>', html)
     scripts = re.findall(r'<script src="([^"?]+)(?:\?[^\"]*)?" defer></script>', html)

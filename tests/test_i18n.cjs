@@ -4,7 +4,7 @@ const fs = require("node:fs");
 const vm = require("node:vm");
 const path = require("node:path");
 const root = path.resolve(__dirname, "..");
-const html = fs.readFileSync(path.join(root, "web/index.html"), "utf8");
+const html = fs.readFileSync(path.join(root, "web/archive-v1.html"), "utf8");
 const source = fs.readFileSync(path.join(root, "web/i18n.js"), "utf8");
 
 function boot(saved, blocked = false) {

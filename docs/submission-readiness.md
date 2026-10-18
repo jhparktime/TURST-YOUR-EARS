@@ -10,13 +10,13 @@
 
 | 필수 항목 | 현재 산출물 | 확인 상태 |
 |---|---|---|
-| 메인·Challenge 설명 | `web/v2.html`, `docs/real-asr-v2.md` | 실제 음성+ASR 초안→전체 전사 교정, 한/영 전환 |
+| 메인·Challenge 설명 | `web/index.html`, `docs/real-asr-v2.md` | 실제 음성+ASR 초안→전체 전사 교정, 한/영 전환 |
 | Leaderboard | `web/data-v2/baselines.json`, `docs/real-asr-v2-results.md` | Copy·Whisper·Qwen Audio-only·Text-only·Audio+draft의 Eval/Test 10건 완료 |
 | 개인 GitHub | https://github.com/jhparktime/TURST-YOUR-EARS | 사이트에 연결 |
 | Baseline 코드 | `scripts/baseline.py`, `scripts/run_omni_baselines.py` | 고정 모델 버전·입력 조건·프롬프트 및 중단 재개 |
 | Evaluation 데이터 | `datasets/tye-ko-asr-v2/`, 참가자 ZIP | 공개 Eval 409개·1시간의 음성·초안·정답 포함 |
 | 평가 방법·코드 | `server/scoring_v2.py`, `web/scorer-v2.js` | 주 지표 Micro CER, 슬롯 복원·훼손·삽입 지표 |
-| 웹 내 평가 | `v2.html#submit` | 실제 공개 Eval 409행 채점·전체 JSON 내려받기·Python 결과 일치 확인 |
+| 웹 내 평가 | `index.html#submit` | 실제 공개 Eval 409행 채점·전체 JSON 내려받기·Python 결과 일치 확인 |
 | 단일 HTML | `scripts/build_course_submission_v2.py` | 측정 10건 내장; 실제 409행 채점·전체 JSON 일치·한/영 및 분할 전환 확인 |
 
 ## 데이터와 공개 범위
@@ -78,6 +78,6 @@ Copy 외에도 실제 Whisper 예측 1,227행을 배포된 웹에서 채점했�
 
 ## 보존한 v1 결과
 
-`web/index.html`, `web/data/`, `docs/baseline-results.md`와 기존 v1 release는 과거 합성 명사 치환 실험이다.
+`web/archive-v1.html`, `web/data/`, `docs/baseline-results.md`와 기존 v1 release는 과거 합성 명사 치환 실험이다.
 v1은 10건 측정이 완료됐지만 새 실제 ASR v2 실험의 완료 상태를 대신하지 않는다.
 v1의 조건 평균 Macro CER와 v2의 발화 평균 Macro CER는 정의가 다르므로 같은 순위에 섞지 않는다.

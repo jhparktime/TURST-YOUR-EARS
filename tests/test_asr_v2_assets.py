@@ -1,4 +1,5 @@
 import hashlib
+import base64
 import json
 import re
 import shutil
@@ -53,3 +54,22 @@ def test_v2_single_html_contains_public_grader_without_runtime_dependencies(tmp_
     assert 'window.TYE_V2_EMBEDDED=' in html and 'public-eval-worker-v2.js' in html
     assert 'apiBase: ""' in html
     assert 'tye-ko-asr-v2-eval' in html
+    audio = re.findall(r'<audio\b[^>]*\bsrc="data:audio/wav;base64,([^"]+)"', html)
+    examples = json.loads((ROOT/'web/assets/examples-v2/examples.json').read_text())['items']
+    assert len(audio) == len(examples) == 2
+    for encoded, example in zip(audio, examples):
+        assert hashlib.sha256(base64.b64decode(encoded)).hexdigest() == example['sha256']
+
+
+def test_workshop_audio_examples_are_unmodified_public_eval_records():
+    examples = json.loads((ROOT/'web/assets/examples-v2/examples.json').read_text())
+    refs = json.loads((ROOT/'web/data-v2/eval.json').read_text())
+    audio_hashes = json.loads((ROOT/'datasets/tye-ko-asr-v2/eval/audio-checksums.json').read_text())
+    by_id = {row['id']: row for row in refs['items']}
+    for example in examples['items']:
+        # Membership prevents a Test sample from becoming a website demonstration.
+        original = by_id[example['id']]
+        for key in ('draft', 'reference', 'source'):
+            assert example[key] == original[key]
+        assert hashlib.sha256((ROOT/'web'/example['audio']).read_bytes()).hexdigest() == example['sha256']
+        assert example['sha256'] == audio_hashes[example['id']]

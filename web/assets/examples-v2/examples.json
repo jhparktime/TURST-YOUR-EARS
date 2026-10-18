@@ -1,0 +1,28 @@
+{
+  "dataset": "tye-ko-asr-v2-eval",
+  "purpose": "Illustrative public Eval examples, not independently listening-reviewed",
+  "source": "https://huggingface.co/datasets/kresnik/zeroth_korean",
+  "license": "CC-BY-4.0",
+  "items": [
+    {
+      "id": "e118228a33d1d90f6247",
+      "reference": "적은 농도로도 인체에 치명적인 영향을 주는 일산화탄소는 어떨까요",
+      "draft": "적은 농도로도 인체에 치명적인 영향을 주는 일상화탄소는 어떨까요?",
+      "source": "whisper-turbo",
+      "kind": "repair",
+      "audio": "assets/examples-v2/e118228a33d1d90f6247.wav",
+      "duration_seconds": 5.65225,
+      "sha256": "30b454e00311d4c8cbe688f1ae692d466faaaca303b294e3710d0b1e99b1383e"
+    },
+    {
+      "id": "e245e5eed59e0ba5fc1a",
+      "reference": "또 회사는 주기적인 백업으로 랜섬웨어 피해를 최소화 할 수 있다고 설명했다",
+      "draft": "또 회사는 주기적인 백업으로 랜섬웨어 피해를 최소화할 수 있다고 설명했다.",
+      "source": "qwen-omni",
+      "kind": "preserve",
+      "audio": "assets/examples-v2/e245e5eed59e0ba5fc1a.wav",
+      "duration_seconds": 5.72175,
+      "sha256": "60ea07eb3f2ce1d3cce13aa5c1a96e7f5ff267a475684be7b32b66dd5243114c"
+    }
+  ]
+}

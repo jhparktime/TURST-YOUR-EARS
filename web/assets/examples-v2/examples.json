@@ -1,18 +1,18 @@
 {
   "dataset": "tye-ko-asr-v2-eval",
-  "purpose": "Illustrative public Eval examples, not independently listening-reviewed",
+  "purpose": "Two illustrative public Eval cases: correction and preservation; not a population-level performance estimate",
   "source": "https://huggingface.co/datasets/kresnik/zeroth_korean",
   "license": "CC-BY-4.0",
   "items": [
     {
-      "id": "e118228a33d1d90f6247",
-      "reference": "적은 농도로도 인체에 치명적인 영향을 주는 일산화탄소는 어떨까요",
-      "draft": "적은 농도로도 인체에 치명적인 영향을 주는 일상화탄소는 어떨까요?",
+      "id": "601a22f6ff80b3227f4e",
+      "reference": "이곳에서 대량으로 생산되는 올리브유가 요리에 많이 쓰입니다",
+      "draft": "이곳에서 대량으로 생성되는 올리브유가 요리에 많이 쓰입니다.",
       "source": "whisper-turbo",
       "kind": "repair",
-      "audio": "assets/examples-v2/e118228a33d1d90f6247.wav",
-      "duration_seconds": 5.65225,
-      "sha256": "30b454e00311d4c8cbe688f1ae692d466faaaca303b294e3710d0b1e99b1383e"
+      "audio": "assets/examples-v2/601a22f6ff80b3227f4e.wav",
+      "duration_seconds": 4.77575,
+      "sha256": "6a88ca5225146c0d227a87c8ad7d98f3661cabf3ada226149047693639a0e85a"
     },
     {
       "id": "e245e5eed59e0ba5fc1a",

@@ -73,3 +73,41 @@ def test_workshop_audio_examples_are_unmodified_public_eval_records():
             assert example[key] == original[key]
         assert hashlib.sha256((ROOT/'web'/example['audio']).read_bytes()).hexdigest() == example['sha256']
         assert example['sha256'] == audio_hashes[example['id']]
+
+
+def test_selected_model_outputs_and_displayed_scores_match_public_eval():
+    from html import unescape
+    comparisons=json.loads((ROOT/'web/assets/examples-v2/model-comparison.json').read_text())
+    examples=json.loads((ROOT/'web/assets/examples-v2/examples.json').read_text())['items']
+    refs={r['id']:r for r in json.loads((ROOT/'web/data-v2/eval.json').read_text())['items']}
+    html=(ROOT/'web/index.html').read_text()
+    assert comparisons['protocol']=='ko-correction-v2'
+    assert [r['id'] for r in comparisons['items']]==[r['id'] for r in examples]
+    assert all(source['rows']==409 and re.fullmatch('[0-9a-f]{64}',source['csv_sha256'])
+               for source in comparisons['sources'])
+    for case in comparisons['items']:
+        ident=case['id']
+        reference=refs[ident]  # Must never publish a Test row as an example.
+        article=re.search(r'<article[^>]*data-example-id="'+ident+r'".*?</article>',html,re.S)[0]
+        assert {s['system'] for s in case['systems']}=={'Copy draft','Whisper audio-only','Qwen audio+draft'}
+        for system in case['systems']:
+            actual=score({ident:system['prediction']},[reference])
+            assert system['metrics']==actual
+            if system['system']=='Copy draft':
+                assert system['prediction']==reference['draft']
+            cell=re.search(r'<td[^>]*data-prediction-system="'+re.escape(system['system'])+r'"[^>]*>(.*?)</td>',article,re.S)[1]
+            assert unescape(re.sub('<[^>]+>','',cell))==system['prediction']
+            assert f"{actual['counts']['errors']} / {actual['counts']['characters']}<br>{actual['micro_cer']:.2f}%" in article
+    # A selected success must be accompanied by overall scores, not presented as overall superiority.
+    scope=re.search(r'data-t="comparisonScope"[^>]*>(.*?)</p>',html,re.S)[1]
+    baselines=json.loads((ROOT/'web/data-v2/baselines.json').read_text())['entries']
+    for entry in baselines:
+        if entry['split']=='eval' and entry['baseline'] in {'Whisper audio-only','Qwen audio+draft'}:
+            assert f"{entry['metrics']['micro_cer']:.2f}%" in scope
+
+
+def test_comparison_export_rejects_non_public_split(tmp_path):
+    from scripts.build_example_comparison import build as build_comparison
+    (tmp_path/'references.json').write_text(json.dumps({'name':'tye-ko-asr-v2-test'}))
+    with pytest.raises(ValueError,match='Only the public'):
+        build_comparison(tmp_path,tmp_path/'unused.csv')

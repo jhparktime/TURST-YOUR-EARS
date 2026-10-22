@@ -2,6 +2,20 @@
 (() => {
   const $ = id => document.getElementById(id);
   const english = {
+    comparisonData:"Output strings, metrics and source hashes",
+    comparisonDenominator:"Scores show errors / normalized reference characters and CER. Highlighting is explanatory; recorded output strings are unchanged.",
+    comparisonScope:"These two cases illustrate correction and preservation. On the full Eval split, Whisper scores 6.19% CER and Qwen audio+draft 13.54%. Selected successes do not imply overall superiority. Participant inputs contain neither answers nor marked edit positions.",
+    comparisonKeep:"The Qwen draft correctly says “랜섬웨어”. Whisper retranscription changes it to “랜선웨어”, while audio+draft preserves the correct content. CER ignores spaces and punctuation.",
+    comparisonRepair:"Here the Whisper draft and its retranscription both say “생성”. Qwen audio+draft corrects it to “생산”. Copy and Whisper are identical because Whisper generated this draft.",
+    comparisonMetric:"Character errors · CER ↓",
+    comparisonTranscript:"Actual output transcript",
+    comparisonCaption:"Recorded baseline outputs for the same utterance",
+    showComparison:"How did three actual systems respond?",
+    flowCaption:"Compare the audio and draft, correct errors and preserve accurate content.",
+    flowTranscript:"Complete corrected transcript",
+    flowKeep:"Keep correct content",
+    flowEdit:"Fix recognition errors",
+    flowAudioDraft:"Korean audio + ASR draft",
     chooseEdit:"Correct it",chooseKeep:"Keep it",showAnswer:"Answer and explanation",commandGuide:"Reproduce Copy from the command line",
     resultMore:"Detailed metrics and error types",
     demoLoading:"Loading and scoring the Copy CSV…",
@@ -10,10 +24,10 @@
     rankContext:"Comparison rank among these baselines",
     demoName:"Copy demo (local)",
     localName:"Your result (local)",
-    quizKeepWrong:"This draft has no CER errors. Rewording may damage correct text; open the explanation.",
-    quizKeepCorrect:"Correct. This draft has no CER errors. Keep the content as it is.",
-    quizRepairWrong:"This draft contains a recognition error: 일상화탄소. Open the explanation.",
-    quizRepairCorrect:"Correct. Change 일상화탄소 to 일산화탄소; open the explanation to compare.",
+    quizKeepWrong:"Keep this content. Compare the new error introduced by retranscription below.",
+    quizKeepCorrect:"Correct. 랜섬웨어 is already right. Compare it with the retranscription below.",
+    quizRepairWrong:"The draft misrecognizes 생산되는 as 생성되는. Compare the results below.",
+    quizRepairCorrect:"Correct. Change 생성되는 to 생산되는. Compare the actual systems below.",
     demoButton:"Score the Copy baseline",
     rulesSources:"Rule structure informed by Kaggle Competitions and DrivenData. This course project is not affiliated with either platform.",
     fullRules:"Full rules & reporting issues",
@@ -35,13 +49,13 @@
     trainNotebook:"01 Training & inference notebook",
     stepNotebookText:"The first notebook learns token replacements from Train and generates an Eval CSV. The second scores Copy and your predictions. Python 3.12+, no extra packages required.",
     stepNotebook:"Open a notebook — start without a GPU",
-    exampleTwo:"Is editing always the answer?",
-    exampleOne:"A one-word difference",
+    exampleTwo:"When retranscription changes a correct draft",
+    exampleOne:"One word retranscription missed",
     challengeInvite:"Compare copying, retranscription and learned correction under the same protocol. Whisper leads the measured public Eval baselines at 6.19% CER. Can your approach beat this reference?",
     notebookCTA:"③ Build your own corrector",
     demoCTA:"② Try scoring, no setup",
     listenCTA:"① Try two recordings",
-    factRanking:"Lower Micro CER ranks higher",
+    factRanking:"Ranking: lower Micro CER is better",
     factOutput:"Complete corrected transcript",
     factInput:"Korean audio + ASR draft",
     rulesNav:"Competition rules",
@@ -57,9 +71,9 @@
     runGuide:"Model execution guide",stepScore:"Score and compare on the website",
     stepScoreText:"Create a UTF-8 CSV with the id,prediction header and all 409 Eval predictions. View CER, repair and preservation metrics on the website and save the JSON.",
     startScore:"Go to public Eval scoring",startCopy:'Download a ready-made Copy CSV',
-    examplesTitle:"Listen first: correct it or keep it?",
-    examplesIntro:"These are actual public Eval recordings and ASR outputs. Listen and choose whether to edit. Participant inputs contain no marked error positions or answers.",
-    exampleRepair:"First example recording",examplePreserve:"Second example recording",exampleDraft:'ASR draft',exampleReference:'Source reference',
+    examplesTitle:"Listen and decide: correct it or keep it?",
+    examplesIntro:"Listen and make a choice. Then compare copying the draft, Whisper retranscription and Qwen audio+draft correction on the same recording.",
+    exampleRepair:"First example recording",examplePreserve:"Second example recording",exampleDraft:'ASR draft',exampleReference:"Reference transcript",
     exampleRepairNote:"일상화탄소 → 일산화탄소. Correct the misrecognized word.",
     examplePreserveNote:"Keep this draft. CER ignores spaces and punctuation, so it has no character errors. Rewording correct content can increase the error rate.",
     exampleAttribution:"Audio and reference transcripts: Zeroth Korean (CC BY 4.0). Original audio and actual model outputs.",
@@ -118,10 +132,10 @@
   const korean = {
     exampleRepair:'첫 번째 예시 음성',examplePreserve:'두 번째 예시 음성',
     privateClosed:'비공개 Test는 운영자 평가용입니다. 현재 공개 Eval 웹 채점을 이용할 수 있습니다.',
-    quizRepairCorrect:'맞습니다. 일상화탄소를 일산화탄소로 고쳐야 합니다. 해설을 열어 비교해 보세요.',
-    quizRepairWrong:'이 초안에는 일상화탄소라는 인식 오류가 있습니다. 해설을 확인해 보세요.',
-    quizKeepCorrect:'맞습니다. 문자 오류가 없는 초안이므로 내용을 유지하면 됩니다.',
-    quizKeepWrong:'이 초안은 CER 기준으로 오류가 없습니다. 표현을 바꾸면 맞는 내용을 훼손할 수 있습니다.',
+    quizRepairCorrect:"맞습니다. 생성되는 → 생산되는. 아래 실제 모델 결과와 비교해 보세요.",
+    quizRepairWrong:"이 초안에는 생성되는 → 생산되는 인식 오류가 있습니다. 아래 결과를 비교해 보세요.",
+    quizKeepCorrect:"맞습니다. 랜섬웨어는 맞는 표현입니다. 아래 재전사 결과와 비교해 보세요.",
+    quizKeepWrong:"내용을 유지하면 됩니다. 아래 결과에서 재전사가 만든 새 오류를 확인해 보세요.",
     localName:'내 결과 (브라우저)',demoName:'Copy 체험 (브라우저)',rankContext:'이 베이스라인들과 비교한 순위',
     gainContext:'Copy 대비 CER 개선 (%p)',benchmarkCaption:'운영자 측정 결과 · CER가 낮을수록 높은 순위 · CER·훼손률 단위 %',
     demoLoading:'Copy CSV를 불러와 채점하고 있습니다…',resultMore:'상세 지표·오류 유형',
@@ -169,7 +183,7 @@ loading:'공개 평가 데이터를 불러오는 중입니다…',ready:'공개 
   $('publicScore').onclick=()=>evaluateFile($('publicFile').files[0],'local');
   $('demoScore').onclick=async()=>{if(busy||!manifest)return;busy=true;lastResult=null;for(const id of ['publicScore','publicFile','demoScore'])$(id).disabled=true;publicState='demoLoading';publicError='';render();let blob;try{if(window.TYE_V2_EMBEDDED?.copy_csv){const raw=atob(window.TYE_V2_EMBEDDED.copy_csv);blob=new Blob([Uint8Array.from(raw,c=>c.charCodeAt(0))],{type:'text/csv'})}else{const response=await fetch('data-v2/eval-copy.csv');if(!response.ok)throw new Error(t('loadFailed'));blob=await response.blob()}}catch(e){publicError=e.message}finally{busy=false;for(const id of ['publicScore','publicFile','demoScore'])$(id).disabled=false}if(blob)await evaluateFile(blob,'demo');else render()};
   function renderQuizzes(){for(const quiz of document.querySelectorAll('[data-quiz]')){const choice=quiz.dataset.selected;for(const button of quiz.querySelectorAll('[data-choice]'))button.setAttribute('aria-pressed',String(button.dataset.choice===choice));if(!choice)continue;const correct=choice===(quiz.dataset.quiz==='repair'?'edit':'keep');quiz.querySelector('output').textContent=t(quiz.dataset.quiz==='repair'?(correct?'quizRepairCorrect':'quizRepairWrong'):(correct?'quizKeepCorrect':'quizKeepWrong'))}}
-  for(const quiz of document.querySelectorAll('[data-quiz]'))for(const button of quiz.querySelectorAll('[data-choice]'))button.onclick=()=>{quiz.dataset.selected=button.dataset.choice;renderQuizzes()};
+  for(const quiz of document.querySelectorAll('[data-quiz]'))for(const button of quiz.querySelectorAll('[data-choice]'))button.onclick=()=>{quiz.dataset.selected=button.dataset.choice;quiz.closest('article').querySelector('.model-comparison').open=true;renderQuizzes()};
   $('saveScores').onclick=()=>{if(!lastResult)return;const url=URL.createObjectURL(new Blob([JSON.stringify(lastResult,null,2)+'\n'],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='tye-ko-asr-v2-public-eval.scores.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
   const config=window.CHALLENGE_CONFIG_V2||{},apiBase=(config.apiBase||'').replace(/\/$/,'');
   async function privateHealth(){const response=await fetch(apiBase+'/api/health');if(!response.ok)throw new Error(t('privateClosed'));const value=await response.json();if(value.mode!=='evaluation'||value.dataset!==(config.expectedDataset||'tye-ko-asr-v2-test')||value.scorer!=='ko-correction-v2'||value.primary_metric!=='micro_cer'||value.samples!==1750||value.dataset_version!==metadata.splits.test.references_sha256.slice(0,12))throw new Error(t('privateMismatch'));return value}

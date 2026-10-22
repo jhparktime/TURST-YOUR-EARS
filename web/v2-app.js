@@ -116,6 +116,7 @@
     details:'All metrics and denominators',clean:'Clean',substitution:'Substitution only',deletion:'Deletion only',insertionOnly:'Insertion only',mixed:'Mixed',
   };
   const korean = {
+    exampleRepair:'첫 번째 예시 음성',examplePreserve:'두 번째 예시 음성',
     privateClosed:'비공개 Test는 운영자 평가용입니다. 현재 공개 Eval 웹 채점을 이용할 수 있습니다.',
     quizRepairCorrect:'맞습니다. 일상화탄소를 일산화탄소로 고쳐야 합니다. 해설을 열어 비교해 보세요.',
     quizRepairWrong:'이 초안에는 일상화탄소라는 인식 오류가 있습니다. 해설을 확인해 보세요.',

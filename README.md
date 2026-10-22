@@ -28,6 +28,16 @@ Copy·Whisper·Qwen Audio-only·Text-only·Audio+draft의 Eval/Test 측정 10건
 [음질 손상 보조 트랙](https://jhparktime.github.io/TURST-YOUR-EARS/stress.html) ·
 [보조 트랙 설계·측정 기록](docs/public-eval-stress-probe.md)
 
+## 데이터는 어떻게 수집·구축했나
+
+[수집·구축 기록](docs/data-collection.md)에 원천과 라이선스, 고정 버전, 통합·제외 수량,
+분할 기준, 실제 ASR 초안 생성 및 검사·배포 과정을 정리했습니다.
+Zeroth Korean의 기존 2,079개와 추가 2,002개를 통합한 4,081개 풀에서 2,631개를 사용합니다.
+원본 음성·전사는 유지하고, v2 초안은 Whisper·Qwen의 실제 음성 단독 출력입니다.
+평가 분량은 Eval 1시간 + Test 4시간이며 Train 약 1시간 13분은 별도입니다.
+[사이트 요약](https://jhparktime.github.io/TURST-YOUR-EARS/#data-collection) ·
+[메타데이터](datasets/tye-ko-asr-v2/metadata.json) · [자동 검증 기록](docs/measurements/real-asr-v2-validation.json)
+
 ## v2 공개 Eval 재현
 
 참가자 ZIP의 압축을 푼 뒤 아래 경로를 실제 위치로 바꿉니다.

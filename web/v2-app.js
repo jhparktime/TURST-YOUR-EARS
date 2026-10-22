@@ -2,6 +2,17 @@
 (() => {
   const $ = id => document.getElementById(id);
   const english = {
+    collectionSource:"Public source: audio and distributed transcripts come from a pinned Zeroth Korean revision. Original 16 kHz mono PCM samples are preserved in WAV files; transcripts receive NFC normalization only.",
+    collectionMerge:"Merging and splitting: 2,079 existing and 2,002 additional recordings formed a pool of 4,081; 2,631 are used in Train/Eval/Test. Checks covered cross-split speakers, sessions, identical/near transcripts and audio. The remaining 1,450 are organizer-only reserves.",
+    collectionDraft:"Actual drafts: fixed Whisper and Qwen models receive audio alone. Generators alternate in hashed ID order without consulting references or error rates. Eval has 205 Whisper and 204 Qwen drafts, including all 131 normalized-correct drafts.",
+    collectionCheck:"Integrity checks: all 2,631 active recordings were checked for decoding, duration and checksums, unchanged references and agreement between drafts and recorded model outputs. Copy/reference invariants and Python/browser scores were also compared.",
+    collectionRelease:"Distribution: participants receive Train/Eval audio, drafts, references, attribution and checksums. Test references, source mappings and reserves remain organizer-only. The five evaluation hours are one-hour Eval plus four-hour Test; about 1 h 13 min of Train is additional.",
+    collectionTitle:"How we built the dataset",
+    collectionPinned:"Pinned source revision",
+    collectionHistoryTitle:"What changed from the previous version?",
+    collectionHistory:"V2 replaces synthetic v1 word substitutions with actual ASR outputs while retaining recordings, references and splits. The inherited Eval/Test pool was originally selected for eligible synthetic substitutions. This history is separate from reference-blind v2 generator assignment and is documented with the scope of validation.",
+    collectionRecord:"Full collection, merging, splitting and draft-generation record",
+    collectionMetadata:"Counts, durations and model revisions",
     comparisonData:"Output strings, metrics and source hashes",
     comparisonDenominator:"Scores show errors / normalized reference characters and CER. Highlighting is explanatory; recorded output strings are unchanged.",
     comparisonScope:"These two cases illustrate correction and preservation. On the full Eval split, Whisper scores 6.19% CER and Qwen audio+draft 13.54%. Selected successes do not imply overall superiority. Participant inputs contain neither answers nor marked edit positions.",

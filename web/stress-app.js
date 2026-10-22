@@ -4,10 +4,10 @@
   const en = {
     subtitle:'Public Eval audio stress probe',back:'Return to actual-ASR v2',questionTitle:'Research question',
     question:'Does combining audio and a draft become more useful as audio quality changes? We also compare unnecessary edits to originally correct drafts.',
-    scope:'Public development experiment only. The private Test and official ranking are unchanged. Independent listening has not been performed. The measurement table below reports model completion status.',
+    scope:'Public development experiment only. The private Test and official ranking are unchanged. Compare five measured baselines across three audio conditions and score your own predictions.',
     pairing:'There are 409 distinct original recordings, totaling one hour. Each unchanged draft and reference is paired with three audio views: original, synthetic Gaussian noise at 5 dB, and 20% erasure of 20 ms packets. The 1,227 views contain the same 131 correct drafts and 278 erroneous drafts per condition.',
-    limitation:'Drafts were generated from the original audio before corruption, so they may contain more information than the damaged audio. This differs from conventional post-processing where drafts come from the same noisy audio. Synthetic noise is not representative field noise, and acoustic recoverability has not been listening-reviewed.',
-    spec:'Construction and interpretation rules',download:'Download candidate audio, drafts and references',copy:'1,227-row Copy CSV',
+    limitation:'Drafts were generated from the original audio before corruption, so they may contain more information than the damaged audio. This differs from conventional post-processing where drafts come from the same noisy audio. Synthetic noise is not representative field noise, and not every damaged utterance is assumed recoverable by listening alone.',
+    spec:'Construction and interpretation rules',download:'Download stress-track audio, drafts and references',copy:'1,227-row Copy CSV',
     benchmarks:'Measurements by audio condition',condition:'Audio condition',repair:'Slot restoration ↑',harm:'Harmful edits ↓',
     reuse:'Copy and Text-only use identical predictions across the three conditions because their drafts are unchanged. Original-audio outputs are reused only after input hashes and completion records match. Corrupted audio requires new inference.',
     gradeTitle:'Grade the public probe in this page',gradeText:'Select a UTF-8 CSV (id,prediction) containing all 1,227 variant IDs exactly once. The CSV stays in your browser. Scores are reported per condition and do not enter the official Test ranking.',

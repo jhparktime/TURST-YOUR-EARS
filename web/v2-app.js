@@ -2,34 +2,75 @@
 (() => {
   const $ = id => document.getElementById(id);
   const english = {
-    skip:'Skip to content',startNav:'Get started',examplesNav:'Audio examples',
+    chooseEdit:"Correct it",chooseKeep:"Keep it",showAnswer:"Answer and explanation",commandGuide:"Reproduce Copy from the command line",
+    resultMore:"Detailed metrics and error types",
+    demoLoading:"Loading and scoring the Copy CSV…",
+    benchmarkCaption:"Organizer measurements · lower CER is better · CER and harmful edits are percentages",
+    gainContext:"CER gain over Copy (percentage points)",
+    rankContext:"Comparison rank among these baselines",
+    demoName:"Copy demo (local)",
+    localName:"Your result (local)",
+    quizKeepWrong:"This draft has no CER errors. Rewording may damage correct text; open the explanation.",
+    quizKeepCorrect:"Correct. This draft has no CER errors. Keep the content as it is.",
+    quizRepairWrong:"This draft contains a recognition error: 일상화탄소. Open the explanation.",
+    quizRepairCorrect:"Correct. Change 일상화탄소 to 일산화탄소; open the explanation to compare.",
+    demoButton:"Score the Copy baseline",
+    rulesSources:"Rule structure informed by Kaggle Competitions and DrivenData. This course project is not affiliated with either platform.",
+    fullRules:"Full rules & reporting issues",
+    ruleOperations:"Operations: browser scores are local comparisons. In an online Test round, each team gets five new valid submissions daily (reset 09:00 KST); identical resubmissions return the cached result. Rule and data changes are versioned and announced.",
+    ruleReproduce:"Reproducibility: accompany shared results with code, model and parameters, training data, seed and runtime environment. Use the same inference procedure for all evaluation recordings.",
+    ruleRanking:"Ranking: ascending unrounded Micro CER; exact ties share ranks (1, 2, 2, 4). Secondary metrics are not combined into a weighted score. Eval and Test rankings are separate.",
+    ruleCSV:"Submission: UTF-8 CSV, header id,prediction, each of 409 Eval IDs once, maximum 2 MiB. Include complete transcripts without explanations; use standard CSV quoting.",
+    ruleExternal:"External resources: public pretrained models and external data are allowed. Disclose versions, licenses and sources. Exclude Eval/Test source recordings and derivatives from added training. Declare unknown pretraining exposure.",
+    ruleData:"Training: fit on Train references and use Eval for development and scoring. Do not feed Eval/Test answers into inference, build answer lookups by ID, or manually correct evaluated predictions.",
+    ruleTeam:"Teams: one or two members; one team per person. Identify the team and method when sharing results.",
+    rulesIntro:"Public Eval scoring is unlimited. The following rules keep comparisons fair.",
+    rulesTitle:"Competition rules",
+    privatePolicy:"The private Test contains 1,750 recordings / four hours for organizer-run final evaluation. Its leaderboard values are fixed baseline measurements. Public Eval and browser scoring are available now. An online Test round will have a separate schedule and team-key announcement.",
+    methodCTA:"Baseline configurations",
+    leaderboardNote:"This table compares baseline performance. Your result appears only in this browser and is not registered as an official participant entry. Equal unrounded CER values share a rank.",
+    rulesCTA:"Read the rules",
+    notebookScope:"The CPU example is a text-only starter, separate from the Qwen models in the leaderboard.",
+    evalNotebook:"02 Evaluation notebook",
+    trainNotebook:"01 Training & inference notebook",
+    stepNotebookText:"The first notebook learns token replacements from Train and generates an Eval CSV. The second scores Copy and your predictions. Python 3.12+, no extra packages required.",
+    stepNotebook:"Open a notebook — start without a GPU",
+    exampleTwo:"Is editing always the answer?",
+    exampleOne:"A one-word difference",
+    challengeInvite:"Compare copying, retranscription and learned correction under the same protocol. Whisper leads the measured public Eval baselines at 6.19% CER. Can your approach beat this reference?",
+    notebookCTA:"③ Build your own corrector",
+    demoCTA:"② Try scoring, no setup",
+    listenCTA:"① Try two recordings",
+    factRanking:"Lower Micro CER ranks higher",
+    factOutput:"Complete corrected transcript",
+    factInput:"Korean audio + ASR draft",
+    rulesNav:"Competition rules",
+    atAGlance:"Korean · Real ASR drafts · Train 472 / Eval 409 / Test 1,750 · Browser scoring · Korean / English",
+    skip:'Skip to content',startNav:'Get started',examplesNav:"Listen & try",
     statusPublicLabel:'Public Eval:',statusPublic:'In-browser scoring available for 409 recordings',
-    statusReview:'Dataset: actual-ASR v2 candidate · 0 independently listening-reviewed · 10 main / 15 stress measurements complete',
-    startLink:'Get started →',scoreLink:'Score public Eval →',startTitle:'Get started',
-    stepData:'Download the participant dataset',
-    stepDataText:'Get tye-ko-asr-v2-participant.zip and its SHA-256 file from the release. The ZIP contains Train/Eval audio, drafts and references.',
-    startDownload:'Download participant data',stepRun:'Create a baseline CSV',
+    startLink:'Get started →',scoreLink:'Score public Eval →',startTitle:"Get started with your model",
+    stepData:"Get audio data and model code",
+    stepDataText:"The participant ZIP provides Train/Eval audio, drafts and references. Run Whisper or Qwen, or build a model combining speech and drafts. Verify the ZIP using the supplied SHA-256 file.",
+    startDownload:"Download participant data",stepRun:'Create a baseline CSV',
     stepRunText:'Use Python 3.12 or newer. Extract the ZIP into a tye-v2 folder beside the repository. Copy requires no extra packages or GPU.',
-    stepExpected:'Copy scores 11.7663% Micro CER on public Eval. See the repository README for model inference settings and dependencies.',
-    runGuide:'Model execution guide',stepScore:'Evaluate on the website',
-    stepScoreText:'Select a UTF-8 CSV (id,prediction) with each of the 409 IDs exactly once. View all metrics and save the JSON. Public Eval scores do not enter the official ranking.',
-    startScore:'Go to public Eval scoring',startCopy:'Download a ready-made Copy CSV',
-    examplesTitle:'Audio examples',
-    examplesIntro:'Original recordings and actual ASR drafts from public Eval. Drafts are not synthetic, and source references are unchanged. These examples illustrate the input and task; they do not establish overall difficulty or the necessity of audio.',
-    exampleRepair:'A draft with a recognition error',examplePreserve:'A draft to preserve',exampleDraft:'ASR draft',exampleReference:'Source reference',
-    exampleRepairNote:'일상화탄소 → 일산화탄소. Highlighting is explanatory; participant inputs do not mark error positions.',
-    examplePreserveNote:'After removing spaces and punctuation, this draft matches the reference. The goal is to avoid unnecessary edits to text without errors under the primary metric.',
-    exampleAttribution:'Audio and source transcripts: Zeroth Korean public corpus (CC BY 4.0), original WAV files. Drafts: actual Whisper/Qwen outputs. Independent listening review is pending.',
+    stepExpected:"Copy scores 11.7663% Micro CER on public Eval.",
+    runGuide:"Model execution guide",stepScore:"Score and compare on the website",
+    stepScoreText:"Create a UTF-8 CSV with the id,prediction header and all 409 Eval predictions. View CER, repair and preservation metrics on the website and save the JSON.",
+    startScore:"Go to public Eval scoring",startCopy:'Download a ready-made Copy CSV',
+    examplesTitle:"Listen first: correct it or keep it?",
+    examplesIntro:"These are actual public Eval recordings and ASR outputs. Listen and choose whether to edit. Participant inputs contain no marked error positions or answers.",
+    exampleRepair:"First example recording",examplePreserve:"Second example recording",exampleDraft:'ASR draft',exampleReference:'Source reference',
+    exampleRepairNote:"일상화탄소 → 일산화탄소. Correct the misrecognized word.",
+    examplePreserveNote:"Keep this draft. CER ignores spaces and punctuation, so it has no character errors. Rewording correct content can increase the error rate.",
+    exampleAttribution:"Audio and reference transcripts: Zeroth Korean (CC BY 4.0). Original audio and actual model outputs.",
     exampleSource:'Source corpus',
-    dataLimits:'Review and interpretation: 0 independently listening-reviewed recordings. Source-reference errors and spelling differences may remain. Benchmark difficulty and the necessity of audio have not been established. Measurements below concern this candidate data and fixed baseline settings.',
-    privateSummaryClosed:'Official submissions not open',privateSummaryOpen:'Official submissions open',
-    subtitle:'Korean Audio-grounded Transcript Correction Challenge',version:'Actual ASR errors · v2 candidate, not listening-reviewed',
+    dataLimits:"Reference policy: scoring uses the transcripts distributed with Zeroth Korean. Recordings and source transcripts are retained. Numeric spelling and spacing follow the normalization rules below. Report reference issues with an utterance ID and evidence via GitHub Issues; corrections receive a version and changelog.",
+    privateSummaryClosed:"Organizer evaluation",privateSummaryOpen:'Official submissions open',
+    subtitle:'Korean Audio-grounded Transcript Correction Challenge',version:"Fix the errors. Keep what was right.",
     overview:'Challenge',data:'Dataset',evaluation:'Evaluation',baselines:'Benchmarks',submit:'Web evaluation',official:'Private Test',archive:'Synthetic v1 archive',
-    overviewTitle:'Challenge overview',task:'Given Korean speech and a draft produced by a real speech recognizer, return a complete transcript matching the utterance. Correct recognition errors while preserving text that was already right.',
-    candidate:'Candidate data for public development and reproduction. Automated integrity checks passed; listening-review status and interpretation limits are stated in Dataset.',
-    research:'Research question: can audio-grounded decisions reduce real Korean ASR errors while avoiding unnecessary corrections?',
-    stressLink:'Public Eval audio stress probe',
-    stressDescription:'We keep the drafts of the same 409 recordings and vary audio quality to compare input combination and unnecessary edits. This is public development; the private Test is unchanged. The probe page reports model completion status and results by audio condition.',
+    overviewTitle:"Can your model catch a speech recognizer’s mistakes?",task:"A plausible sentence can still mishear the speaker. Given Korean audio and an ASR draft, return a full transcript that fixes recognition errors while keeping correct text.",
+    stressLink:'More to try: audio stress track →',
+    stressDescription:'What changes when the same drafts are paired with noisy or packet-dropped audio? Compare five methods across three audio conditions of 409 originals and score your predictions.',
     pipelineNav:'Pipeline',methodNav:'Method',referencesNav:'References',pipelineTitle:'Pipeline',
     pipelineSource:'Obtain original Korean audio and transcripts, then check speaker, session, exact-transcript and audio separation across splits.',
     pipelineDraft:'Whisper and Qwen generate drafts from audio alone. A fixed rule assigns the generator to each recording without consulting references or error rates.',
@@ -40,33 +81,33 @@
     roleCopy:'Retain the draft without editing',roleWhisper:'Retranscribe with large-v3-turbo',roleAudio:'Transcribe with the same Qwen model, without a draft',roleText:'Correct the draft without audio',roleBoth:'Correct differences from the spoken utterance',
     methodSettings:'The three Qwen2.5-Omni-3B conditions use the same checkpoint, greedy generation, seed 0 and a 512-new-token limit. Empty and token-limited outputs are scored as produced. Reproduction code records model revisions and full prompts.',
     methodPrompts:'Input construction and prompts',methodRunner:'Qwen inference code',referencesTitle:'References',
-    referencesIntro:'Source data, model and related ASR error-correction research. Combining audio with a draft is an input format also studied in prior work.',
+    referencesIntro:"Source data, models and related ASR correction research.",
     referenceData:' — source Korean read speech, CC BY 4.0',referenceModel:' — model for audio and text input comparisons',referencePaper:' — EMNLP 2025 Industry Track, Chinese ASR error-correction benchmark',
     spec:'Dataset, evaluation and listening-review specification',code:'Baseline and reproduction code',dataTitle:'Dataset',
     dataText:'Original recordings and source transcripts are retained. Drafts are actual audio-only outputs from Whisper large-v3-turbo and Qwen2.5-Omni-3B, assigned in equal proportions by a fixed rule. Recordings are not selected for high recognition error.',
     samples:'Recordings',duration:'Audio duration',access:'Reference access',
     dataSplit:'Existing speaker, session, exact-transcript and audio separation is retained. The source is Zeroth Korean public read speech (CC-BY-4.0), not spontaneous conversation or newly recorded speech.',
-    download:'Download the unreviewed candidate dataset',copyDownload:'Public Eval Copy CSV',
-    review:'The participant ZIP includes Train/Eval audio, drafts, references and an audio-first listening worksheet. Test references and review sheets are organizer-only. Numeric spelling, source-transcript errors and unclear speech require human review.',
+    download:"Download participant data",copyDownload:'Public Eval Copy CSV',
+    review:"The participant ZIP includes Train/Eval audio, drafts, references, attribution and checksums. Test references and individual predictions are organizer-only. This read-speech dataset does not represent every conversational or domain setting.",
     evalTitle:'Evaluation protocol',
-    primary:'The ranking metric is Micro CER: total substitutions, deletions and insertions divided by total reference characters. Secondary Macro CER is the mean of utterance CERs. This differs from v1’s condition average; v1 and v2 scores are not comparable.',
+    primary:"Primary Micro CER is total substitutions, deletions and insertions divided by total reference characters. Lower is better. Macro CER averages utterance CERs; it and WER are secondary diagnostics. Archived v1 results use a different protocol and are not ranked together.",
     normalization:'Text is NFC-normalized and lowercased. Whitespace and specified punctuation are ignored; decimal points between digits remain. “3시” and “세 시” are scored as different forms. Secondary WER uses whitespace-delimited Korean eojeol.',
     metricRepair:'Error-slot restoration, correction precision and correction F1 measure repairs of incorrect character positions and insertion gaps.',
     metricHarm:'Harmful edits, unwanted insertions and Clean changes measure preservation of originally correct text.',
     metricGroups:'Results are reported by draft-error type and draft generator. Slot metrics use deterministic text alignment and do not certify acoustic correctness.',
     scorerLink:'Python evaluator',browserLink:'Browser evaluator',benchmarkTitle:'Baseline measurements',
-    comparison:'Copy retains the distributed draft. Audio-only receives speech; Text-only and Audio+draft receive the new real-ASR draft. These are organizer-measured baselines, separate from official participant rankings.',
-    overlap:'An Audio-only recognizer that also generated the draft equals Copy on its own source subset. This is not independent correction success. Source-stratified CER is shown below.',
+    comparison:"Five baselines measured by the organizers with the same evaluator. Lower CER ranks higher. Score your CSV on this page to add a local comparison row.",
+    overlap:"Whisper and Qwen also generated the drafts. Each model’s Audio-only output equals Copy on its own source subset. Compare both overall and source-specific results.",
     splitLabel:'Displayed split',improvement:'Gain ↑',restoration:'Slot repair ↑',harm:'Harmful edits ↓',insertion:'Unwanted insertions ↓',sourceDetails:'CER by draft generator',
-    benchmarkLimits:'Input conditions use the same Qwen checkpoint. Whisper versus Qwen changes both model and input. Exposure to the public source corpus during pretraining cannot be ruled out.',allMetrics:'All metrics, condition counts and denominators',
-    publicTitle:'Public Eval — in-browser scoring',publicText:'Select a UTF-8 CSV covering all 409 public Eval IDs exactly once. The header must be id,prediction. Scoring runs in your browser; your CSV is not sent to a server.',
+    benchmarkLimits:"The three Qwen conditions use the same checkpoint. Pretraining exposure to the public source corpus cannot be ruled out.",allMetrics:"All metrics and condition results (JSON)",
+    publicTitle:"Public Eval — score on the website",publicText:"Try the Copy demo to score all 409 drafts without running a model. Select your own CSV to use the same evaluator. Files are processed in your browser and are not sent to a server.",
     csvLabel:'Prediction CSV (maximum 2 MiB)',scoreButton:'Score public Eval',saveButton:'Save all metrics as JSON',
-    privateTitle:'Private Test — official submissions',privateClosed:'The private Test grading service is not connected. Official submissions and participant rankings are not open.',
+    privateTitle:'Private Test — official submissions',privateClosed:"Private Test uses organizer-run evaluation; public Eval scoring is available above.",
     keyLabel:'Team key',privateCsv:'Test prediction CSV',privateButton:'Official submission',rank:'Rank',team:'Team',
     footer:'A Speech Recognition course Challenge project.',
     loading:'Loading public evaluation data…',ready:'Ready: 409 public Eval recordings.',loadFailed:'Could not load the evaluation data. Reload this page.',
     chooseFile:'Select a prediction CSV first.',tooLarge:'Maximum submission size is 2 MiB.',scoring:'Scoring in your browser…',
-    scored:'Public Eval scoring completed.',pending:'Not completed',completed:'complete',pendingWord:'pending',public:'Public',private:'Private',
+    scored:"Public Eval scoring completed. Your comparison is also shown in the leaderboard.",pending:'Not completed',completed:'complete',pendingWord:'pending',public:'Public',private:'Private',
     privateOpen:'Official submissions are open for the verified v2 Test.',privateMismatch:'The configured service does not match this v2 Test. Contact the organizers.',
     privateScoring:'Submitting to the private grading service…',privateDone:'Submission scored.',noTeams:'No official participant submissions.',
     needKey:'Enter your organizer-issued team key.',failure:'Evaluation failed. Check your file and try again.',
@@ -74,9 +115,18 @@
     harmName:'Harmful edit rate',insertionName:'Unwanted insertion rate',cleanName:'Clean change rate',precisionName:'Correction precision',f1Name:'Correction F1',
     details:'All metrics and denominators',clean:'Clean',substitution:'Substitution only',deletion:'Deletion only',insertionOnly:'Insertion only',mixed:'Mixed',
   };
-  const korean = {loading:'공개 평가 데이터를 불러오는 중입니다…',ready:'공개 Eval 409개 채점 준비가 됐습니다.',loadFailed:'평가 데이터를 불러오지 못했습니다. 페이지를 새로고침해 주세요.',
-    privateSummaryClosed:'공식 접수 준비 중',privateSummaryOpen:'공식 접수 중',
-    chooseFile:'예측 CSV를 먼저 선택해 주세요.',tooLarge:'제출 파일은 최대 2 MiB입니다.',scoring:'브라우저에서 채점 중입니다…',scored:'공개 Eval 채점이 끝났습니다.',
+  const korean = {
+    privateClosed:'비공개 Test는 운영자 평가용입니다. 현재 공개 Eval 웹 채점을 이용할 수 있습니다.',
+    quizRepairCorrect:'맞습니다. 일상화탄소를 일산화탄소로 고쳐야 합니다. 해설을 열어 비교해 보세요.',
+    quizRepairWrong:'이 초안에는 일상화탄소라는 인식 오류가 있습니다. 해설을 확인해 보세요.',
+    quizKeepCorrect:'맞습니다. 문자 오류가 없는 초안이므로 내용을 유지하면 됩니다.',
+    quizKeepWrong:'이 초안은 CER 기준으로 오류가 없습니다. 표현을 바꾸면 맞는 내용을 훼손할 수 있습니다.',
+    localName:'내 결과 (브라우저)',demoName:'Copy 체험 (브라우저)',rankContext:'이 베이스라인들과 비교한 순위',
+    gainContext:'Copy 대비 CER 개선 (%p)',benchmarkCaption:'운영자 측정 결과 · CER가 낮을수록 높은 순위 · CER·훼손률 단위 %',
+    demoLoading:'Copy CSV를 불러와 채점하고 있습니다…',resultMore:'상세 지표·오류 유형',
+loading:'공개 평가 데이터를 불러오는 중입니다…',ready:'공개 Eval 409개 채점 준비가 됐습니다.',loadFailed:'평가 데이터를 불러오지 못했습니다. 페이지를 새로고침해 주세요.',
+    privateSummaryClosed:'운영자 평가',privateSummaryOpen:'공식 접수 중',
+    chooseFile:'예측 CSV를 먼저 선택해 주세요.',tooLarge:'제출 파일은 최대 2 MiB입니다.',scoring:'브라우저에서 채점 중입니다…',scored:'공개 Eval 채점이 끝났습니다. 리더보드에서도 내 결과를 비교할 수 있습니다.',
     pending:'미완료',completed:'완료',pendingWord:'미완료',public:'공개',private:'비공개',privateOpen:'검증된 v2 Test의 공식 접수가 열렸습니다.',
     privateMismatch:'연결된 서비스가 이 v2 Test와 일치하지 않습니다. 운영자에게 문의해 주세요.',privateScoring:'비공개 채점 서비스에 제출하고 있습니다…',privateDone:'제출 채점이 끝났습니다.',
     noTeams:'공식 참가자 제출 기록이 없습니다.',needKey:'운영자가 발급한 팀 키를 입력해 주세요.',failure:'채점하지 못했습니다. 파일을 확인해 주세요.',
@@ -85,7 +135,7 @@
   const originals = new Map([...document.querySelectorAll('[data-t]')].map(node => [node,node.textContent]));
   for(const [node,original]of originals)if(!(node.dataset.t in korean))korean[node.dataset.t]=original;
   let language='ko',manifest,metadata,baselines,lastResult,busy=false,privateState='privateClosed';
-  let publicState='loading',publicError='';
+  let publicState='loading',publicError='',resultKind='local';
   try{if(localStorage.getItem('tye-v2-language')==='en')language='en'}catch(e){}
   const t = key => language==='en' ? english[key]||key : korean[key]||english[key]||key;
   const percent = v => v === null || v === undefined ? 'N/A' : Number(v).toFixed(2)+'%';
@@ -93,24 +143,32 @@
   function rowFor(body,values){const row=document.createElement('tr');values.forEach((value,i)=>cell(row,value,i>0));body.append(row);return row}
   function duration(seconds){const total=Math.round(seconds),h=Math.floor(total/3600),m=Math.floor(total%3600/60),s=total%60;return language==='en'?`${h}h ${m}m ${s}s`:`${h}시간 ${m}분 ${s}초`}
   function renderData(){if(!metadata)return;$('dataRows').replaceChildren();for(const split of ['train','eval','test']){const value=metadata.splits[split];rowFor($('dataRows'),[split,value.utterances,duration(value.duration_seconds),t(split==='test'?'private':'public'),percent(value.draft_micro_cer)])}}
-  function renderBenchmarks(){if(!baselines)return;const split=$('benchmarkSplit').value;$('benchmarkRows').replaceChildren();$('sourceRows').replaceChildren();$('benchmarkStatus').textContent=`${baselines.entries.length} ${t('completed')} / ${baselines.pending.length} ${t('pendingWord')}`;
-    for(const entry of baselines.entries.filter(e=>e.split===split)){const m=entry.metrics;rowFor($('benchmarkRows'),[entry.baseline,percent(m.micro_cer),percent(m.micro_wer),Number(m.cer_improvement_pp).toFixed(2)+(language==='en'?' pp':'%p'),percent(m.slot_restoration_rate),percent(m.harmful_edit_rate),percent(m.unwanted_insertion_rate)]);
-      for(const [source,value]of Object.entries(m.sources))rowFor($('sourceRows'),[entry.baseline,source,value.utterances,percent(value.draft_cer),percent(value.cer)]);
+  function renderBenchmarks(){if(!baselines)return;const split=$('benchmarkSplit').value;$('benchmarkRows').replaceChildren();$('sourceRows').replaceChildren();$('benchmarkStatus').textContent=t('benchmarkCaption');
+    for(const entry of TYELeaderboard.rank(baselines.entries,split,lastResult)){const m=entry.metrics;
+      const row=document.createElement('tr');cell(row,entry.rank,true);cell(row,entry.local?t(resultKind==='demo'?'demoName':'localName'):entry.baseline);cell(row,percent(m.micro_cer),true);cell(row,Number(m.cer_improvement_pp).toFixed(2)+(language==='en'?' pp':'%p'),true);cell(row,percent(m.harmful_edit_rate),true);if(entry.local)row.className='my-result';$('benchmarkRows').append(row);
+      if(!entry.local)for(const [source,value]of Object.entries(m.sources))rowFor($('sourceRows'),[entry.baseline,source,value.utterances,percent(value.draft_cer),percent(value.cer)]);
     }
-    for(const entry of baselines.pending.filter(e=>e.split===split)){const row=document.createElement('tr');cell(row,entry.baseline);const c=cell(row,t('pending'));c.colSpan=6;$('benchmarkRows').append(row)}
   }
   function metricTable(parent,values){const table=document.createElement('table');const head=table.createTHead().insertRow();for(const label of [t('metric'),t('value')]){const c=document.createElement('th');c.textContent=label;head.append(c)}const body=table.createTBody();for(const value of values)rowFor(body,value);parent.append(table)}
-  function renderResult(){const box=$('publicResult');box.hidden=!lastResult;$('saveScores').disabled=!lastResult;box.replaceChildren();if(!lastResult)return;metricTable(box,[['Micro CER',percent(lastResult.micro_cer)],['Utterance Macro CER',percent(lastResult.macro_cer)],['WER',percent(lastResult.micro_wer)],
+  function renderResult(){const box=$('publicResult');box.hidden=!lastResult;$('saveScores').disabled=!lastResult;box.replaceChildren();if(!lastResult)return;
+    const lead=document.createElement('p');lead.className='result-lead';lead.textContent=`${t(resultKind==='demo'?'demoName':'localName')} · Micro CER ${lastResult.micro_cer.toFixed(4)}%`;box.append(lead);
+    const position=TYELeaderboard.rank(baselines.entries,'eval',lastResult).find(e=>e.local).rank;
+    const comparison=document.createElement('p');comparison.textContent=`${t('rankContext')}: ${position} / 6 · ${t('gainContext')}: ${lastResult.cer_improvement_pp.toFixed(4)}`;box.append(comparison);
+    const more=document.createElement('details'),moreTitle=document.createElement('summary');moreTitle.textContent=t('resultMore');more.append(moreTitle);box.append(more);metricTable(more,[['Micro CER',percent(lastResult.micro_cer)],['Utterance Macro CER',percent(lastResult.macro_cer)],['WER',percent(lastResult.micro_wer)],
       [t('restorationName'),percent(lastResult.slot_restoration_rate)],[t('precisionName'),percent(lastResult.correction_precision)],[t('f1Name'),percent(lastResult.correction_f1)],
       [t('harmName'),percent(lastResult.harmful_edit_rate)],[t('insertionName'),percent(lastResult.unwanted_insertion_rate)],[t('cleanName'),percent(lastResult.clean_change_rate)]]);
-    const table=document.createElement('table');const head=table.createTHead().insertRow();for(const text of [t('condition'),'N','Draft CER','Output CER']){const c=document.createElement('th');c.textContent=text;head.append(c)}const body=table.createTBody();for(const [key,value]of Object.entries(lastResult.conditions))rowFor(body,[t(key==='insertion'?'insertionOnly':key),value.utterances,percent(value.draft_cer),percent(value.cer)]);box.append(table);
-    const details=document.createElement('details'),summary=document.createElement('summary'),pre=document.createElement('pre');summary.textContent=t('details');pre.textContent=JSON.stringify(lastResult,null,2);details.append(summary,pre);box.append(details);
+    const table=document.createElement('table');const head=table.createTHead().insertRow();for(const text of [t('condition'),'N','Draft CER','Output CER']){const c=document.createElement('th');c.textContent=text;head.append(c)}const body=table.createTBody();for(const [key,value]of Object.entries(lastResult.conditions))rowFor(body,[t(key==='insertion'?'insertionOnly':key),value.utterances,percent(value.draft_cer),percent(value.cer)]);more.append(table);
+    const details=document.createElement('details'),summary=document.createElement('summary'),pre=document.createElement('pre');summary.textContent=t('details');pre.textContent=JSON.stringify(lastResult,null,2);details.append(summary,pre);more.append(details);
   }
-  function render(){document.documentElement.lang=language;for(const [node,original]of originals)node.textContent=language==='en'?english[node.dataset.t]||original:original;$('language').textContent=language==='ko'?'English':'한국어';$('language').setAttribute('aria-label',language==='ko'?'Switch to English':'한국어로 전환');$('publicStatus').textContent=publicError||t(publicState);$('privateStatus').textContent=t(privateState);$('headerPrivateState').textContent=t(privateState==='privateOpen'?'privateSummaryOpen':'privateSummaryClosed');for(const audio of document.querySelectorAll('[data-audio-kind]'))audio.setAttribute('aria-label',t(audio.dataset.audioKind==='repair'?'exampleRepair':'examplePreserve'));renderData();renderBenchmarks();renderResult()}
+  function render(){document.documentElement.lang=language;for(const [node,original]of originals)node.textContent=language==='en'?english[node.dataset.t]||original:original;$('language').textContent=language==='ko'?'English':'한국어';$('language').setAttribute('aria-label',language==='ko'?'Switch to English':'한국어로 전환');$('publicStatus').textContent=publicError||t(publicState);$('privateStatus').textContent=t(privateState);$('privateLive').hidden=privateState!=='privateOpen';for(const audio of document.querySelectorAll('[data-audio-kind]'))audio.setAttribute('aria-label',t(audio.dataset.audioKind==='repair'?'exampleRepair':'examplePreserve'));renderData();renderBenchmarks();renderResult();renderQuizzes()}
   $('language').onclick=()=>{language=language==='ko'?'en':'ko';try{localStorage.setItem('tye-v2-language',language)}catch(e){}render()};$('benchmarkSplit').onchange=renderBenchmarks;
   function scorePublic(file){return new Promise((resolve,reject)=>{let url='public-eval-worker-v2.js',owned=false;if(window.TYE_V2_EMBEDDED){url=URL.createObjectURL(new Blob([window.TYE_V2_EMBEDDED.scorer+'\n'+window.TYE_V2_EMBEDDED.scorer_v2+'\n'+window.TYE_V2_EMBEDDED.worker],{type:'text/javascript'}));owned=true}const worker=new Worker(url);const close=()=>{clearTimeout(timer);worker.terminate();if(owned)URL.revokeObjectURL(url)};const timer=setTimeout(()=>{close();reject(new Error(t('failure')))},60000);worker.onmessage=({data})=>{close();data.error?reject(new Error(data.error)):resolve(data.result)};worker.onerror=()=>{close();reject(new Error(t('failure')))};file.arrayBuffer().then(csv=>worker.postMessage({csv,manifest},[csv])).catch(e=>{close();reject(e)})})}
   $('publicFile').onchange=()=>{lastResult=null;publicError='';publicState=manifest?'ready':'loading';render()};
-  $('publicScore').onclick=async()=>{if(busy)return;lastResult=null;const file=$('publicFile').files[0];if(!file){publicError=t('chooseFile');render();return}if(file.size>2*1024*1024){publicError=t('tooLarge');render();return}busy=true;publicState='scoring';publicError='';$('publicScore').disabled=true;$('publicFile').disabled=true;render();try{lastResult=await scorePublic(file);publicState='scored';$('saveScores').disabled=false}catch(e){publicError=e.message}finally{busy=false;$('publicScore').disabled=false;$('publicFile').disabled=false;render()}};
+  async function evaluateFile(file,kind){if(busy)return;lastResult=null;if(!file){publicError=t('chooseFile');render();return}if(file.size>2*1024*1024){publicError=t('tooLarge');render();return}busy=true;resultKind=kind;publicState='scoring';publicError='';for(const id of ['publicScore','publicFile','demoScore'])$(id).disabled=true;render();try{lastResult=await scorePublic(file);publicState='scored'}catch(e){publicError=e.message}finally{busy=false;for(const id of ['publicScore','publicFile','demoScore'])$(id).disabled=false;render()}}
+  $('publicScore').onclick=()=>evaluateFile($('publicFile').files[0],'local');
+  $('demoScore').onclick=async()=>{if(busy||!manifest)return;busy=true;lastResult=null;for(const id of ['publicScore','publicFile','demoScore'])$(id).disabled=true;publicState='demoLoading';publicError='';render();let blob;try{if(window.TYE_V2_EMBEDDED?.copy_csv){const raw=atob(window.TYE_V2_EMBEDDED.copy_csv);blob=new Blob([Uint8Array.from(raw,c=>c.charCodeAt(0))],{type:'text/csv'})}else{const response=await fetch('data-v2/eval-copy.csv');if(!response.ok)throw new Error(t('loadFailed'));blob=await response.blob()}}catch(e){publicError=e.message}finally{busy=false;for(const id of ['publicScore','publicFile','demoScore'])$(id).disabled=false}if(blob)await evaluateFile(blob,'demo');else render()};
+  function renderQuizzes(){for(const quiz of document.querySelectorAll('[data-quiz]')){const choice=quiz.dataset.selected;for(const button of quiz.querySelectorAll('[data-choice]'))button.setAttribute('aria-pressed',String(button.dataset.choice===choice));if(!choice)continue;const correct=choice===(quiz.dataset.quiz==='repair'?'edit':'keep');quiz.querySelector('output').textContent=t(quiz.dataset.quiz==='repair'?(correct?'quizRepairCorrect':'quizRepairWrong'):(correct?'quizKeepCorrect':'quizKeepWrong'))}}
+  for(const quiz of document.querySelectorAll('[data-quiz]'))for(const button of quiz.querySelectorAll('[data-choice]'))button.onclick=()=>{quiz.dataset.selected=button.dataset.choice;renderQuizzes()};
   $('saveScores').onclick=()=>{if(!lastResult)return;const url=URL.createObjectURL(new Blob([JSON.stringify(lastResult,null,2)+'\n'],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='tye-ko-asr-v2-public-eval.scores.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
   const config=window.CHALLENGE_CONFIG_V2||{},apiBase=(config.apiBase||'').replace(/\/$/,'');
   async function privateHealth(){const response=await fetch(apiBase+'/api/health');if(!response.ok)throw new Error(t('privateClosed'));const value=await response.json();if(value.mode!=='evaluation'||value.dataset!==(config.expectedDataset||'tye-ko-asr-v2-test')||value.scorer!=='ko-correction-v2'||value.primary_metric!=='micro_cer'||value.samples!==1750||value.dataset_version!==metadata.splits.test.references_sha256.slice(0,12))throw new Error(t('privateMismatch'));return value}
@@ -119,5 +177,5 @@
   async function read(name){if(window.TYE_V2_EMBEDDED)return window.TYE_V2_EMBEDDED[name];const file={manifest:'eval.json',metadata:'metadata.json',baselines:'baselines.json'}[name];const response=await fetch('data-v2/'+file);if(!response.ok)throw new Error(t('loadFailed'));return response.json()}
   const oldHashes={'#home':'#overview','#challenge':'#overview','#leaderboard':'#baselines','#workshop':'#method'};
   if(oldHashes[location.hash]){history.replaceState(null,'',location.pathname+location.search+oldHashes[location.hash]);document.querySelector(location.hash)?.scrollIntoView()}
-  render();Promise.all([read('manifest'),read('metadata'),read('baselines')]).then(async values=>{[manifest,metadata,baselines]=values;if(manifest.protocol!=='ko-correction-v2'||manifest.items.length!==409||metadata.name!=='tye-ko-asr-v2'||baselines.protocol!=='ko-correction-v2')throw new Error(t('loadFailed'));publicState='ready';$('publicScore').disabled=false;if(window.TYE_V2_EMBEDDED?.copy_csv)for(const a of document.querySelectorAll('[data-copy-link]'))a.href='data:text/csv;base64,'+window.TYE_V2_EMBEDDED.copy_csv;render();if(apiBase){try{const health=await privateHealth();privateState=health.submission_open?'privateOpen':'privateClosed';if(health.submission_open)for(const id of ['teamKey','privateFile','privateSubmit'])$(id).disabled=false;await leaderboard()}catch(e){privateState=e.message===t('privateMismatch')?'privateMismatch':'privateClosed'}render()}}).catch(()=>{publicState='loadFailed';render()});
+  render();Promise.all([read('manifest'),read('metadata'),read('baselines')]).then(async values=>{[manifest,metadata,baselines]=values;if(manifest.protocol!=='ko-correction-v2'||manifest.items.length!==409||metadata.name!=='tye-ko-asr-v2'||baselines.protocol!=='ko-correction-v2')throw new Error(t('loadFailed'));publicState='ready';$('publicScore').disabled=false;$('demoScore').disabled=false;if(window.TYE_V2_EMBEDDED?.copy_csv)for(const a of document.querySelectorAll('[data-copy-link]'))a.href='data:text/csv;base64,'+window.TYE_V2_EMBEDDED.copy_csv;render();if(apiBase){try{const health=await privateHealth();privateState=health.submission_open?'privateOpen':'privateClosed';if(health.submission_open)for(const id of ['teamKey','privateFile','privateSubmit'])$(id).disabled=false;await leaderboard()}catch(e){privateState=e.message===t('privateMismatch')?'privateMismatch':'privateClosed'}render()}}).catch(()=>{publicState='loadFailed';render()});
 })();

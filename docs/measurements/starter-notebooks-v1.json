@@ -1,0 +1,1386 @@
+{
+  "notebooks": [
+    {
+      "notebook": "notebooks/01_train_baseline.ipynb",
+      "sha256": "a7f2336bde91e67f7f8543915bae3176ecbda69653d75d7b627615ddd08f9b7e",
+      "status": "passed"
+    },
+    {
+      "notebook": "notebooks/02_evaluate.ipynb",
+      "sha256": "83b6397f63b106904637edc4053c921d11c00ef1a8a93f4c11b9dc8cfa485a79",
+      "status": "passed"
+    }
+  ],
+  "elapsed_seconds": 0.92,
+  "training_rows": 472,
+  "eval_rows": 409,
+  "model": {
+    "format": "tye-token-starter-v1",
+    "training_split": "train",
+    "training_rows": 472,
+    "training_sha256": "4f2560d32200bb9aea14a999c05733a7ac52f4edd722dea27ec21dd7e7759e90",
+    "min_support": 1,
+    "min_confidence": 0.9,
+    "rules": {
+      "2천": {
+        "replacement": "이천",
+        "support": 1,
+        "exposure": 1
+      },
+      "3위에": {
+        "replacement": "위에",
+        "support": 1,
+        "exposure": 1
+      },
+      "7천": {
+        "replacement": "칠천",
+        "support": 1,
+        "exposure": 1
+      },
+      "가격의": {
+        "replacement": "가격에",
+        "support": 1,
+        "exposure": 1
+      },
+      "갈등의": {
+        "replacement": "갈등에",
+        "support": 1,
+        "exposure": 1
+      },
+      "개가": {
+        "replacement": "만개가",
+        "support": 1,
+        "exposure": 1
+      },
+      "건강하시기를": {
+        "replacement": "건강하시길",
+        "support": 1,
+        "exposure": 1
+      },
+      "것들을": {
+        "replacement": "것을",
+        "support": 1,
+        "exposure": 1
+      },
+      "결론으로": {
+        "replacement": "결론적으로",
+        "support": 1,
+        "exposure": 1
+      },
+      "겹치면서": {
+        "replacement": "겹치면선",
+        "support": 1,
+        "exposure": 1
+      },
+      "경제의": {
+        "replacement": "경제에",
+        "support": 1,
+        "exposure": 1
+      },
+      "계정에서": {
+        "replacement": "계정에도",
+        "support": 1,
+        "exposure": 1
+      },
+      "고노무현": {
+        "replacement": "노무현",
+        "support": 1,
+        "exposure": 1
+      },
+      "관계사는": {
+        "replacement": "관계자는",
+        "support": 1,
+        "exposure": 1
+      },
+      "구이역": {
+        "replacement": "구의역",
+        "support": 1,
+        "exposure": 1
+      },
+      "구치소의": {
+        "replacement": "구치소에",
+        "support": 1,
+        "exposure": 1
+      },
+      "국가": {
+        "replacement": "개국가",
+        "support": 1,
+        "exposure": 1
+      },
+      "권내연": {
+        "replacement": "권내현",
+        "support": 1,
+        "exposure": 1
+      },
+      "권리하고": {
+        "replacement": "하고",
+        "support": 1,
+        "exposure": 1
+      },
+      "권한대행은": {
+        "replacement": "권한대항은",
+        "support": 1,
+        "exposure": 1
+      },
+      "규정을": {
+        "replacement": "작업규정을",
+        "support": 1,
+        "exposure": 1
+      },
+      "그것을": {
+        "replacement": "그곳을",
+        "support": 1,
+        "exposure": 1
+      },
+      "기가": {
+        "replacement": "들기가",
+        "support": 1,
+        "exposure": 1
+      },
+      "기도하시십시오": {
+        "replacement": "기도하십시오",
+        "support": 1,
+        "exposure": 1
+      },
+      "김승현": {
+        "replacement": "김승연",
+        "support": 1,
+        "exposure": 1
+      },
+      "김영환": {
+        "replacement": "김영한",
+        "support": 1,
+        "exposure": 1
+      },
+      "김정은을": {
+        "replacement": "김정은의",
+        "support": 1,
+        "exposure": 1
+      },
+      "난루한": {
+        "replacement": "남루한",
+        "support": 1,
+        "exposure": 1
+      },
+      "날개짓을": {
+        "replacement": "날갯짓을",
+        "support": 1,
+        "exposure": 1
+      },
+      "노출": {
+        "replacement": "누출",
+        "support": 1,
+        "exposure": 1
+      },
+      "뉴욕타임시는": {
+        "replacement": "뉴욕타임스는",
+        "support": 1,
+        "exposure": 1
+      },
+      "다니엘": {
+        "replacement": "대니엘",
+        "support": 1,
+        "exposure": 1
+      },
+      "다마문을": {
+        "replacement": "담화문을",
+        "support": 1,
+        "exposure": 1
+      },
+      "단상에": {
+        "replacement": "단상을",
+        "support": 1,
+        "exposure": 1
+      },
+      "닿습니다": {
+        "replacement": "닿았습니다",
+        "support": 1,
+        "exposure": 1
+      },
+      "대부분은": {
+        "replacement": "대부분",
+        "support": 1,
+        "exposure": 1
+      },
+      "대소": {
+        "replacement": "개소",
+        "support": 1,
+        "exposure": 1
+      },
+      "독승자를": {
+        "replacement": "독생자를",
+        "support": 1,
+        "exposure": 1
+      },
+      "동식물에": {
+        "replacement": "동식물의",
+        "support": 1,
+        "exposure": 1
+      },
+      "되냐는": {
+        "replacement": "됐냐는",
+        "support": 1,
+        "exposure": 1
+      },
+      "뒤에": {
+        "replacement": "뒤엔",
+        "support": 1,
+        "exposure": 1
+      },
+      "들었구요": {
+        "replacement": "들었고요",
+        "support": 1,
+        "exposure": 1
+      },
+      "라운드에서": {
+        "replacement": "라운드서",
+        "support": 1,
+        "exposure": 1
+      },
+      "랜덤채팅": {
+        "replacement": "랜덤",
+        "support": 1,
+        "exposure": 1
+      },
+      "러제프": {
+        "replacement": "레제프",
+        "support": 1,
+        "exposure": 1
+      },
+      "레이트캡의": {
+        "replacement": "레이트켑의",
+        "support": 1,
+        "exposure": 1
+      },
+      "로버트": {
+        "replacement": "로바트",
+        "support": 1,
+        "exposure": 1
+      },
+      "로산파가": {
+        "replacement": "롯삼파가",
+        "support": 1,
+        "exposure": 1
+      },
+      "리프트": {
+        "replacement": "리포트",
+        "support": 1,
+        "exposure": 1
+      },
+      "마리나": {
+        "replacement": "만마리나",
+        "support": 1,
+        "exposure": 1
+      },
+      "막거나": {
+        "replacement": "맞거나",
+        "support": 1,
+        "exposure": 1
+      },
+      "물리지": {
+        "replacement": "몰리지",
+        "support": 1,
+        "exposure": 1
+      },
+      "민중이": {
+        "replacement": "민중도",
+        "support": 1,
+        "exposure": 1
+      },
+      "바램인들에게": {
+        "replacement": "발행인들에게",
+        "support": 1,
+        "exposure": 1
+      },
+      "박문진": {
+        "replacement": "방문진",
+        "support": 1,
+        "exposure": 1
+      },
+      "박재환": {
+        "replacement": "박재완",
+        "support": 1,
+        "exposure": 1
+      },
+      "박종원": {
+        "replacement": "박종훈",
+        "support": 1,
+        "exposure": 1
+      },
+      "반대하는": {
+        "replacement": "반대한다는",
+        "support": 1,
+        "exposure": 1
+      },
+      "반영된다": {
+        "replacement": "방영된다",
+        "support": 1,
+        "exposure": 1
+      },
+      "방복하기도": {
+        "replacement": "방북하기도",
+        "support": 1,
+        "exposure": 1
+      },
+      "방치되어": {
+        "replacement": "방치돼",
+        "support": 1,
+        "exposure": 1
+      },
+      "배달에": {
+        "replacement": "배달해",
+        "support": 1,
+        "exposure": 1
+      },
+      "배치된": {
+        "replacement": "배치되는",
+        "support": 1,
+        "exposure": 1
+      },
+      "법임을": {
+        "replacement": "법임은",
+        "support": 1,
+        "exposure": 1
+      },
+      "벤쿠버에서": {
+        "replacement": "밴쿠버에서",
+        "support": 1,
+        "exposure": 1
+      },
+      "변향하고": {
+        "replacement": "겨냥하고",
+        "support": 1,
+        "exposure": 1
+      },
+      "별들을": {
+        "replacement": "벌들을",
+        "support": 1,
+        "exposure": 1
+      },
+      "보수안도": {
+        "replacement": "보수한도",
+        "support": 1,
+        "exposure": 1
+      },
+      "본회의의": {
+        "replacement": "본회의에",
+        "support": 1,
+        "exposure": 1
+      },
+      "부분과": {
+        "replacement": "부문과",
+        "support": 1,
+        "exposure": 1
+      },
+      "부하": {
+        "replacement": "부화",
+        "support": 1,
+        "exposure": 1
+      },
+      "분당의": {
+        "replacement": "분당",
+        "support": 1,
+        "exposure": 1
+      },
+      "불렀던": {
+        "replacement": "불렸던",
+        "support": 1,
+        "exposure": 1
+      },
+      "비판함": {
+        "replacement": "비판한",
+        "support": 1,
+        "exposure": 1
+      },
+      "사망사고는": {
+        "replacement": "사망",
+        "support": 1,
+        "exposure": 1
+      },
+      "사먹는다든지": {
+        "replacement": "사먹는다던지",
+        "support": 1,
+        "exposure": 1
+      },
+      "사면이나": {
+        "replacement": "서면이나",
+        "support": 1,
+        "exposure": 1
+      },
+      "사백": {
+        "replacement": "삼백",
+        "support": 1,
+        "exposure": 1
+      },
+      "사이를": {
+        "replacement": "사의를",
+        "support": 1,
+        "exposure": 1
+      },
+      "사이에": {
+        "replacement": "사이의",
+        "support": 1,
+        "exposure": 1
+      },
+      "사진입니다": {
+        "replacement": "사진",
+        "support": 1,
+        "exposure": 1
+      },
+      "사찰에": {
+        "replacement": "사찰의",
+        "support": 1,
+        "exposure": 1
+      },
+      "상미산": {
+        "replacement": "성미산",
+        "support": 1,
+        "exposure": 1
+      },
+      "상임고문이라는": {
+        "replacement": "상임고문이란",
+        "support": 1,
+        "exposure": 1
+      },
+      "상정에": {
+        "replacement": "상정해",
+        "support": 1,
+        "exposure": 1
+      },
+      "서비자와": {
+        "replacement": "소비자와",
+        "support": 1,
+        "exposure": 1
+      },
+      "서서일하는": {
+        "replacement": "서서",
+        "support": 1,
+        "exposure": 1
+      },
+      "선동에": {
+        "replacement": "선동해",
+        "support": 1,
+        "exposure": 1
+      },
+      "선수들": {
+        "replacement": "선수",
+        "support": 1,
+        "exposure": 1
+      },
+      "설계되었습니다": {
+        "replacement": "설계됐습니다",
+        "support": 1,
+        "exposure": 1
+      },
+      "성경이": {
+        "replacement": "성격이",
+        "support": 1,
+        "exposure": 1
+      },
+      "성장률을": {
+        "replacement": "성장률",
+        "support": 1,
+        "exposure": 1
+      },
+      "성한종": {
+        "replacement": "성완종",
+        "support": 1,
+        "exposure": 1
+      },
+      "세겨져": {
+        "replacement": "새겨져",
+        "support": 1,
+        "exposure": 1
+      },
+      "세월로": {
+        "replacement": "세월호",
+        "support": 1,
+        "exposure": 1
+      },
+      "세정치안합": {
+        "replacement": "새정치연합",
+        "support": 1,
+        "exposure": 1
+      },
+      "소나타의": {
+        "replacement": "쏘나타의",
+        "support": 1,
+        "exposure": 1
+      },
+      "수영사": {
+        "replacement": "수영",
+        "support": 1,
+        "exposure": 1
+      },
+      "숲에서": {
+        "replacement": "숲에",
+        "support": 1,
+        "exposure": 1
+      },
+      "습쓸해했다": {
+        "replacement": "씁쓸해했다",
+        "support": 1,
+        "exposure": 1
+      },
+      "아는식처가": {
+        "replacement": "안식처가",
+        "support": 1,
+        "exposure": 1
+      },
+      "아니냐며": {
+        "replacement": "아니냐라며",
+        "support": 1,
+        "exposure": 1
+      },
+      "언론이": {
+        "replacement": "언론의",
+        "support": 1,
+        "exposure": 1
+      },
+      "언젠가": {
+        "replacement": "언제가",
+        "support": 1,
+        "exposure": 1
+      },
+      "업계에": {
+        "replacement": "자동차업계에",
+        "support": 1,
+        "exposure": 1
+      },
+      "엑소스와": {
+        "replacement": "에쿠스와",
+        "support": 1,
+        "exposure": 1
+      },
+      "엘니어로": {
+        "replacement": "엘니뇨로",
+        "support": 1,
+        "exposure": 1
+      },
+      "여유가": {
+        "replacement": "연유가",
+        "support": 1,
+        "exposure": 1
+      },
+      "여화의": {
+        "replacement": "여호와의",
+        "support": 1,
+        "exposure": 1
+      },
+      "역사장": {
+        "replacement": "역사상",
+        "support": 1,
+        "exposure": 1
+      },
+      "역을": {
+        "replacement": "역할을",
+        "support": 1,
+        "exposure": 1
+      },
+      "연한": {
+        "replacement": "연안",
+        "support": 1,
+        "exposure": 1
+      },
+      "오십만": {
+        "replacement": "오십",
+        "support": 1,
+        "exposure": 1
+      },
+      "오픈에": {
+        "replacement": "오픈해",
+        "support": 1,
+        "exposure": 1
+      },
+      "올마트의": {
+        "replacement": "월마트의",
+        "support": 1,
+        "exposure": 1
+      },
+      "옹호의": {
+        "replacement": "옹호해",
+        "support": 1,
+        "exposure": 1
+      },
+      "와이즐넷": {
+        "replacement": "와이즐렉",
+        "support": 1,
+        "exposure": 1
+      },
+      "왕자는": {
+        "replacement": "왕좌는",
+        "support": 1,
+        "exposure": 1
+      },
+      "외측": {
+        "replacement": "예측",
+        "support": 1,
+        "exposure": 1
+      },
+      "요인하겠다면": {
+        "replacement": "용인하겠다며",
+        "support": 1,
+        "exposure": 1
+      },
+      "우리반도": {
+        "replacement": "반도",
+        "support": 1,
+        "exposure": 1
+      },
+      "우병호": {
+        "replacement": "우병우",
+        "support": 1,
+        "exposure": 1
+      },
+      "울빼미를": {
+        "replacement": "올빼미를",
+        "support": 1,
+        "exposure": 1
+      },
+      "원쯤": {
+        "replacement": "만원쯤",
+        "support": 1,
+        "exposure": 1
+      },
+      "월남만": {
+        "replacement": "월남한",
+        "support": 1,
+        "exposure": 1
+      },
+      "위대를": {
+        "replacement": "위자료를",
+        "support": 1,
+        "exposure": 1
+      },
+      "위원은": {
+        "replacement": "의원은",
+        "support": 1,
+        "exposure": 1
+      },
+      "유시스와": {
+        "replacement": "뉴시스와",
+        "support": 1,
+        "exposure": 1
+      },
+      "유언비열을": {
+        "replacement": "유언비어를",
+        "support": 1,
+        "exposure": 1
+      },
+      "유진용": {
+        "replacement": "유진룡",
+        "support": 1,
+        "exposure": 1
+      },
+      "의매했다는": {
+        "replacement": "음해했다는",
+        "support": 1,
+        "exposure": 1
+      },
+      "이루어지는": {
+        "replacement": "이뤄지는",
+        "support": 1,
+        "exposure": 1
+      },
+      "이루어진": {
+        "replacement": "이뤄진",
+        "support": 1,
+        "exposure": 1
+      },
+      "이사장은": {
+        "replacement": "이사장도",
+        "support": 1,
+        "exposure": 1
+      },
+      "이야기다": {
+        "replacement": "얘기다",
+        "support": 1,
+        "exposure": 1
+      },
+      "이야기인지": {
+        "replacement": "얘기인지",
+        "support": 1,
+        "exposure": 1
+      },
+      "이전의": {
+        "replacement": "이전에",
+        "support": 1,
+        "exposure": 1
+      },
+      "이천만": {
+        "replacement": "이천",
+        "support": 1,
+        "exposure": 1
+      },
+      "이현구": {
+        "replacement": "이완구",
+        "support": 1,
+        "exposure": 1
+      },
+      "인간": {
+        "replacement": "인근",
+        "support": 1,
+        "exposure": 1
+      },
+      "인과": {
+        "replacement": "힘과",
+        "support": 1,
+        "exposure": 1
+      },
+      "인권신장의": {
+        "replacement": "인권신장에",
+        "support": 1,
+        "exposure": 1
+      },
+      "일별": {
+        "replacement": "일베",
+        "support": 1,
+        "exposure": 1
+      },
+      "임펠라는": {
+        "replacement": "임팔라는",
+        "support": 1,
+        "exposure": 1
+      },
+      "있을까": {
+        "replacement": "있습니까",
+        "support": 1,
+        "exposure": 1
+      },
+      "장동연": {
+        "replacement": "장동련",
+        "support": 1,
+        "exposure": 1
+      },
+      "장재원": {
+        "replacement": "장제원",
+        "support": 1,
+        "exposure": 1
+      },
+      "저우용칭": {
+        "replacement": "저우융캉",
+        "support": 1,
+        "exposure": 1
+      },
+      "전개에서": {
+        "replacement": "정계에서",
+        "support": 1,
+        "exposure": 1
+      },
+      "전라도민을": {
+        "replacement": "전라도민들을",
+        "support": 1,
+        "exposure": 1
+      },
+      "전환": {
+        "replacement": "전원",
+        "support": 1,
+        "exposure": 1
+      },
+      "절게": {
+        "replacement": "젊게",
+        "support": 1,
+        "exposure": 1
+      },
+      "정관영": {
+        "replacement": "정관용",
+        "support": 1,
+        "exposure": 1
+      },
+      "정류라를": {
+        "replacement": "정유라를",
+        "support": 1,
+        "exposure": 1
+      },
+      "정리가": {
+        "replacement": "총리가",
+        "support": 1,
+        "exposure": 1
+      },
+      "정성우": {
+        "replacement": "정성호",
+        "support": 1,
+        "exposure": 1
+      },
+      "정자연": {
+        "replacement": "장자연",
+        "support": 1,
+        "exposure": 1
+      },
+      "정찰과": {
+        "replacement": "경찰과",
+        "support": 1,
+        "exposure": 1
+      },
+      "제곱킬로미터": {
+        "replacement": "제곱키로미터",
+        "support": 1,
+        "exposure": 1
+      },
+      "제수자들은": {
+        "replacement": "재소자들은",
+        "support": 1,
+        "exposure": 1
+      },
+      "졸린": {
+        "replacement": "졸인",
+        "support": 1,
+        "exposure": 1
+      },
+      "좋게": {
+        "replacement": "좁게",
+        "support": 1,
+        "exposure": 1
+      },
+      "지위": {
+        "replacement": "지의",
+        "support": 1,
+        "exposure": 1
+      },
+      "지필": {
+        "replacement": "집필",
+        "support": 1,
+        "exposure": 1
+      },
+      "지필진에": {
+        "replacement": "집필진에",
+        "support": 1,
+        "exposure": 1
+      },
+      "직업훈련": {
+        "replacement": "직업훈련학교로",
+        "support": 1,
+        "exposure": 1
+      },
+      "진행되어": {
+        "replacement": "진행돼",
+        "support": 1,
+        "exposure": 1
+      },
+      "짐바브의": {
+        "replacement": "짐바브웨",
+        "support": 1,
+        "exposure": 1
+      },
+      "참가를": {
+        "replacement": "우남찬가를",
+        "support": 1,
+        "exposure": 1
+      },
+      "채태원": {
+        "replacement": "최태원",
+        "support": 1,
+        "exposure": 1
+      },
+      "채포": {
+        "replacement": "체포",
+        "support": 1,
+        "exposure": 1
+      },
+      "청정한": {
+        "replacement": "청정원",
+        "support": 1,
+        "exposure": 1
+      },
+      "초까지는": {
+        "replacement": "초까지",
+        "support": 1,
+        "exposure": 1
+      },
+      "총무부부장이": {
+        "replacement": "총무본부장이",
+        "support": 1,
+        "exposure": 1
+      },
+      "촬영했다고": {
+        "replacement": "촬영했다라고",
+        "support": 1,
+        "exposure": 1
+      },
+      "최저임금에": {
+        "replacement": "최저임금의",
+        "support": 1,
+        "exposure": 1
+      },
+      "춘천시": {
+        "replacement": "춘천시의",
+        "support": 1,
+        "exposure": 1
+      },
+      "취재진의": {
+        "replacement": "취재진에",
+        "support": 1,
+        "exposure": 1
+      },
+      "친구를": {
+        "replacement": "친구들",
+        "support": 1,
+        "exposure": 1
+      },
+      "토트넘의": {
+        "replacement": "토트넘에",
+        "support": 1,
+        "exposure": 1
+      },
+      "통장": {
+        "replacement": "마이너스통장",
+        "support": 1,
+        "exposure": 1
+      },
+      "퇴장을": {
+        "replacement": "퇴정을",
+        "support": 1,
+        "exposure": 1
+      },
+      "특검부": {
+        "replacement": "특검보",
+        "support": 1,
+        "exposure": 1
+      },
+      "특별법상의": {
+        "replacement": "특별법상에",
+        "support": 1,
+        "exposure": 1
+      },
+      "팰리스의": {
+        "replacement": "팰리스에",
+        "support": 1,
+        "exposure": 1
+      },
+      "퍼트렸다고": {
+        "replacement": "퍼뜨렸다고",
+        "support": 1,
+        "exposure": 1
+      },
+      "폐열증이었다": {
+        "replacement": "패혈증이었다",
+        "support": 1,
+        "exposure": 1
+      },
+      "포대에": {
+        "replacement": "포대의",
+        "support": 1,
+        "exposure": 1
+      },
+      "포로로": {
+        "replacement": "뽀로로",
+        "support": 1,
+        "exposure": 1
+      },
+      "포스터에": {
+        "replacement": "포스터는",
+        "support": 1,
+        "exposure": 1
+      },
+      "포인트만": {
+        "replacement": "퍼센트포인트만",
+        "support": 1,
+        "exposure": 1
+      },
+      "표현된": {
+        "replacement": "표명된",
+        "support": 1,
+        "exposure": 1
+      },
+      "피해자도": {
+        "replacement": "피해도",
+        "support": 1,
+        "exposure": 1
+      },
+      "하나님을": {
+        "replacement": "하느님을",
+        "support": 1,
+        "exposure": 1
+      },
+      "하는지": {
+        "replacement": "하는지를",
+        "support": 1,
+        "exposure": 1
+      },
+      "하였는데": {
+        "replacement": "하셨는데",
+        "support": 1,
+        "exposure": 1
+      },
+      "학도함": {
+        "replacement": "학도암",
+        "support": 1,
+        "exposure": 1
+      },
+      "한진혜운의": {
+        "replacement": "한진해운의",
+        "support": 1,
+        "exposure": 1
+      },
+      "한진혜운홀딩스를": {
+        "replacement": "한진해운홀딩스를",
+        "support": 1,
+        "exposure": 1
+      },
+      "해럴드경제": {
+        "replacement": "헤럴드경제",
+        "support": 1,
+        "exposure": 1
+      },
+      "해원": {
+        "replacement": "혜원",
+        "support": 1,
+        "exposure": 1
+      },
+      "헤럴드": {
+        "replacement": "해럴드",
+        "support": 1,
+        "exposure": 1
+      },
+      "협상의": {
+        "replacement": "협상에",
+        "support": 1,
+        "exposure": 1
+      },
+      "호문이다": {
+        "replacement": "후문이다",
+        "support": 1,
+        "exposure": 1
+      },
+      "호안미술관": {
+        "replacement": "호암미술관",
+        "support": 1,
+        "exposure": 1
+      },
+      "홍승이도": {
+        "replacement": "홍승희도",
+        "support": 1,
+        "exposure": 1
+      },
+      "홍중표": {
+        "replacement": "홍준표",
+        "support": 1,
+        "exposure": 1
+      },
+      "확인되었다": {
+        "replacement": "확인됐다",
+        "support": 1,
+        "exposure": 1
+      },
+      "환경": {
+        "replacement": "사무환경",
+        "support": 1,
+        "exposure": 1
+      },
+      "황해를": {
+        "replacement": "항해를",
+        "support": 1,
+        "exposure": 1
+      },
+      "황해하도록": {
+        "replacement": "항해하도록",
+        "support": 1,
+        "exposure": 1
+      }
+    }
+  },
+  "eval_scores": {
+    "scorer": "ko-correction-v2",
+    "primary_metric": "micro_cer",
+    "micro_cer": 11.843928393282713,
+    "micro_wer": 29.613047649504317,
+    "macro_cer": 12.788093113049126,
+    "draft_macro_cer": 12.705294527000069,
+    "cer_improvement_pp": -0.07759241811228731,
+    "slot_restoration_rate": 0.13726835964310227,
+    "restored_slots": 2,
+    "error_slot_total": 1457,
+    "changed_slots": 23,
+    "correction_precision": 8.695652173913043,
+    "correction_f1": 0.2702702702702703,
+    "harmful_edit_rate": 0.07791896427715177,
+    "harmed": 13,
+    "preserved_total": 16684,
+    "unwanted_insertion_rate": 0.016345210853220007,
+    "inserted_clean_gaps": 3,
+    "clean_gap_total": 18354,
+    "clean_change_rate": 3.816793893129771,
+    "clean_changed": 5,
+    "clean_total": 131,
+    "draft_micro_cer": 11.766335975170426,
+    "worst_cer": 25.067423704755146,
+    "conditions": {
+      "clean": {
+        "errors": 6,
+        "draft_errors": 0,
+        "characters": 5119,
+        "word_errors": 153,
+        "words": 1717,
+        "utterances": 131,
+        "cer_sum": 16.968846925743478,
+        "draft_cer_sum": 0.0,
+        "restored_slots": 0,
+        "error_slot_total": 0,
+        "changed_slots": 6,
+        "harmed": 6,
+        "preserved_total": 5119,
+        "inserted_clean_gaps": 0,
+        "clean_gap_total": 5250,
+        "clean_changed": 5,
+        "clean_total": 131,
+        "substitutions": 4,
+        "deletions": 2,
+        "insertions": 0,
+        "draft_substitutions": 0,
+        "draft_deletions": 0,
+        "draft_insertions": 0,
+        "cer": 0.11721039265481539,
+        "draft_cer": 0.0,
+        "macro_cer": 0.1295331826392632,
+        "draft_macro_cer": 0.0,
+        "cer_improvement_pp": -0.11721039265481539,
+        "wer": 8.910891089108912,
+        "slot_restoration_rate": null,
+        "correction_precision": 0.0,
+        "correction_f1": 0.0,
+        "harmful_edit_rate": 0.11721039265481539,
+        "unwanted_insertion_rate": 0.0,
+        "clean_change_rate": 3.816793893129771
+      },
+      "substitution": {
+        "errors": 343,
+        "draft_errors": 343,
+        "characters": 5473,
+        "word_errors": 480,
+        "words": 1874,
+        "utterances": 122,
+        "cer_sum": 781.562849203422,
+        "draft_cer_sum": 781.562849203422,
+        "restored_slots": 0,
+        "error_slot_total": 343,
+        "changed_slots": 0,
+        "harmed": 0,
+        "preserved_total": 5130,
+        "inserted_clean_gaps": 0,
+        "clean_gap_total": 5595,
+        "clean_changed": 0,
+        "clean_total": 0,
+        "substitutions": 343,
+        "deletions": 0,
+        "insertions": 0,
+        "draft_substitutions": 343,
+        "draft_deletions": 0,
+        "draft_insertions": 0,
+        "cer": 6.267129545039284,
+        "draft_cer": 6.267129545039284,
+        "macro_cer": 6.406252862323131,
+        "draft_macro_cer": 6.406252862323131,
+        "cer_improvement_pp": 0.0,
+        "wer": 25.6136606189968,
+        "slot_restoration_rate": 0.0,
+        "correction_precision": null,
+        "correction_f1": 0.0,
+        "harmful_edit_rate": 0.0,
+        "unwanted_insertion_rate": 0.0,
+        "clean_change_rate": null
+      },
+      "deletion": {
+        "errors": 15,
+        "draft_errors": 15,
+        "characters": 235,
+        "word_errors": 23,
+        "words": 85,
+        "utterances": 6,
+        "cer_sum": 40.49521307360054,
+        "draft_cer_sum": 40.49521307360054,
+        "restored_slots": 0,
+        "error_slot_total": 15,
+        "changed_slots": 0,
+        "harmed": 0,
+        "preserved_total": 220,
+        "inserted_clean_gaps": 0,
+        "clean_gap_total": 241,
+        "clean_changed": 0,
+        "clean_total": 0,
+        "substitutions": 0,
+        "deletions": 15,
+        "insertions": 0,
+        "draft_substitutions": 0,
+        "draft_deletions": 15,
+        "draft_insertions": 0,
+        "cer": 6.382978723404255,
+        "draft_cer": 6.382978723404255,
+        "macro_cer": 6.749202178933423,
+        "draft_macro_cer": 6.749202178933423,
+        "cer_improvement_pp": 0.0,
+        "wer": 27.058823529411764,
+        "slot_restoration_rate": 0.0,
+        "correction_precision": null,
+        "correction_f1": 0.0,
+        "harmful_edit_rate": 0.0,
+        "unwanted_insertion_rate": 0.0,
+        "clean_change_rate": null
+      },
+      "insertion": {
+        "errors": 7,
+        "draft_errors": 7,
+        "characters": 171,
+        "word_errors": 10,
+        "words": 55,
+        "utterances": 4,
+        "cer_sum": 17.96606493052408,
+        "draft_cer_sum": 17.96606493052408,
+        "restored_slots": 0,
+        "error_slot_total": 5,
+        "changed_slots": 0,
+        "harmed": 0,
+        "preserved_total": 171,
+        "inserted_clean_gaps": 0,
+        "clean_gap_total": 170,
+        "clean_changed": 0,
+        "clean_total": 0,
+        "substitutions": 0,
+        "deletions": 0,
+        "insertions": 7,
+        "draft_substitutions": 0,
+        "draft_deletions": 0,
+        "draft_insertions": 7,
+        "cer": 4.093567251461988,
+        "draft_cer": 4.093567251461988,
+        "macro_cer": 4.49151623263102,
+        "draft_macro_cer": 4.49151623263102,
+        "cer_improvement_pp": 0.0,
+        "wer": 18.181818181818183,
+        "slot_restoration_rate": 0.0,
+        "correction_precision": null,
+        "correction_f1": 0.0,
+        "harmful_edit_rate": 0.0,
+        "unwanted_insertion_rate": 0.0,
+        "clean_change_rate": null
+      },
+      "mixed": {
+        "errors": 1766,
+        "draft_errors": 1758,
+        "characters": 7045,
+        "word_errors": 1186,
+        "words": 2523,
+        "utterances": 146,
+        "cer_sum": 4373.3371091038025,
+        "draft_cer_sum": 4356.441334335481,
+        "restored_slots": 2,
+        "error_slot_total": 1094,
+        "changed_slots": 17,
+        "harmed": 7,
+        "preserved_total": 6044,
+        "inserted_clean_gaps": 3,
+        "clean_gap_total": 7098,
+        "clean_changed": 0,
+        "clean_total": 0,
+        "substitutions": 758,
+        "deletions": 249,
+        "insertions": 759,
+        "draft_substitutions": 751,
+        "draft_deletions": 250,
+        "draft_insertions": 757,
+        "cer": 25.067423704755146,
+        "draft_cer": 24.95386799148332,
+        "macro_cer": 29.954363760984947,
+        "draft_macro_cer": 29.838639276270417,
+        "cer_improvement_pp": -0.11355571327182398,
+        "wer": 47.00753071739992,
+        "slot_restoration_rate": 0.18281535648994515,
+        "correction_precision": 11.764705882352942,
+        "correction_f1": 0.36003600360036003,
+        "harmful_edit_rate": 0.1158173395102581,
+        "unwanted_insertion_rate": 0.042265426880811495,
+        "clean_change_rate": null
+      }
+    },
+    "sources": {
+      "qwen-omni": {
+        "errors": 1579,
+        "draft_errors": 1570,
+        "characters": 9104,
+        "word_errors": 1110,
+        "words": 3171,
+        "utterances": 204,
+        "cer_sum": 4038.9954715238155,
+        "draft_cer_sum": 4020.4239721178137,
+        "restored_slots": 0,
+        "error_slot_total": 910,
+        "changed_slots": 14,
+        "harmed": 6,
+        "preserved_total": 8258,
+        "inserted_clean_gaps": 3,
+        "clean_gap_total": 9244,
+        "clean_changed": 0,
+        "clean_total": 46,
+        "substitutions": 669,
+        "deletions": 183,
+        "insertions": 727,
+        "draft_substitutions": 661,
+        "draft_deletions": 185,
+        "draft_insertions": 724,
+        "cer": 17.34402460456942,
+        "draft_cer": 17.245166959578206,
+        "macro_cer": 19.798997409430466,
+        "draft_macro_cer": 19.70796064763634,
+        "cer_improvement_pp": -0.09885764499121265,
+        "wer": 35.00473036896878,
+        "slot_restoration_rate": 0.0,
+        "correction_precision": 0.0,
+        "correction_f1": 0.0,
+        "harmful_edit_rate": 0.07265681763138775,
+        "unwanted_insertion_rate": 0.032453483340545215,
+        "clean_change_rate": 0.0
+      },
+      "whisper-turbo": {
+        "errors": 558,
+        "draft_errors": 553,
+        "characters": 8939,
+        "word_errors": 742,
+        "words": 3083,
+        "utterances": 205,
+        "cer_sum": 1191.334611713278,
+        "draft_cer_sum": 1176.0414894252158,
+        "restored_slots": 2,
+        "error_slot_total": 547,
+        "changed_slots": 9,
+        "harmed": 7,
+        "preserved_total": 8426,
+        "inserted_clean_gaps": 0,
+        "clean_gap_total": 9110,
+        "clean_changed": 5,
+        "clean_total": 85,
+        "substitutions": 436,
+        "deletions": 83,
+        "insertions": 39,
+        "draft_substitutions": 433,
+        "draft_deletions": 80,
+        "draft_insertions": 40,
+        "cer": 6.24230898310773,
+        "draft_cer": 6.186374314800314,
+        "macro_cer": 5.811388349820868,
+        "draft_macro_cer": 5.7367877532937355,
+        "cer_improvement_pp": -0.05593466830741694,
+        "wer": 24.067466753162503,
+        "slot_restoration_rate": 0.3656307129798903,
+        "correction_precision": 22.22222222222222,
+        "correction_f1": 0.7194244604316546,
+        "harmful_edit_rate": 0.08307619273676715,
+        "unwanted_insertion_rate": 0.0,
+        "clean_change_rate": 5.882352941176471
+      }
+    },
+    "utterances": 409,
+    "counts": {
+      "errors": 2137,
+      "draft_errors": 2123,
+      "characters": 18043,
+      "substitutions": 1105,
+      "deletions": 266,
+      "insertions": 766,
+      "draft_substitutions": 1094,
+      "draft_deletions": 265,
+      "draft_insertions": 764
+    }
+  },
+  "training_code_sha256": "1cd7624479058389537e823930b5d6242cb2545475359f125995f38a655f54b1",
+  "scorer_sha256": "90150f45667db80091ead79aec642655a119e693f1c47322e539a2daf3221a52",
+  "note": "Train-only text starter, measured on public Eval; separate from the five organizer baseline systems."
+}

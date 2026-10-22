@@ -8,3 +8,6 @@ private-data/
 !.env.example
 *.sqlite3*
 .DS_Store
+
+# Generated participant notebook outputs
+starter-output/

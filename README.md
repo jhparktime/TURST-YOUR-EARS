@@ -4,24 +4,29 @@
 
 음성을 근거로 초안의 오류를 복원하면서 원래 맞던 부분을 보존하는 **Audio-grounded Transcript Correction** 챌린지입니다. 음성과 원천 정답 전사는 바꾸지 않습니다.
 
-**현재 제출 후보: 실제 ASR v2.** Whisper·Qwen의 실제 음성인식 출력을 초안으로 사용합니다.
+**한국어 실제 ASR 오류 교정 챌린지 · v2**
 Train 472개·약 1시간 13분 / 공개 Eval 409개·1시간 / 비공개 Test 1,750개·4시간입니다.
-주 지표는 **Micro CER**이며 누락·삽입을 포함한 오류 복원과 정상 구간 보존을 함께 평가합니다.
-데이터 구축·자동 무결성 검사·웹 공개 채점은 완료했습니다. 독립 청취 검수는 아직입니다.
-Copy·Whisper·Qwen Audio-only·Text-only·Audio+draft의 Eval/Test 측정 10건을 완료했습니다.
-Test Micro CER는 Audio+draft 9.56%, 같은 Qwen의 Audio-only 10.40%, Text-only 15.03%입니다.
-Audio+draft는 초안 복사 7.86%와 Whisper 5.34%보다 높아, 결합만으로 전체 교정 품질이 개선되지는 않았습니다.
+주 지표는 **Micro CER**이며 정상 구간을 얼마나 보존하는지도 함께 보여줍니다.
 
-[챌린지 웹사이트](https://jhparktime.github.io/TURST-YOUR-EARS/) ·
-[참가자 데이터 프리릴리스](https://github.com/jhparktime/TURST-YOUR-EARS/releases/tag/dataset-ko-asr-v2) ·
-[평가 규격과 한계](docs/real-asr-v2.md) · [현재 측정 결과](docs/real-asr-v2-results.md) ·
-[제출 준비 상태](docs/submission-readiness.md)
+[챌린지·웹 채점](https://jhparktime.github.io/TURST-YOUR-EARS/) ·
+[참가 규칙](docs/competition-rules.md) ·
+[참가자 데이터](https://github.com/jhparktime/TURST-YOUR-EARS/releases/tag/dataset-ko-asr-v2)
 
-**공개 Eval 보조 트랙:** 같은 409개 녹음에 원본·합성 잡음 5 dB·패킷 손실 20%를 적용한
-[음질 손상 실험](docs/public-eval-stress-probe.md)을 추가합니다. 변형은 1,227개이며 서로 다른 녹음은 1시간입니다.
-초안은 손상 전 음성에서 생성됐다는 정보 비대칭을 명시합니다. 다섯 방법 × 세 조건의 측정 15건을 완료했습니다.
-같은 Qwen에서 잡음 조건의 초안 결합 효과는 커졌지만 Copy 기준점을 넘지 못했습니다.
-비공개 Test와 공식 순위는 변경하지 않습니다.
+## 처음 참가한다면
+
+1. [학습·추론 노트북](notebooks/01_train_baseline.ipynb)을 실행합니다. Train만으로 어절 치환 교정기를 학습하고 Eval CSV를 만듭니다. CPU와 Python 표준 라이브러리로 동작하는 text-only 입문 예제이며 LLM 미세조정과는 별도입니다.
+2. [평가 노트북](notebooks/02_evaluate.ipynb)에서 Copy와 자신의 모델을 같은 코드로 비교합니다. Eval 정답은 추론에 넣지 않습니다.
+3. [웹 채점](https://jhparktime.github.io/TURST-YOUR-EARS/#submit)에 CSV를 선택하면 CER와 교정·보존 지표를 확인하고 JSON으로 저장할 수 있습니다. 설치 없이 Copy 점수 체험도 가능합니다.
+
+Colab: [01 Train](https://colab.research.google.com/github/jhparktime/TURST-YOUR-EARS/blob/main/notebooks/01_train_baseline.ipynb) · [02 Evaluate](https://colab.research.google.com/github/jhparktime/TURST-YOUR-EARS/blob/main/notebooks/02_evaluate.ipynb)
+
+Copy·Whisper·Qwen Audio-only·Text-only·Audio+draft의 Eval/Test 측정 10건을 제공합니다.
+공개 Eval에서 Whisper는 Micro CER 6.19%, Copy는 11.77%입니다. 상세 결과는 [리더보드](https://jhparktime.github.io/TURST-YOUR-EARS/#baselines)와 [측정 기록](docs/real-asr-v2-results.md)을 확인하세요.
+표는 운영자 측정 베이스라인이며 웹에서 채점한 결과는 개인 비교용입니다. Test는 운영자 최종 평가용으로 보관합니다.
+
+[데이터·평가 상세 규격](docs/real-asr-v2.md) · [수업 제출 점검표](docs/submission-readiness.md) ·
+[음질 손상 보조 트랙](https://jhparktime.github.io/TURST-YOUR-EARS/stress.html) ·
+[보조 트랙 설계·측정 기록](docs/public-eval-stress-probe.md)
 
 ## v2 공개 Eval 재현
 

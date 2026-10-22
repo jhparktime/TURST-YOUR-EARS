@@ -38,7 +38,7 @@ jobs:
           node-version: '22'
       - run: pip install -r requirements-dev.txt
       - run: python -m pytest -q
-      - run: node --test tests/test_i18n.cjs
+      - run: node --test tests/*.cjs
   deploy:
     needs: test
     runs-on: ubuntu-latest

@@ -14,6 +14,12 @@ Train 472개·약 1시간 13분 / 공개 Eval 409개·1시간 / 비공개 Test 1
 [참가 규칙](docs/competition-rules.md) ·
 [참가자 데이터](https://github.com/jhparktime/TURST-YOUR-EARS/releases/tag/dataset-ko-asr-v2)
 
+## 이 대회에서 도전할 것
+
+문장이 자연스럽더라도 실제 발화와 다를 수 있습니다. 실제 ASR 초안에서 오류를 찾아 고치고 이미 맞은 부분은 지키는 것이 목표입니다. 두 문장의 듣기 체험, 로그인 없는 Copy 웹 채점, CPU 노트북, 공동 등록 순서로 시작할 수 있습니다. 채점 결과는 CER와 함께 오류 슬롯 복원률·정상 문자 훼손률을 바로 보여줍니다.
+
+Kaggle·Codabench도 맞춤 채점과 리더보드를 지원합니다. 우리의 참여 이유는 한국어 전사 교정에 맞춘 과제와 피드백입니다. [참가 이유](https://jhparktime.github.io/TURST-YOUR-EARS/#why) · [플랫폼 비교 근거와 운영 범위](docs/platform-comparison.md)
+
 ## 처음 참가한다면
 
 1. [학습·추론 노트북](notebooks/01_train_baseline.ipynb)을 실행합니다. Train만으로 어절 치환 교정기를 학습하고 Eval CSV를 만듭니다. CPU와 Python 표준 라이브러리로 동작하는 text-only 입문 예제이며 LLM 미세조정과는 별도입니다.

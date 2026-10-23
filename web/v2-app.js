@@ -2,6 +2,40 @@
 (() => {
   const $ = id => document.getElementById(id);
   const english = {
+    whyNav:"Why participate?",
+    whyTitle:"Can your model fix mistakes without making new ones?",
+    whyIntro:"The challenge goes beyond making text sound natural. When audio and the draft disagree, decide what to trust and preserve the parts that are already correct.",
+    whyListen:"01 \u00b7 Listen before you build",
+    whyListenText:"Real ASR errors appear alongside drafts that are already correct. Make a choice on two examples, then compare it with actual model outputs.",
+    whyListenCTA:"Try two recordings \u2192",
+    whyFeedback:"02 \u00b7 What did you repair, and what did you damage?",
+    whyFeedbackText:"Compare ranks by Micro CER, then inspect error-slot restoration and harmful edits separately to understand repair and preservation. Use that feedback to choose your next improvement.",
+    whyFeedbackCTA:"Try scoring and diagnostics without installation \u2192",
+    whyStart:"03 \u00b7 Start with Copy, then challenge Whisper",
+    whyStartText:"Score Copy in your browser without signing in, then build your first prediction CSV with the CPU notebook. Shared registration retains team bests and submission history; it requires GitHub sign-in.",
+    whyStartCTA:"Build your first correction model \u2192",
+    platformSummary:"How does this compare with Kaggle and Codabench?",
+    platformIntro:"Both platforms support custom scoring and leaderboards. Our distinction is the task and participant experience: a focused path from listening to Korean speech, to correcting transcripts, to inspecting repair and preservation.",
+    platformAspect:"Aspect",
+    platformGeneral:"Kaggle / Codabench",
+    platformOurs:"Our implementation",
+    platformTask:"Task",
+    platformTaskGeneral:"General competition platforms where organizers define the data and task",
+    platformTaskOurs:"Korean audio + actual ASR draft \u2192 correct only what needs correcting",
+    platformScore:"Scoring feedback",
+    platformScoreGeneral:"Organizer-configured scoring; Codabench supports multiple metric columns",
+    platformScoreOurs:"Micro CER ranking + diagnostics for error repair and preservation",
+    platformFlow:"First attempt",
+    platformFlowGeneral:"Submit predictions and inspect results on the platform",
+    platformFlowOurs:"Listening quiz \u2192 browser scoring \u2192 CPU notebook \u2192 shared registration",
+    platformOperation:"Current operation",
+    platformOperationGeneral:"Configure competitions, submissions and leaderboards on the platform",
+    platformOperationOurs:"GitHub Pages + Actions re-scoring. Shared Eval is a public development board; Private Test is evaluated separately by organizers",
+    platformLimits:"Eval references are distributed for development and reproduction. Shared registration publishes prediction CSVs and methods and requires a GitHub form submission. Online Private Test submission is currently not connected.",
+    platformSources:"Official documentation:",
+    platformDoc:"Comparison evidence and operating scope",
+    diagnosticNote:"Rank is determined by Micro CER. These two diagnostics describe error repair and preservation of correct content.",
+
     sharedLimits:"Use one representative GitHub account per team. Five new valid submissions per account per day (reset 00:00 KST); identical CSVs do not count. Compressed packages are limited to 60,000 characters. Check the shared history for processing status.",
     openSharedLabel:"Open GitHub submission form ↗",
     copySharedLabel:"Copy package",
@@ -176,6 +210,7 @@
     details:'All metrics and denominators',clean:'Clean',substitution:'Substitution only',deletion:'Deletion only',insertionOnly:'Insertion only',mixed:'Mixed',
   };
   const korean = {
+    diagnosticNote:"순위는 Micro CER로 정합니다. 아래 두 지표는 오류 수정과 정상 부분 보존을 설명하는 보조 지표입니다.",
     exampleRepair:'첫 번째 예시 음성',examplePreserve:'두 번째 예시 음성',
     privateClosed:'비공개 Test는 운영자 평가용입니다. 현재 공개 Eval 웹 채점을 이용할 수 있습니다.',
     quizRepairCorrect:"맞습니다. 생성되는 → 생산되는. 아래 실제 모델 결과와 비교해 보세요.",
@@ -215,6 +250,9 @@ loading:'공개 평가 데이터를 불러오는 중입니다…',ready:'공개 
     const lead=document.createElement('p');lead.className='result-lead';lead.textContent=`${t(resultKind==='demo'?'demoName':'localName')} · Micro CER ${lastResult.micro_cer.toFixed(4)}%`;box.append(lead);
     const ranked=TYELeaderboard.rank([...baselines.entries,...(window.TYECommunity?.entries()||[])],'eval',lastResult),position=ranked.find(e=>e.local).rank;
     const comparison=document.createElement('p');comparison.textContent=`${t('rankContext')}: ${position} / ${ranked.length} · ${t('gainContext')}: ${lastResult.cer_improvement_pp.toFixed(4)}`;box.append(comparison);
+    const diagnostics=document.createElement('dl');diagnostics.className='result-diagnostics';
+    for(const [key,value] of [['restorationName',lastResult.slot_restoration_rate],['harmName',lastResult.harmful_edit_rate]]){const group=document.createElement('div'),label=document.createElement('dt'),amount=document.createElement('dd');label.textContent=t(key);amount.textContent=percent(value);group.append(label,amount);diagnostics.append(group)}
+    box.append(diagnostics);const note=document.createElement('p');note.className='small';note.textContent=t('diagnosticNote');box.append(note);
     const more=document.createElement('details'),moreTitle=document.createElement('summary');moreTitle.textContent=t('resultMore');more.append(moreTitle);box.append(more);metricTable(more,[['Micro CER',percent(lastResult.micro_cer)],['Utterance Macro CER',percent(lastResult.macro_cer)],['WER',percent(lastResult.micro_wer)],
       [t('restorationName'),percent(lastResult.slot_restoration_rate)],[t('precisionName'),percent(lastResult.correction_precision)],[t('f1Name'),percent(lastResult.correction_f1)],
       [t('harmName'),percent(lastResult.harmful_edit_rate)],[t('insertionName'),percent(lastResult.unwanted_insertion_rate)],[t('cleanName'),percent(lastResult.clean_change_rate)]]);

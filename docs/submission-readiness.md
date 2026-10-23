@@ -43,3 +43,7 @@ python -m scripts.build_course_submission_v2 --output /path/to/submission/Team_�
 수업 포크의 `submission/park-jaehyun-202220741` 브랜치에는 `submission/Team_박재현_202220741.html` 한 파일만 추가합니다. HTML 준비·브랜치 push와 원본 수업 저장소로의 PR 제출은 별도 단계입니다. PR 생성 여부는 제출 폴더의 최신 확인 기록을 따릅니다.
 
 과거 합성 오류 v1은 `web/archive-v1.html`에 보존하며 현재 v2 순위에 섞지 않습니다.
+
+## 참가 이유와 플랫폼 비교
+
+사이트의 ‘왜 참가하나요?’에서 듣기 체험 → 교정·보존 진단 → 첫 모델·공동 등록의 참여 흐름을 설명합니다. [Kaggle·Codabench 비교 근거](platform-comparison.md)는 공통 기능과 이 대회의 구체적 구성을 구분하며, 공개 Eval의 개발용 성격과 Private Test의 별도 운영 범위를 명시합니다. 웹 채점 결과 상단에 오류 슬롯 복원률과 정상 문자 훼손률을 함께 표시합니다. 순위·데이터·모델 측정값은 바꾸지 않습니다.

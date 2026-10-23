@@ -2,6 +2,15 @@
 (() => {
   const $ = id => document.getElementById(id);
   const english = {
+    baselineQuestionsTitle:"What do the five comparisons tell us?",
+    baselineQuestionCopy:"Is correction useful? Compare with Copy and check whether errors decrease while correct content is preserved.",
+    baselineQuestionASR:"Is retranscription enough? Use Whisper and Qwen audio-only as reference points. They are different models, so their score difference does not isolate the effect of combining inputs.",
+    baselineQuestionBoth:"Does combining audio and a draft help? Compare audio-only, text-only and audio+draft using the same Qwen weights and decoding settings, with instructions suited to each input.",
+    baselineMeasured:"Measured results: all five methods cover all 409 Eval and 1,750 Test recordings. Whisper has the lowest CER on both splits. Qwen audio+draft improves over its single-input conditions but introduces more errors than Copy.",
+    baselineExecutionTitle:"Execution, training and reproduction",
+    baselineExecution:"Pretrained models run without additional training or reference transcripts at inference. Predictions are written to CSV and scored separately. Model, input and output hashes are recorded; empty and token-limited outputs are scored as produced.",
+    baselineStarter:"The CPU token-replacement notebook learns from Train as a starter example and is separate from the five measured rows above.",
+    baselineGuide:"Full baseline configurations, commands and interpretation",
     collectionSource:"Public source: audio and distributed transcripts come from a pinned Zeroth Korean revision. Original 16 kHz mono PCM samples are preserved in WAV files; transcripts receive NFC normalization only.",
     collectionMerge:"Merging and splitting: 2,079 existing and 2,002 additional recordings formed a pool of 4,081; 2,631 are used in Train/Eval/Test. Checks covered cross-split speakers, sessions, identical/near transcripts and audio. The remaining 1,450 are organizer-only reserves.",
     collectionDraft:"Actual drafts: fixed Whisper and Qwen models receive audio alone. Generators alternate in hashed ID order without consulting references or error rates. Eval has 205 Whisper and 204 Qwen drafts, including all 131 normalized-correct drafts.",

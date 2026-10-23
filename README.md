@@ -16,7 +16,7 @@ Train 472개·약 1시간 13분 / 공개 Eval 409개·1시간 / 비공개 Test 1
 
 ## 이 대회에서 도전할 것
 
-문장이 자연스럽더라도 실제 발화와 다를 수 있습니다. 실제 ASR 초안에서 오류를 찾아 고치고 이미 맞은 부분은 지키는 것이 목표입니다. 두 문장의 듣기 체험, 로그인 없는 Copy 웹 채점, CPU 노트북, 공동 등록 순서로 시작할 수 있습니다. 채점 결과는 CER와 함께 오류 슬롯 복원률·정상 문자 훼손률을 바로 보여줍니다.
+문장이 자연스럽더라도 실제 발화와 다를 수 있습니다. 실제 ASR 초안에서 오류를 찾아 고치고 이미 맞은 부분은 지키는 것이 목표입니다. 두 문장의 듣기 체험, 로그인 없는 Copy 웹 채점, CPU 노트북, 공개 리더보드 등록 순서로 시작할 수 있습니다. 채점 결과는 CER와 함께 오류 슬롯 복원률·정상 문자 훼손률을 바로 보여줍니다.
 
 Kaggle·Codabench도 맞춤 채점과 리더보드를 지원합니다. 우리의 참여 이유는 한국어 전사 교정에 맞춘 과제와 피드백입니다. [참가 이유](https://jhparktime.github.io/TURST-YOUR-EARS/#why) · [플랫폼 비교 근거와 운영 범위](docs/platform-comparison.md)
 
@@ -24,14 +24,14 @@ Kaggle·Codabench도 맞춤 채점과 리더보드를 지원합니다. 우리의
 
 1. [학습·추론 노트북](notebooks/01_train_baseline.ipynb)을 실행합니다. Train만으로 어절 치환 교정기를 학습하고 Eval CSV를 만듭니다. CPU와 Python 표준 라이브러리로 동작하는 text-only 입문 예제이며 LLM 미세조정과는 별도입니다.
 2. [평가 노트북](notebooks/02_evaluate.ipynb)에서 Copy와 자신의 모델을 같은 코드로 비교합니다. Eval 정답은 추론에 넣지 않습니다.
-3. [웹 채점](https://jhparktime.github.io/TURST-YOUR-EARS/#submit)에 CSV를 선택하면 CER와 교정·보존 지표를 확인하고 JSON으로 저장할 수 있습니다. 설치 없이 Copy 점수 체험도 가능합니다. 채점 기록은 새로고침 후에도 이 브라우저에 남습니다. 공동 순위에 등록하려면 아래 등록 묶음을 GitHub 양식으로 제출하세요.
+3. [웹 채점](https://jhparktime.github.io/TURST-YOUR-EARS/#submit)에 CSV를 선택하면 CER와 교정·보존 지표를 확인하고 JSON으로 저장할 수 있습니다. 설치 없이 Copy 점수 체험도 가능합니다. 채점 기록은 새로고침 후에도 이 브라우저에 남습니다. 공개 리더보드에 등록하려면 아래 등록 묶음을 GitHub 양식으로 제출하세요.
 
 Colab: [01 Train](https://colab.research.google.com/github/jhparktime/TURST-YOUR-EARS/blob/main/notebooks/01_train_baseline.ipynb) · [02 Evaluate](https://colab.research.google.com/github/jhparktime/TURST-YOUR-EARS/blob/main/notebooks/02_evaluate.ipynb)
 
 Copy·Whisper·Qwen Audio-only·Text-only·Audio+draft의 Eval/Test 측정 10건을 제공합니다.
 [참가자 시작 방법·기준 점수·실행 안내](docs/baseline-comparison-v2.md)를 제공합니다. Copy로 제출 흐름을 확인한 뒤 가장 좋은 제공 기준점인 Whisper에 도전해 보세요.
 공개 Eval에서 Whisper는 Micro CER 6.19%, Copy는 11.77%입니다. 상세 결과는 [리더보드](https://jhparktime.github.io/TURST-YOUR-EARS/#baselines)와 [측정 기록](docs/real-asr-v2-results.md)을 확인하세요.
-운영자 베이스라인과 GitHub에서 재채점한 참가 팀 최고 기록을 같은 표에 표시합니다. 웹 채점의 최근 20개 결과는 브라우저에 보관하며, [공동 등록 방법과 운영 규칙](docs/public-leaderboard.md)에 따라 제출하면 기록이 다른 참가자에게도 공개됩니다. Test는 운영자 최종 평가용으로 보관합니다.
+운영자 베이스라인과 GitHub에서 재채점한 참가 팀 최고 기록을 같은 표에 표시합니다. 웹 채점의 최근 20개 결과는 브라우저에 보관하며, [공개 리더보드 등록 방법과 운영 규칙](docs/public-leaderboard.md)에 따라 제출하면 기록이 다른 참가자에게도 공개됩니다. Test는 운영자 최종 평가용으로 보관합니다.
 
 [데이터·평가 상세 규격](docs/real-asr-v2.md) · [수업 제출 점검표](docs/submission-readiness.md) ·
 [음질 손상 보조 트랙](https://jhparktime.github.io/TURST-YOUR-EARS/stress.html) ·

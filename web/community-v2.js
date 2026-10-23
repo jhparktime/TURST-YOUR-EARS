@@ -5,12 +5,12 @@
   let board=null, boardState='loading', file=null, packet='', store=null, storageFailed=false;
   try{store=TYEPublicResults.historyStore(localStorage,version)}catch{storageFailed=true}
   const strings={
-    loading:['공동 기록을 불러오는 중입니다…','Loading shared records…'],
-    unavailable:['공동 기록을 불러오지 못했습니다. 개인 채점은 계속 사용할 수 있습니다. 새로고침 버튼으로 다시 확인하세요.','Shared records could not be loaded. Local scoring is still available; use Refresh to retry.'],
+    loading:['리더보드 기록을 불러오는 중입니다…','Loading public leaderboard records…'],
+    unavailable:['리더보드 기록을 불러오지 못했습니다. 개인 채점은 계속 사용할 수 있습니다. 새로고침 버튼으로 다시 확인하세요.','Public leaderboard records could not be loaded. Local scoring is still available; use Refresh to retry.'],
     empty:['아직 등록된 참가 결과가 없습니다. 첫 결과를 등록해 보세요.','No participant results yet. Register the first result.'],
     noHistory:['저장된 개인 기록이 없습니다. CSV 또는 Copy 예제를 채점해 보세요.','No local history yet. Score a CSV or try Copy.'],
     storageFailed:['브라우저 저장소를 사용할 수 없어 개인 기록을 저장하지 못했습니다. 결과 JSON을 내려받아 보관하세요.','Browser storage is unavailable. Download your result JSON to keep a copy.'],
-    saved:['최근 20개 채점 기록을 이 브라우저에 보관합니다. 공동 순위에는 별도 등록이 필요합니다.','The latest 20 results are saved in this browser. Shared ranking requires separate registration.'],
+    saved:['최근 20개 채점 기록을 이 브라우저에 보관합니다. 공개 리더보드에는 별도 등록이 필요합니다.','The latest 20 results are saved in this browser. Public leaderboard ranking requires separate registration.'],
     ready:['묶음을 만들었습니다. 아래 내용을 복사한 뒤 GitHub 양식의 Result package 칸에 붙여 넣고 제출하세요.','Package ready. Copy it below, open the GitHub form, paste it into Result package and submit.'],
     fields:['팀명·방법·공개 HTTPS 코드 링크를 모두 입력하세요.','Enter a team name, method and public HTTPS code link.'],
     consent:['공개되는 항목을 확인하고 동의란을 선택하세요.','Read the sharing notice and check the consent box.'],
@@ -20,7 +20,7 @@
     copyManual:['자동 복사를 사용할 수 없습니다. 아래 묶음을 직접 선택해 복사하세요.','Clipboard unavailable. Select and copy the package below.'],
     accepted:['등록','Accepted'],duplicate:['동일 파일','Duplicate'],rejected:['반려','Rejected'],
     historyMore:['최근 제출 50건을 표시합니다. 전체 이력은 원본 JSON에 보관됩니다.','Showing the latest 50 submissions; the source JSON retains the full history.'],
-    csvAgain:['공동 등록하려면 CSV 또는 Copy 예제를 먼저 채점하세요.','Score a CSV or the Copy example before preparing a shared submission.']
+    csvAgain:['공개 리더보드 등록하려면 CSV 또는 Copy 예제를 먼저 채점하세요.','Score a CSV or the Copy example before preparing a public leaderboard submission.']
   };
   const en=()=>document.documentElement.lang==='en';
   const t=key=>strings[key]?.[en()?1:0]||key;

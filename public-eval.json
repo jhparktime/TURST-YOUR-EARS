@@ -3,7 +3,7 @@
   "dataset": "tye-ko-asr-v2-eval",
   "protocol": "ko-correction-v2",
   "manifest_sha256": "5cb529513c4835efa37494be8aed3b907e6514626268daef810b0e38eab2e4b9",
-  "updated_at": "2026-10-23T00:57:19.244784+00:00",
+  "updated_at": "2026-10-23T00:57:56.471194+00:00",
   "entries": [],
   "history": [],
   "checks": [
@@ -11,6 +11,13 @@
       "kind": "organizer_storage_check",
       "run_id": "39881155970",
       "at": "2026-10-23T00:57:19.244764+00:00",
+      "micro_cer": 11.766335975170426,
+      "utterances": 409
+    },
+    {
+      "kind": "organizer_storage_check",
+      "run_id": "39881217564",
+      "at": "2026-10-23T00:57:56.471174+00:00",
       "micro_cer": 11.766335975170426,
       "utterances": 409
     }

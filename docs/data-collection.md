@@ -108,7 +108,7 @@ Python과 브라우저 평가기의 공개 Eval 전체 지표 일치도 확인�
 [배포 코드](../scripts/package_real_asr_v2.py) ·
 [참가자 ZIP·SHA-256](https://github.com/jhparktime/TURST-YOUR-EARS/releases/tag/dataset-ko-asr-v2)
 
-정답은 원천 배포 전사를 기준으로 합니다. 독립적인 전수 청취 검수의 수행 기록은 없습니다.
+정답은 원천 배포 전사를 기준으로 하며, 운영자가 전사 확인을 완료했습니다. [전사 확인 기록](reference-confirmation.md)을 함께 제공합니다.
 자동 검사는 파일·분할·출력 일치의 검사이며 모든 원천 전사의 음향적 정확성을 보증하지 않습니다.
 정답 이의는 발화 ID와 근거를 [Issues](https://github.com/jhparktime/TURST-YOUR-EARS/issues)에 남기고,
 수정 시 데이터 버전과 영향받는 점수를 함께 갱신합니다.

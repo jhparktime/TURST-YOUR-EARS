@@ -23,17 +23,23 @@
   "selection_used_model_scores": false,
   "private_test_used": false,
   "prior_original_v2_aggregate_scores_seen": true,
-  "state": "constructed_not_model_evaluated_not_listening_reviewed",
+  "state": "public_eval_stress_benchmark",
   "plan_sha256": "362142712b86e568c3e31b30164075c0867a189c42f7106f8657a624c44d5f53",
   "unique_duration_seconds": 3600.0348125,
   "derived_audio_rows": 1227,
   "new_audio_rows": 818,
   "draft_correct_per_condition": 131,
   "draft_error_per_condition": 278,
-  "human_listening_review": "not_performed",
-  "model_evaluation": "not_started",
+  "model_evaluation": "completed",
   "inputs_sha256": "55cfaf984c7c72f5a90600c1ceac41c05f1e5f1731826f2733e06a5ca5b59224",
   "references_sha256": "5db2477cd98363b98beb1b11a10c114d58eb65378da833d3a66bd9ddf1388866",
   "pairs_sha256": "3ad67717abed68bd36f830bff03a17559120b028aed8b3d5956d76a0fde9a194",
-  "inference_inputs_sha256": "66464fd77a8f17755c7b6a46cc67f1069f313d23a76f8d0a12341b2647be7bab"
+  "inference_inputs_sha256": "66464fd77a8f17755c7b6a46cc67f1069f313d23a76f8d0a12341b2647be7bab",
+  "reference_verification": {
+    "status": "confirmed",
+    "confirmed_by": "organizer",
+    "confirmation_source": "project owner confirmation",
+    "confirmed_on": "2026-10-23",
+    "scope": "tye-ko-asr-v2 reference transcripts"
+  }
 }

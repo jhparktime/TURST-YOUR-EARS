@@ -99,12 +99,12 @@ def validate(args):
     for left,right in [('train','eval'),('train','test'),('eval','test')]:
         for label,groups in [('speakers',speakers),('sessions',sessions),('normalized_text',texts),('audio',audios)]:
             assert not groups[left] & groups[right], f'Cross-split {label} overlap'
-    result = {'dataset':metadata['name'],'protocol':metadata['protocol'],'state':'integrity_verified_listening_pending',
+    result = {'dataset':metadata['name'],'protocol':metadata['protocol'],'state':'integrity_verified',
         'active_recordings':len(active_ids),'source_recordings_dropped':0,'splits':results,
         'cross_split_speaker_session_exact_text_audio_disjoint':True,
         'near_text_check':'Inherited unchanged references and split from frozen merged-v1; not a new independent near-text audit.',
         'drafts_match_actual_audio_only_outputs':True,'upstream_reference_text_unchanged':True,
-        'human_listening_review':'not_performed','source_metadata_sha256':digest(args.source_public / 'metadata.json'),
+        'reference_verification':metadata.get('reference_verification',{}),'source_metadata_sha256':digest(args.source_public / 'metadata.json'),
         'metadata_sha256':digest(args.public / 'metadata.json'),
         'validator_source_sha256':digest(Path(__file__))}
     write_json(args.output,result)

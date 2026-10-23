@@ -39,7 +39,7 @@ def build(public,private,results,output):
         entries.extend({'baseline':label,'split':split,'metrics':score(predictions[split],refsets[split])}
                        for split in ('eval','test'))
     baseline = {'dataset':metadata['name'],'protocol':metadata['protocol'],'primary_metric':'micro_cer',
-        'status':metadata['status'],'entries':entries,'pending':pending,'private_row_export':False,
+        'status':metadata['status'],'reference_verification':metadata.get('reference_verification',{}),'entries':entries,'pending':pending,'private_row_export':False,
         'limitations':metadata['limitations']}
     # A recursive privacy check is stronger than checking top-level names alone.
     def aggregates_only(value):
@@ -73,7 +73,7 @@ def build(public,private,results,output):
         write_json(measurement/'real-asr-v2-completed-models.json',{
             'dataset':metadata['name'],'private_row_export':False,'models':proof})
     lines=['# Actual-ASR v2 baseline measurements','',
-        '**미검수 후보 데이터**. 주 지표는 Micro CER이며 v1 점수와 비교하지 않습니다.',
+        '주 지표는 Micro CER이며 v1 점수와 비교하지 않습니다.',
         '초안 생성기와 같은 Audio-only 기준점은 해당 생성기 부분집합에서 Copy와 같습니다.',
         '전체·생성기별 결과를 함께 해석하고 미완료 실험은 점수로 채우지 않습니다.','',
         '| Baseline | Split | Micro CER ↓ | Utterance Macro CER ↓ | WER ↓ | 개선폭 ↑ | 슬롯 복원률 ↑ | 정상 문자 훼손률 ↓ | 불필요 삽입률 ↓ |',

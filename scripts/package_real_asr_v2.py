@@ -56,7 +56,7 @@ def package(public,private,output):
     organizer_files = [(p,str(p.relative_to(private))) for p in sorted(private.rglob('*')) if p.is_file()]
     organizer_packet = archive(output/'tye-ko-asr-v2-organizer.zip',organizer_files,private=True)
     result = {'dataset':'tye-ko-asr-v2','state':'packaged_not_published',
-        'human_listening_review':'not_performed','public_participant':public_packet,
+        'reference_verification':json.loads((public/'metadata.json').read_text()).get('reference_verification',{}),'public_participant':public_packet,
         'private_test_inputs':test_packet,'private_organizer':organizer_packet,
         'private_test_ids_in_public_files':0,'test_input_packet_answers_included':False}
     write_json(output/'packaging.json',result)

@@ -77,11 +77,11 @@ def build(public, private, work):
             write_json(omni / split / f'{mode}.scores.json',metrics)
             entries.append({'baseline':name,'split':split,'metrics':metrics})
     result = {'dataset':'tye-ko-asr-v2','protocol':'ko-correction-v2','primary_metric':'micro_cer',
-        'status':'complete_measurements_pending_human_listening', 'entries':entries,'pending':[],
+        'status':'complete_measurements', 'entries':entries,'pending':[],
         'verification':{mode:proof for mode,(_,proof) in verified.items()},
         'private_row_export':False,
         'limitations':['Source-stratified self-generator overlap must be reported.',
-            'No independent listening; source transcript/numeric notation may affect scores.',
+            'Source transcript and numeric notation conventions may affect scores.',
             'New real-ASR drafts are not evidence that audio is necessary on every example.']}
     # A public-only follow-up can verify unchanged Eval outputs without opening
     # the private Test checkpoint or reference file again.

@@ -1,6 +1,6 @@
 # Actual-ASR v2 baseline measurements
 
-**미검수 후보 데이터**. 주 지표는 Micro CER이며 v1 점수와 비교하지 않습니다.
+주 지표는 Micro CER이며 v1 점수와 비교하지 않습니다.
 초안 생성기와 같은 Audio-only 기준점은 해당 생성기 부분집합에서 Copy와 같습니다.
 전체·생성기별 결과를 함께 해석하고 미완료 실험은 점수로 채우지 않습니다.
 

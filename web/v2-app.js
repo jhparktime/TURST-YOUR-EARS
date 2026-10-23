@@ -164,7 +164,7 @@
     examplePreserveNote:"Keep this draft. CER ignores spaces and punctuation, so it has no character errors. Rewording correct content can increase the error rate.",
     exampleAttribution:"Audio and reference transcripts: Zeroth Korean (CC BY 4.0). Original audio and actual model outputs.",
     exampleSource:'Source corpus',
-    dataLimits:"Reference policy: scoring uses the transcripts distributed with Zeroth Korean. Recordings and source transcripts are retained. Numeric spelling and spacing follow the normalization rules below. Report reference issues with an utterance ID and evidence via GitHub Issues; corrections receive a version and changelog.",
+    dataLimits:"Reference policy: scoring uses the Zeroth Korean transcripts confirmed by the organizer. Recordings and source transcripts are retained. Numeric spelling and spacing follow the normalization rules below. Report reference issues with an utterance ID and evidence via GitHub Issues; corrections receive a version and changelog.",
     privateSummaryClosed:"Organizer evaluation",privateSummaryOpen:'Official submissions open',
     subtitle:'Korean Audio-grounded Transcript Correction Challenge',version:"Fix the errors. Keep what was right.",
     overview:'Challenge',data:'Dataset',evaluation:'Evaluation',baselines:'Benchmarks',submit:'Web evaluation',official:'Private Test',archive:'Synthetic v1 archive',

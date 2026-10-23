@@ -2,7 +2,14 @@
   "dataset": "tye-ko-asr-v2",
   "protocol": "ko-correction-v2",
   "primary_metric": "micro_cer",
-  "status": "candidate_pending_independent_listening",
+  "status": "released",
+  "reference_verification": {
+    "status": "confirmed",
+    "confirmed_by": "organizer",
+    "confirmation_source": "project owner confirmation",
+    "confirmed_on": "2026-10-23",
+    "scope": "tye-ko-asr-v2 reference transcripts"
+  },
   "entries": [
     {
       "baseline": "Copy draft",
@@ -3061,7 +3068,7 @@
     "Public read speech; not spontaneous conversation.",
     "V1 test aggregate scores were known during design; not a new fully blind source holdout.",
     "Drafters are also measured as audio-only baselines; source-stratified self-generator effects must be shown.",
-    "No independent listening; numeric spelling and source transcription may affect CER.",
+    "Numeric spelling and source transcription conventions may affect CER.",
     "Real ASR errors do not by themselves establish novelty or acoustic necessity."
   ]
 }

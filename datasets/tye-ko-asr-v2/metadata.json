@@ -2,8 +2,7 @@
   "name": "tye-ko-asr-v2",
   "protocol": "ko-correction-v2",
   "primary_metric": "micro_cer",
-  "status": "candidate_pending_independent_listening",
-  "human_listening_review": "not_performed",
+  "status": "released",
   "source": "kresnik/zeroth_korean",
   "source_revision": "1fe937899f828af822293d05e086200946088bdf",
   "license": "CC-BY-4.0",
@@ -140,13 +139,20 @@
       "references_sha256": "94f18788b263c07c8a76671ae8460bca2629ea650a9e444a6cb32a851242d6bb"
     }
   },
-  "reference_policy": "Unchanged upstream NFC reference; no manual listening completed.",
+  "reference_policy": "Zeroth Korean distributed reference transcripts, confirmed by the organizer; NFC normalization only.",
   "draft_policy": "Actual fixed audio-only output, NFC only; one draft per recording; no filtering by errors.",
   "limitations": [
     "Public read speech; not spontaneous conversation.",
     "V1 test aggregate scores were known during design; not a new fully blind source holdout.",
     "Drafters are also measured as audio-only baselines; source-stratified self-generator effects must be shown.",
-    "No independent listening; numeric spelling and source transcription may affect CER.",
+    "Numeric spelling and source transcription conventions may affect CER.",
     "Real ASR errors do not by themselves establish novelty or acoustic necessity."
-  ]
+  ],
+  "reference_verification": {
+    "status": "confirmed",
+    "confirmed_by": "organizer",
+    "confirmation_source": "project owner confirmation",
+    "confirmed_on": "2026-10-23",
+    "scope": "tye-ko-asr-v2 reference transcripts"
+  }
 }

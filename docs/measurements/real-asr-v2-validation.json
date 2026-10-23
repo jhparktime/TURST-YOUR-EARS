@@ -1,7 +1,7 @@
 {
   "dataset": "tye-ko-asr-v2",
   "protocol": "ko-correction-v2",
-  "state": "integrity_verified_listening_pending",
+  "state": "integrity_verified",
   "active_recordings": 2631,
   "source_recordings_dropped": 0,
   "splits": {
@@ -64,8 +64,14 @@
   "near_text_check": "Inherited unchanged references and split from frozen merged-v1; not a new independent near-text audit.",
   "drafts_match_actual_audio_only_outputs": true,
   "upstream_reference_text_unchanged": true,
-  "human_listening_review": "not_performed",
+  "reference_verification": {
+    "status": "confirmed",
+    "confirmed_by": "organizer",
+    "confirmation_source": "project owner confirmation",
+    "confirmed_on": "2026-10-23",
+    "scope": "tye-ko-asr-v2 reference transcripts"
+  },
   "source_metadata_sha256": "5a521faf229377e67ba5f9546f0428cf3aff1a53db937b9dfed553015f55b32a",
-  "metadata_sha256": "65dd5085b3ed1ac13cebfeb16686bc497f5ee739aa4b21bee2aa31024ee67b74",
-  "validator_source_sha256": "c216731fbbfe69c2914514e575c57125a8057dae411103b67b3d9e1f373271f1"
+  "metadata_sha256": "33921642356937303aeb97564cea447ce39e576bf5299cf41f48689dffdce50f",
+  "validator_source_sha256": "20dc21be726c485dd6dbcc5c5e517008fc05a49eaa11f39c7fe574066a46a83b"
 }

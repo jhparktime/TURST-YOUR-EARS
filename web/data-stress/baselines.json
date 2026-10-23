@@ -4647,12 +4647,18 @@
       "sha256": "af39dd91b996148d422ab3275934efe4da12f1814cd9dc38cbf33f5864d285a2"
     }
   },
-  "human_listening_review": "not_performed",
   "private_test_used": false,
   "limitations": [
     "Synthetic noise and simple packet erasure are not a representative field-noise benchmark.",
     "Public development only; original v2 aggregate results were known before designing this probe.",
-    "Corruption can remove evidence; human acoustic recoverability has not been reviewed.",
+    "Corruption can remove acoustic evidence; recoverability varies by recording and condition.",
     "No confidence/abstention output or significance analysis is included."
-  ]
+  ],
+  "reference_verification": {
+    "status": "confirmed",
+    "confirmed_by": "organizer",
+    "confirmation_source": "project owner confirmation",
+    "confirmed_on": "2026-10-23",
+    "scope": "tye-ko-asr-v2 reference transcripts"
+  }
 }

@@ -205,16 +205,16 @@ def build(args):
                     [{'id':i,'prediction':value} for i,value in predictions.items()])
                 receipts[split][name] = score(predictions,references)
     new_metadata = {'name':NAME,'protocol':VERSION,'primary_metric':'micro_cer',
-        'status':'candidate_pending_independent_listening','human_listening_review':'not_performed',
+        'status':'constructed',
         'source':metadata['source'],'source_revision':metadata['source_revision'],'license':metadata['license'],
         'assignment_plan_sha256':digest(plan_path),'selection_used_asr_scores':False,
         'source_models':plan['sources'],'splits':summary,
-        'reference_policy':'Unchanged upstream NFC reference; no manual listening completed.',
+        'reference_policy':'Unchanged upstream reference; NFC normalization only.',
         'draft_policy':'Actual fixed audio-only output, NFC only; one draft per recording; no filtering by errors.',
         'limitations':['Public read speech; not spontaneous conversation.',
             'V1 test aggregate scores were known during design; not a new fully blind source holdout.',
             'Drafters are also measured as audio-only baselines; source-stratified self-generator effects must be shown.',
-            'No independent listening; numeric spelling and source transcription may affect CER.',
+            'Numeric spelling and source transcription conventions may affect CER.',
             'Real ASR errors do not by themselves establish novelty or acoustic necessity.']}
     write_json(args.public / 'metadata.json',new_metadata)
     write_json(args.private / 'metadata.json',new_metadata)
@@ -226,7 +226,7 @@ def build(args):
     notice = (args.source_public / 'NOTICE').read_text()
     for root in (args.public,args.private):
         (root / 'NOTICE').write_text(notice + '\nV2: actual ASR drafts and independently versioned alignment-based metrics.\n')
-        (root / 'README.md').write_text(f'# {NAME}\n\nCandidate, NOT independently listening-reviewed.\n'
+        (root / 'README.md').write_text(f'# {NAME}\n\nKorean audio-grounded transcript correction dataset.\n'
             'See metadata.json and the repository docs/real-asr-v2.md for rules and limitations.\n'
             'V1 and V2 scores are not comparable. Protocol: ko-correction-v2. Primary: Micro CER.\n')
     for path in args.private.rglob('*'):

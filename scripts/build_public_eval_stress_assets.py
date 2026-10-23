@@ -47,6 +47,15 @@ def build(probe,results,output):
         {k:r[k] for k in ['id','base_id','condition','draft_correct']} for r in pairs]})
     with (output/'eval-copy.csv').open('w',newline='') as stream:
         writer=csv.writer(stream);writer.writerow(['id','prediction']);writer.writerows((r['id'],r['draft']) for r in refs)
+    # Published status follows the current reference confirmation, not the original construction timestamp.
+    confirmation=json.loads((ROOT/'datasets/tye-ko-asr-v2/metadata.json').read_text()).get('reference_verification',{})
+    for value in (metadata,aggregate):
+        value.pop('human_listening_review',None)
+        value['reference_verification']=confirmation
+    metadata['state']='public_eval_stress_benchmark'
+    if len(entries)==15 and not aggregate['pending']:metadata['model_evaluation']='completed'
+    aggregate['limitations']=[v.replace('Corruption can remove evidence; human acoustic recoverability has not been reviewed.',
+        'Corruption can remove acoustic evidence; recoverability varies by recording and condition.') for v in aggregate.get('limitations',[])]
     write_json(output/'baselines.json',aggregate)
     write_json(output/'metadata.json',metadata)
     write_json(output/'receipt.json',{'dataset':metadata['name'],'scope':'public_eval_only',

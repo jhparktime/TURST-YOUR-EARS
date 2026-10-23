@@ -106,7 +106,7 @@ python -m pytest -q
 node --test tests/test_i18n.cjs
 ```
 
-CI는 임시 PostgreSQL로 재시작 후 결과 보존도 확인합니다. 로컬에서 `TEST_POSTGRES_URL`이 없으면 해당 검사만 건너뜁니다. 자동 검사나 Copy 재현은 독립 청취 검수·모델 성능·난도의 증거를 대신하지 않습니다.
+CI는 임시 PostgreSQL로 재시작 후 결과 보존도 확인합니다. 로컬에서 `TEST_POSTGRES_URL`이 없으면 해당 검사만 건너뜁니다. 자동 검사와 Copy 재현은 소프트웨어 동작을 확인합니다. 모델 성능과 난도는 실측 결과로 비교합니다.
 
 ## 과거 실험 기록
 

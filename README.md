@@ -1,5 +1,7 @@
 # Trust Your Ears
 
+**team03 · 박재현 · 이재왕**
+
 **한국어 음성 + 전사 초안 → 실제 발화에 맞게 교정한 전체 전사문.**
 
 음성을 근거로 초안의 오류를 복원하면서 원래 맞던 부분을 보존하는 **Audio-grounded Transcript Correction** 챌린지입니다. 음성과 원천 정답 전사는 바꾸지 않습니다.
@@ -21,7 +23,7 @@ Train 472개·약 1시간 13분 / 공개 Eval 409개·1시간 / 비공개 Test 1
 Colab: [01 Train](https://colab.research.google.com/github/jhparktime/TURST-YOUR-EARS/blob/main/notebooks/01_train_baseline.ipynb) · [02 Evaluate](https://colab.research.google.com/github/jhparktime/TURST-YOUR-EARS/blob/main/notebooks/02_evaluate.ipynb)
 
 Copy·Whisper·Qwen Audio-only·Text-only·Audio+draft의 Eval/Test 측정 10건을 제공합니다.
-[비교 목적·실행 조건·재현 방법](docs/baseline-comparison-v2.md)을 정리했습니다.
+[참가자 시작 방법·기준 점수·실행 안내](docs/baseline-comparison-v2.md)를 제공합니다. Copy로 제출 흐름을 확인한 뒤 가장 좋은 제공 기준점인 Whisper에 도전해 보세요.
 공개 Eval에서 Whisper는 Micro CER 6.19%, Copy는 11.77%입니다. 상세 결과는 [리더보드](https://jhparktime.github.io/TURST-YOUR-EARS/#baselines)와 [측정 기록](docs/real-asr-v2-results.md)을 확인하세요.
 표는 운영자 측정 베이스라인이며 웹에서 채점한 결과는 개인 비교용입니다. Test는 운영자 최종 평가용으로 보관합니다.
 

@@ -2,6 +2,12 @@
 (() => {
   const $ = id => document.getElementById(id);
   const english = {
+    leaderboardNav:"Leaderboard",
+    datasetNav:"Dataset",
+    evaluationNav:"Evaluation",
+    baselineNav:"Baselines",
+    referenceNav:"References",
+
     whyNav:"Why participate?",
     whyTitle:"Can your model fix mistakes without making new ones?",
     whyIntro:"The challenge goes beyond making text sound natural. When audio and the draft disagree, decide what to trust and preserve the parts that are already correct.",

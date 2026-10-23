@@ -2,7 +2,7 @@
 
 대상: `Team_박재현_202220741.html` · 프로젝트 `tye-ko-asr-v2 / ko-correction-v2`
 
-TA가 요구한 HTML·Challenge 설명·Leaderboard·개인 GitHub·Baseline 코드·평가 데이터·Evaluation 코드에 맞춰 구성합니다. 사이트는 참가자가 과제를 이해하고 예시를 체험한 뒤 모델과 CSV를 만드는 순서로 안내합니다.
+TA가 요구한 HTML·Challenge 설명·Leaderboard·개인 GitHub·Baseline 코드·평가 데이터·Evaluation 코드에 맞춰 구성합니다. 핵심 섹션은 수업 PR 템플릿의 Challenge 설명 → Pipeline → Baseline & Method → Dataset → Evaluation → Leaderboard → References 순서를 따릅니다. 듣기 체험·참가 안내·규칙·웹 채점은 관련 핵심 섹션 곁에 배치합니다.
 
 | 과제 항목 | 제공 내용 |
 |---|---|

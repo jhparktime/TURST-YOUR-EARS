@@ -1,0 +1,19 @@
+name: Public Eval leaderboard submission
+description: Public Eval 공동 리더보드 등록 / Register a result package from the website.
+title: "[Public Eval] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        웹에서 Eval CSV를 채점한 뒤 ‘공동 순위 등록’에서 생성한 JSON 묶음을 붙여 넣으세요.
+        팀명·GitHub 계정·방법·코드 링크·예측 CSV는 공개됩니다. 비공개 Test 파일이나 비밀 키를 게시하지 마세요.
+        GitHub Actions가 CSV를 다시 채점합니다. 결과는 사이트의 공동 순위표와 제출 이력에 표시됩니다.
+        Paste the generated JSON package below. Your team, account, method, code link and predictions will be public.
+  - type: textarea
+    id: package
+    attributes:
+      label: Result package
+      description: 웹에서 복사한 JSON 전체 / Full JSON copied from the website (max 60,000 characters).
+      render: json
+    validations:
+      required: true

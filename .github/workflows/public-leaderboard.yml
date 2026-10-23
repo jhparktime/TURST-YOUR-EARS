@@ -1,0 +1,39 @@
+name: Record public Eval submissions
+on:
+  issues:
+    types: [opened]
+  workflow_dispatch:
+    inputs:
+      smoke_test:
+        description: Verify persistent storage with Copy, outside participant rankings
+        type: boolean
+        default: false
+permissions:
+  contents: write
+  issues: read
+concurrency:
+  group: public-eval-ledger
+  queue: max
+jobs:
+  record:
+    if: github.event_name == 'workflow_dispatch' || startsWith(github.event.issue.title, '[Public Eval]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Re-score submitted CSVs and save the shared ledger
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SMOKE_TEST: ${{ inputs.smoke_test }}
+        run: |
+          if [ "$SMOKE_TEST" = "true" ]; then
+            python -m scripts.public_leaderboard --smoke-test
+          else
+            python -m scripts.public_leaderboard
+          fi

@@ -29,7 +29,7 @@ def build(output):
     html=(web/'index.html').read_text()
     html=html.replace('<script src="config-v2.js"></script>',
         '<script>window.TYE_V2_EMBEDDED='+safe_json(assets)+';</script>\n<script>'+ (web/'config-v2.js').read_text()+'</script>')
-    for name in ('scorer.js','scorer-v2.js','leaderboard-v2.js','v2-app.js'):
+    for name in ('scorer.js','scorer-v2.js','leaderboard-v2.js','public-results-v2.js','community-v2.js','v2-app.js'):
         source=(web/name).read_text()
         if '</script' in source.lower():
             raise ValueError('Unsafe script close tag.')
